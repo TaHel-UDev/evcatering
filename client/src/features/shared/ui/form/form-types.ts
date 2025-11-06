@@ -133,37 +133,37 @@ export const formSchemaHelpers = {
    * Строка с минимальной длиной
    */
   string: (minLength = 1, message = "Это поле обязательно для заполнения") =>
-    z.string({ required_error: message }).min(minLength, message),
+    z.string({ message }).min(minLength, message),
 
   /**
    * Email
    */
   email: (message = "Введите корректный email адрес") =>
-    z.string({ required_error: "Email обязателен" }).email(message),
+    z.string({ message: "Email обязателен" }).email(message),
 
   /**
    * Число
    */
   number: (message = "Введите число") =>
-    z.number({ invalid_type_error: message, required_error: message }),
+    z.number({ message }),
 
   /**
    * Число с минимальным значением
    */
   numberMin: (min: number, message?: string) =>
-    z.number({ required_error: "Обязательное поле" }).min(min, message || `Минимальное значение: ${min}`),
+    z.number({ message: "Обязательное поле" }).min(min, message || `Минимальное значение: ${min}`),
 
   /**
    * Число с максимальным значением
    */
   numberMax: (max: number, message?: string) =>
-    z.number({ required_error: "Обязательное поле" }).max(max, message || `Максимальное значение: ${max}`),
+    z.number({ message: "Обязательное поле" }).max(max, message || `Максимальное значение: ${max}`),
 
   /**
    * Дата
    */
   date: (message = "Выберите дату") =>
-    z.date({ invalid_type_error: message, required_error: message }),
+    z.date({ message }),
 
   /**
    * Boolean (checkbox)
