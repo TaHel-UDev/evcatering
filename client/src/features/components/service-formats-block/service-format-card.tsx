@@ -6,26 +6,18 @@ import PracticeAdviceModal from "@/features/shared/ui/practice-advice-modal/prac
 import { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "../forms/question-form/question-form";
 import { ServiceFormat } from "@/features/shared/types";
-import { setAttr } from "@/features/shared/utils/visual-editing";
+import { setAttr } from "../../../../lib/visual-editor";
 
 function ServiceFormatCard({ serviceFormat }: { serviceFormat: ServiceFormat }) {
-    const directusAttr = setAttr({
-        collection: 'service_formats',
-        item: serviceFormat.item.id,
-        fields: ['name', 'description', 'image', 'cta_button_text', 'advice_button_text', 'advice_content'],
-        mode: 'drawer'
-    });
-
-    // Отладка: проверяем, генерируется ли атрибут
-    if (typeof window !== 'undefined') {
-        console.log('ServiceFormatCard - directusAttr:', directusAttr);
-        console.log('ServiceFormatCard - item.id:', serviceFormat.item.id);
-    }
-
     return (
         <div 
             className="col-span-1 flex flex-col gap-[1.5rem]"
-            data-directus={directusAttr || undefined}
+            data-directus={setAttr({
+                collection: 'service_formats',
+                item: serviceFormat.item.id,
+                fields: ['name', 'description', 'image', 'cta_button_text', 'advice_button_text', 'advice_content'],
+                mode: 'drawer'
+            })}
         >
             <Image
                 src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${serviceFormat.item.image}.png`}

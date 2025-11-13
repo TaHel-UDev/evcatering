@@ -3,31 +3,19 @@ import BlockHeadline from "@/features/shared/ui/headline/block-headline";
 import ServiceFormatCard from "./service-format-card";
 import ServiceChooseFormatBlock from "./service-choose-format-block";
 import { ServiceFormatsBlockData } from "@/features/shared/types";
-import { setAttr } from "@/features/shared/utils/visual-editing";
+import { setAttr } from "../../../../lib/visual-editor";
 
 function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockData: ServiceFormatsBlockData }) {
-    const titleAttr = setAttr({
-        collection: 'service_formats_block',
-        item: serviceFormatsBlockData.id,
-        fields: 'title',
-        mode: 'popover'
-    });
-
-    // Отладка: проверяем, генерируется ли атрибут
-    if (typeof window !== 'undefined') {
-        console.log('ServiceFormatsBlock - titleAttr:', titleAttr);
-        console.log('ServiceFormatsBlock - данные:', {
-            collection: 'service_formats_block',
-            id: serviceFormatsBlockData.id,
-            title: serviceFormatsBlockData.title
-        });
-    }
-
     return (
         <BlockWrapper>
             {/* Visual Editor: заголовок блока форматов сервиса */}
             <div
-                data-directus={titleAttr || undefined}
+                data-directus={setAttr({
+                    collection: 'service_formats_block',
+                    item: serviceFormatsBlockData.id,
+                    fields: 'title',
+                    mode: 'popover'
+                })}
             >
                 <BlockHeadline
                     title={serviceFormatsBlockData.title}

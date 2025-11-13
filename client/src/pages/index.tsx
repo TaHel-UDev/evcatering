@@ -86,9 +86,12 @@ export async function getServerSideProps() {
     fields: ['*.*.*'],
   }));
 
-  const serviceFormatsBlockData = await directus.request(readItems('service_formats_block', {
+  const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
     fields: ['*.*.*'],
   }));
+
+  // Берем первый элемент из массива
+  const serviceFormatsBlockData = serviceFormatsBlockDataResult[0];
 
   return { props: { metaData, firstScreenData, missionBlockData, workBlockData, serviceFormatsBlockData } }
 }
