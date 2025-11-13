@@ -72,7 +72,7 @@ export default function Home
       <WhyUsBlock />
 
       {casesData.length > 0 && (
-        <CasesBlock casesData={casesData} />
+        <CasesBlock casesData={casesData} limit={3} />
       )}
 
       <PlacesBlock />
