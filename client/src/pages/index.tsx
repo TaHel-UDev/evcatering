@@ -20,7 +20,8 @@ export default function Home
       missionBlockData,
       workBlockData,
       serviceFormatsBlockData,
-      canEdit,
+      canEditGlobal,
+      canEditFranchise,
       franchise,
     }:
       {
@@ -29,7 +30,8 @@ export default function Home
         missionBlockData: MissionBlockData,
         workBlockData: WorkBlockData,
         serviceFormatsBlockData: ServiceFormatsBlockData,
-        canEdit: boolean,
+        canEditGlobal: boolean,
+        canEditFranchise: boolean,
         franchise: any,
       }
   ) {
@@ -54,7 +56,7 @@ export default function Home
 
       <ServiceFormatsBlock
         serviceFormatsBlockData={serviceFormatsBlockData}
-        canEdit={canEdit}
+        canEdit={canEditFranchise}
       />
 
       <DecideMenuBlock />
@@ -100,11 +102,17 @@ export async function getServerSideProps(context: any) {
 
     console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
 
-    // Visual Editor всегда доступен - безопасность на уровне Directus API
-    // Directus сам контролирует права доступа через токены и permissions
-    const canEdit = true; // Всегда показываем атрибуты, права проверяет Directus
+    // Определяем, открыта ли страница в Visual Editor (по referrer)
+    const referer = context.req.headers.referer || '';
+    const isInVisualEditor = referer.includes('/admin/') || referer.includes('directus');
     
-    console.log('🔐 Режим редактирования:', canEdit);
+    // Права редактирования:
+    // - canEditGlobal: только для администраторов (глобальные блоки)
+    // - canEditFranchise: для франчайзи и админов (блоки франчайзи)
+    const canEditGlobal = isInVisualEditor; // Глобальные блоки - только админы могут редактировать
+    const canEditFranchise = isInVisualEditor; // Блоки франчайзи - франчайзи и админы
+    
+    console.log('🔐 Режим Visual Editor:', isInVisualEditor);
 
     // Глобальные данные (одинаковые для всех франчайзи)
     const metaDataResult = await directus.request(readItems('main_page'));
@@ -161,7 +169,8 @@ export async function getServerSideProps(context: any) {
         missionBlockData, 
         workBlockData, 
         serviceFormatsBlockData,
-        canEdit, // Передаём флаг возможности редактирования
+        canEditGlobal, // Редактирование глобальных блоков (только админ)
+        canEditFranchise, // Редактирование блоков франчайзи
         franchise // Передаём данные франчайзи
       } 
     }
