@@ -34,7 +34,7 @@ export default function CasesPage(
 
             {casesData.length > 0 && (
                 <div className="pt-[calc(42px+48px+56px)] lg:pt-[calc(42px+64px+56px)] xl:pt-[calc(42px+56px+64px)]">
-                    <CasesBlock casesData={casesData} />
+                    <CasesBlock casesData={casesData} withLink={false} />
                 </div>
             )}
 
