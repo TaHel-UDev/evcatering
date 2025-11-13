@@ -18,21 +18,13 @@ export function setAttr({
   fields: string | string[];
   mode?: 'drawer' | 'modal' | 'popover';
 }) {
-  // Проверяем, находимся ли мы в режиме визуального редактирования
-  // Это можно определить по query параметру или переменной окружения
+  // Проверяем, находимся ли мы на сервере (SSR)
   if (typeof window === 'undefined') {
     return undefined;
   }
 
-  // Для безопасности, показываем атрибуты только в режиме редактирования
-  const isVisualEditingMode = 
-    window.location.search.includes('visual-editing=true') ||
-    process.env.NODE_ENV === 'development';
-
-  if (!isVisualEditingMode) {
-    return undefined;
-  }
-
+  // Генерируем атрибут для Visual Editor
+  // Важно: атрибуты будут работать только когда страница открыта внутри iframe Directus
   return directusSetAttr({ collection, item, fields, mode });
 }
 

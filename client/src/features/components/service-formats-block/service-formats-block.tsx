@@ -6,21 +6,18 @@ import { ServiceFormatsBlockData } from "@/features/shared/types";
 import { setAttr } from "@/features/shared/utils/visual-editing";
 
 function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockData: ServiceFormatsBlockData }) {
+    const titleAttr = setAttr({
+        collection: 'service_formats_block',
+        item: serviceFormatsBlockData.id,
+        fields: 'title',
+        mode: 'popover'
+    });
+
     return (
         <BlockWrapper>
             {/* Visual Editor: заголовок блока форматов сервиса */}
             <div
-                {...(setAttr({
-                    collection: 'service_formats_block',
-                    item: serviceFormatsBlockData.id,
-                    fields: 'title',
-                    mode: 'popover'
-                }) && { 'data-directus': setAttr({
-                    collection: 'service_formats_block',
-                    item: serviceFormatsBlockData.id,
-                    fields: 'title',
-                    mode: 'popover'
-                }) })}
+                {...(titleAttr && { 'data-directus': titleAttr })}
             >
                 <BlockHeadline
                     title={serviceFormatsBlockData.title}

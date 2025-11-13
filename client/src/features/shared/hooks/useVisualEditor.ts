@@ -8,13 +8,8 @@ import { DIRECTUS_URL } from '../utils/visual-editing';
  */
 export function useVisualEditor() {
   useEffect(() => {
-    // Проверяем, находимся ли мы в режиме визуального редактирования
-    const isVisualEditingMode = 
-      typeof window !== 'undefined' && 
-      (window.location.search.includes('visual-editing=true') ||
-       process.env.NODE_ENV === 'development');
-
-    if (!isVisualEditingMode) {
+    // Visual Editor работает только на клиенте
+    if (typeof window === 'undefined') {
       return;
     }
 
