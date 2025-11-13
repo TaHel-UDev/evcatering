@@ -16,10 +16,16 @@ function ServiceFormatCard({ serviceFormat }: { serviceFormat: ServiceFormat }) 
         mode: 'drawer'
     });
 
+    // Отладка: проверяем, генерируется ли атрибут
+    if (typeof window !== 'undefined') {
+        console.log('ServiceFormatCard - directusAttr:', directusAttr);
+        console.log('ServiceFormatCard - item.id:', serviceFormat.item.id);
+    }
+
     return (
         <div 
             className="col-span-1 flex flex-col gap-[1.5rem]"
-            {...(directusAttr && { 'data-directus': directusAttr })}
+            data-directus={directusAttr || undefined}
         >
             <Image
                 src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${serviceFormat.item.image}.png`}

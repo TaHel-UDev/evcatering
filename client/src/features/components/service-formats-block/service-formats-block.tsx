@@ -13,11 +13,21 @@ function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockD
         mode: 'popover'
     });
 
+    // Отладка: проверяем, генерируется ли атрибут
+    if (typeof window !== 'undefined') {
+        console.log('ServiceFormatsBlock - titleAttr:', titleAttr);
+        console.log('ServiceFormatsBlock - данные:', {
+            collection: 'service_formats_block',
+            id: serviceFormatsBlockData.id,
+            title: serviceFormatsBlockData.title
+        });
+    }
+
     return (
         <BlockWrapper>
             {/* Visual Editor: заголовок блока форматов сервиса */}
             <div
-                {...(titleAttr && { 'data-directus': titleAttr })}
+                data-directus={titleAttr || undefined}
             >
                 <BlockHeadline
                     title={serviceFormatsBlockData.title}
