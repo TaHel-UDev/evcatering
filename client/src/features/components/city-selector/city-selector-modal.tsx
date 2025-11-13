@@ -31,7 +31,7 @@ export default function CitySelectorModal() {
         }
       }}
       title="Выберите ваш город"
-      size="md"
+      size="lg"
       closeOnBackdropClick={!isMainPage}
       closeOnEscape={!isMainPage}
       showCloseButton={!isMainPage}
@@ -48,7 +48,7 @@ export default function CitySelectorModal() {
             <Button
               key={city.id}
               variant={currentCity?.id === city.id ? "primary" : "secondary"}
-              size="lg"
+              size="md"
               fullWidth
               onClick={() => handleCitySelect(city)}
             >

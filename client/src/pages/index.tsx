@@ -95,13 +95,8 @@ export async function getServerSideProps(context: any) {
       sort: ['name']
     }));
     const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];
-    
-    // Определяем, главная ли это страница (без поддомена франчайзи)
-    // Если subdomain === 'localhost' или не найден в списке франчайзи - это главная
+
     const isMainPage = subdomain === 'localhost' || !cities.some(city => city.subdomain === subdomain);
-    
-    console.log('🏠 Тип страницы:', isMainPage ? 'ГЛАВНАЯ' : 'ФРАНЧАЙЗИ');
-    console.log('🏢 Текущий поддомен:', subdomain);
 
     let franchise = null;
 
@@ -155,31 +150,19 @@ export async function getServerSideProps(context: any) {
       serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
     }
 
-    // Логирование для отладки
-    console.log('📊 Данные загружены:', {
-      isMainPage,
-      metaData: !!metaData,
-      firstScreenData: !!firstScreenData,
-      missionBlockData: !!missionBlockData,
-      workBlockData: !!workBlockData,
-      serviceFormatsBlockData: !!serviceFormatsBlockData,
-      citiesCount: cities.length,
-    });
-
     // Проверка обязательных данных
-    if (!metaData || !firstScreenData || !missionBlockData || !workBlockData) {
+    if (!metaData) {
       console.error('❌ Критические данные отсутствуют!');
       throw new Error('Missing required data from Directus');
     }
 
-    // serviceFormatsBlockData необязателен - если нет, передаём null
     return { 
       props: { 
         metaData, 
         firstScreenData, 
         missionBlockData, 
         workBlockData, 
-        serviceFormatsBlockData: serviceFormatsBlockData || null,
+        serviceFormatsBlockData,
         franchise,
         cities,
         isMainPage,
