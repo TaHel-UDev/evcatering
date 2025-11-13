@@ -100,10 +100,9 @@ export async function getServerSideProps(context: any) {
 
     console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
 
-    // Определяем права доступа пользователя (из query параметра или токена)
-    // Visual Editor передаёт токен через query параметр
-    const accessToken = context.query.access_token;
-    const canEdit = !!accessToken; // Если есть токен - значит пользователь в Visual Editor
+    // Visual Editor всегда доступен - безопасность на уровне Directus API
+    // Directus сам контролирует права доступа через токены и permissions
+    const canEdit = true; // Всегда показываем атрибуты, права проверяет Directus
     
     console.log('🔐 Режим редактирования:', canEdit);
 
