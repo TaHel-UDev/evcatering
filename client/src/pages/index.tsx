@@ -96,9 +96,29 @@ export async function getServerSideProps() {
     }));
     const serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
 
+    // Логирование для отладки
+    console.log('📊 Данные загружены:', {
+      metaData: !!metaData,
+      firstScreenData: !!firstScreenData,
+      missionBlockData: !!missionBlockData,
+      workBlockData: !!workBlockData,
+      serviceFormatsBlockData: !!serviceFormatsBlockData,
+      serviceFormatsBlockDataDetails: {
+        id: serviceFormatsBlockData?.id,
+        title: serviceFormatsBlockData?.title,
+        formatsCount: serviceFormatsBlockData?.formats?.length,
+      }
+    });
+
+    // Проверка на undefined данные
+    if (!metaData || !firstScreenData || !missionBlockData || !workBlockData || !serviceFormatsBlockData) {
+      console.error('❌ Некоторые данные отсутствуют!');
+      throw new Error('Missing required data from Directus');
+    }
+
     return { props: { metaData, firstScreenData, missionBlockData, workBlockData, serviceFormatsBlockData } }
   } catch (error) {
-    console.error('Error fetching data from Directus:', error);
+    console.error('❌ Error fetching data from Directus:', error);
     throw error;
   }
 }

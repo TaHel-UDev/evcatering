@@ -6,6 +6,12 @@ import { ServiceFormatsBlockData } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
 function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockData: ServiceFormatsBlockData }) {
+    // Проверка на корректность данных
+    if (!serviceFormatsBlockData || !serviceFormatsBlockData.formats) {
+        console.error('❌ ServiceFormatsBlock: некорректные данные', serviceFormatsBlockData);
+        return null;
+    }
+
     return (
         <BlockWrapper>
             {/* Visual Editor: заголовок блока форматов сервиса */}

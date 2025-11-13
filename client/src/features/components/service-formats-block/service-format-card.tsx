@@ -9,6 +9,12 @@ import { ServiceFormat } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
 function ServiceFormatCard({ serviceFormat }: { serviceFormat: ServiceFormat }) {
+    // Проверка на корректность данных
+    if (!serviceFormat || !serviceFormat.item) {
+        console.error('❌ ServiceFormatCard: некорректные данные', serviceFormat);
+        return null;
+    }
+
     return (
         <div 
             className="col-span-1 flex flex-col gap-[1.5rem]"
