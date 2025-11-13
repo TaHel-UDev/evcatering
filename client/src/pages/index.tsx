@@ -10,7 +10,7 @@ import FirstMainScreen from "@/features/components/first-main-screen/first-main-
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption } from "@/features/shared/types";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData } from "@/features/shared/types";
 import Head from "next/head";
 
 export default function Home
@@ -21,6 +21,7 @@ export default function Home
       missionBlockData,
       workBlockData,
       serviceFormatsBlockData,
+      chooseFormatBlockData,
       franchise,
       cities,
       isMainPage,
@@ -30,7 +31,8 @@ export default function Home
         firstScreenData: FirstScreenData,
         missionBlockData: MissionBlockData,
         workBlockData: WorkBlockData,
-        serviceFormatsBlockData: ServiceFormatsBlockData | null,
+        serviceFormatsBlockData: ServiceFormatsBlockData,
+        chooseFormatBlockData: ChooseFormatBlockData,
         franchise: any,
         cities: CityOption[],
         isMainPage: boolean,
@@ -47,7 +49,7 @@ export default function Home
       </Head>
 
       {/* Модальное окно выбора города */}
-      <CitySelectorModal />
+      {/* <CitySelectorModal /> */}
 
       <FirstMainScreen
         firstScreenData={firstScreenData}
@@ -58,11 +60,10 @@ export default function Home
         workBlockData={workBlockData}
       />
 
-      {serviceFormatsBlockData && (
-        <ServiceFormatsBlock
-          serviceFormatsBlockData={serviceFormatsBlockData}
-        />
-      )}
+      <ServiceFormatsBlock
+        serviceFormatsBlockData={serviceFormatsBlockData}
+        chooseFormatBlockData={chooseFormatBlockData}
+      />
 
       <DecideMenuBlock />
 
@@ -84,11 +85,11 @@ export default function Home
 export async function getServerSideProps(context: any) {
   try {
     const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
-    
+
     // Определяем франчайзи по поддомену
     const host = context.req.headers.host || '';
     const subdomain = host.split('.')[0]; // например: msk.yourdomain.com → msk
-    
+
     // Получаем список всех франчайзи (городов)
     const citiesResult = await directus.request(readItems('franchises', {
       fields: ['id', 'name', 'subdomain'],
@@ -111,8 +112,8 @@ export async function getServerSideProps(context: any) {
       franchise = Array.isArray(franchiseResult) ? franchiseResult[0] : franchiseResult;
 
       if (!franchise) {
-        console.error('❌ Франчайзи не найден для поддомена:', subdomain); 
-        return { notFound: true }; 
+        console.error('❌ Франчайзи не найден для поддомена:', subdomain);
+        return { notFound: true };
       }
 
       console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
@@ -143,22 +144,28 @@ export async function getServerSideProps(context: any) {
     }));
     const serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
 
+    const chooseFormatBlockDataResult = await directus.request(readItems('choose_format_block', {
+      fields: ['*.*.*'],
+    }));
+    const chooseFormatBlockData = Array.isArray(chooseFormatBlockDataResult) ? chooseFormatBlockDataResult[0] : chooseFormatBlockDataResult;
+
     if (!metaData) {
       console.error('❌ Критические данные отсутствуют!');
       throw new Error('Missing required data from Directus');
     }
 
-    return { 
-      props: { 
-        metaData, 
-        firstScreenData, 
-        missionBlockData, 
-        workBlockData, 
+    return {
+      props: {
+        metaData,
+        firstScreenData,
+        missionBlockData,
+        workBlockData,
         serviceFormatsBlockData,
+        chooseFormatBlockData,
         franchise,
         cities,
         isMainPage,
-      } 
+      }
     }
   } catch (error) {
     console.error('❌ Error fetching data from Directus:', error);

@@ -18,6 +18,7 @@ function MissionBlock({ missionBlockData, workBlockData }: { missionBlockData: M
             >
                 <BlockHeadline
                     title={missionBlockData.title}
+                    description={missionBlockData.subtitle}
                 />
             </div>
 

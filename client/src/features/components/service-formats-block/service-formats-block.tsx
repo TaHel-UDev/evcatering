@@ -2,13 +2,15 @@ import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import BlockHeadline from "@/features/shared/ui/headline/block-headline";
 import ServiceFormatCard from "./service-format-card";
 import ServiceChooseFormatBlock from "./service-choose-format-block";
-import { ServiceFormatsBlockData } from "@/features/shared/types";
+import { ChooseFormatBlockData, ServiceFormatsBlockData } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
 function ServiceFormatsBlock({  
-    serviceFormatsBlockData 
+    serviceFormatsBlockData,
+    chooseFormatBlockData
 }: { 
-    serviceFormatsBlockData: ServiceFormatsBlockData 
+    serviceFormatsBlockData: ServiceFormatsBlockData,
+    chooseFormatBlockData: ChooseFormatBlockData
 }) {
     return (
         <BlockWrapper>
@@ -44,7 +46,9 @@ function ServiceFormatsBlock({
                 ))}
             </div>
 
-            <ServiceChooseFormatBlock />
+            <ServiceChooseFormatBlock
+                chooseFormatBlockData={chooseFormatBlockData}
+            />
         </BlockWrapper>
     )
 }
