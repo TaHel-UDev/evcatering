@@ -1,5 +1,17 @@
 import { apply, setAttr as directusSetAttr, remove } from '@directus/visual-editing';
 
+// Полифил для crypto.randomUUID() (требуется для HTTP)
+if (typeof window !== 'undefined' && typeof crypto !== 'undefined' && !crypto.randomUUID) {
+  // @ts-expect-error - добавляем полифил для crypto.randomUUID в HTTP окружении
+  crypto.randomUUID = function() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+}
+
 let isApplied = false;
 
 export async function initializeVisualEditor() {
