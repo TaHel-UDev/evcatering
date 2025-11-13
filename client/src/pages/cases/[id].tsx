@@ -6,6 +6,8 @@ import { createDirectus, readItems, rest } from "@directus/sdk";
 import Text from "@/features/shared/ui/text/text";
 import Head from "next/head";
 import Image from "next/image";
+import QuestionFormBlock from "@/features/components/forms/question-form/question-form-block";
+import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 
 export default function CasePage(
     {
@@ -27,6 +29,8 @@ export default function CasePage(
                 <meta property="og:title" content={`${metaData.title} - Кейс ${caseData.name} - ${franchise?.name}`} />
                 <meta property="og:description" content={metaData.description} />
             </Head>
+
+            <CitySelectorModal />
 
             <div className="pt-[calc(42px+48px+56px)] lg:pt-[calc(42px+64px+56px)] xl:pt-[calc(42px+56px+64px)]">
 
@@ -92,6 +96,8 @@ export default function CasePage(
                 </BlockWrapper>
 
             </div>
+
+            <QuestionFormBlock />
 
             <FooterBlock />
         </>

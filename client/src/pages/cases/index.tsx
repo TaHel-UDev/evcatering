@@ -4,6 +4,7 @@ import { CaseData, CityOption, MainPageMetaData } from "@/features/shared/types"
 import CasesBlock from "@/features/components/cases-block/cases-block";
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import QuestionFormBlock from "@/features/components/forms/question-form/question-form-block";
+import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 
 export default function CasesPage(
     {
@@ -30,7 +31,7 @@ export default function CasesPage(
                 <meta property="og:description" content={metaData.description} />
             </Head>
 
-            {/* <CitySelectorModal /> */}
+            <CitySelectorModal />
 
             {casesData.length > 0 && (
                 <div className="pt-[calc(42px+48px+56px)] lg:pt-[calc(42px+64px+56px)] xl:pt-[calc(42px+56px+64px)]">
