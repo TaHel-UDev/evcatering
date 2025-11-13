@@ -34,9 +34,20 @@ export function CitySelectorProvider({
 
   // Открываем модалку на главной странице после монтирования
   useEffect(() => {
-    if (isMounted && isMainPage) {
+    if (!isMounted || !isMainPage) return;
+
+    // Проверяем, открыт ли сайт в iframe (Visual Editor)
+    const isInIframe = typeof window !== 'undefined' && window.self !== window.top;
+    
+    // Проверяем параметр __directus_refresh__ в URL (признак Visual Editor)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isInVisualEditor = urlParams.has('__directus_refresh__') || isInIframe;
+
+    if (!isInVisualEditor) {
       console.log('🟢 ОТКРЫВАЮ МОДАЛКУ - ЭТО ГЛАВНАЯ СТРАНИЦА!');
       setIsOpen(true);
+    } else {
+      console.log('🔴 НЕ ОТКРЫВАЮ МОДАЛКУ - ОТКРЫТО В VISUAL EDITOR');
     }
   }, [isMounted, isMainPage]);
 

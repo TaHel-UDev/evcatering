@@ -116,7 +116,7 @@ export async function getServerSideProps(context: any) {
       franchise = Array.isArray(franchiseResult) ? franchiseResult[0] : franchiseResult;
 
       if (!franchise) {
-        console.error('❌ Франчайзи не найден для поддомена:', subdomain);
+        console.error('❌ Франчайзи не найден для поддомена:', subdomain); 
         return { notFound: true };
       }
 
