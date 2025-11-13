@@ -8,8 +8,9 @@ import ReviewBlock from "@/features/components/review-block/review-block";
 import QuestionFormBlock from "@/features/components/forms/question-form/question-form-block";
 import FirstMainScreen from "@/features/components/first-main-screen/first-main-screen";
 import FooterBlock from "@/features/components/footer-block/footer-block";
+import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData } from "@/features/shared/types";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption } from "@/features/shared/types";
 import Head from "next/head";
 
 export default function Home
@@ -21,14 +22,18 @@ export default function Home
       workBlockData,
       serviceFormatsBlockData,
       franchise,
+      cities,
+      isMainPage,
     }:
       {
         metaData: MainPageMetaData,
         firstScreenData: FirstScreenData,
         missionBlockData: MissionBlockData,
         workBlockData: WorkBlockData,
-        serviceFormatsBlockData: ServiceFormatsBlockData,
+        serviceFormatsBlockData: ServiceFormatsBlockData | null,
         franchise: any,
+        cities: CityOption[],
+        isMainPage: boolean,
       }
   ) {
   return (
@@ -41,6 +46,9 @@ export default function Home
         <meta property="og:description" content={metaData.description} />
       </Head>
 
+      {/* Модальное окно выбора города */}
+      <CitySelectorModal />
+
       <FirstMainScreen
         firstScreenData={firstScreenData}
       />
@@ -50,9 +58,11 @@ export default function Home
         workBlockData={workBlockData}
       />
 
-      <ServiceFormatsBlock
-        serviceFormatsBlockData={serviceFormatsBlockData}
-      />
+      {serviceFormatsBlockData && (
+        <ServiceFormatsBlock
+          serviceFormatsBlockData={serviceFormatsBlockData}
+        />
+      )}
 
       <DecideMenuBlock />
 
@@ -79,23 +89,39 @@ export async function getServerSideProps(context: any) {
     const host = context.req.headers.host || '';
     const subdomain = host.split('.')[0]; // например: msk.yourdomain.com → msk
     
-    console.log('🏢 Текущий франчайзи (subdomain):', subdomain);
-
-    // Получаем данные франчайзи из Directus
-    const franchiseResult = await directus.request(readItems('franchises', {
-      filter: {
-        subdomain: { _eq: subdomain }
-      },
-      limit: 1
+    // Получаем список всех франчайзи (городов)
+    const citiesResult = await directus.request(readItems('franchises', {
+      fields: ['id', 'name', 'subdomain'],
+      sort: ['name']
     }));
-    const franchise = Array.isArray(franchiseResult) ? franchiseResult[0] : franchiseResult;
+    const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];
+    
+    // Определяем, главная ли это страница (без поддомена франчайзи)
+    // Если subdomain === 'localhost' или не найден в списке франчайзи - это главная
+    const isMainPage = subdomain === 'localhost' || !cities.some(city => city.subdomain === subdomain);
+    
+    console.log('🏠 Тип страницы:', isMainPage ? 'ГЛАВНАЯ' : 'ФРАНЧАЙЗИ');
+    console.log('🏢 Текущий поддомен:', subdomain);
 
-    if (!franchise) {
-      console.error('❌ Франчайзи не найден для поддомена:', subdomain);
-      return { notFound: true };
+    let franchise = null;
+
+    // Если это страница франчайзи - получаем его данные
+    if (!isMainPage) {
+      const franchiseResult = await directus.request(readItems('franchises', {
+        filter: {
+          subdomain: { _eq: subdomain }
+        },
+        limit: 1
+      }));
+      franchise = Array.isArray(franchiseResult) ? franchiseResult[0] : franchiseResult;
+
+      if (!franchise) {
+        console.error('❌ Франчайзи не найден для поддомена:', subdomain);
+        return { notFound: true };
+      }
+
+      console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
     }
-
-    console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
 
     // Глобальные данные (одинаковые для всех франчайзи)
     const metaDataResult = await directus.request(readItems('main_page'));
@@ -117,42 +143,46 @@ export async function getServerSideProps(context: any) {
     }));
     const workBlockData = Array.isArray(workBlockDataResult) ? workBlockDataResult[0] : workBlockDataResult;
 
-    const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
-      fields: ['*.*.*'],
-      filter: {
-        franchise_id: { _eq: franchise.id }
-      }
-    }));
-    const serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
+    // Для главной страницы не загружаем данные франчайзи
+    let serviceFormatsBlockData = null;
+    if (!isMainPage && franchise) {
+      const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
+        fields: ['*.*.*'],
+        filter: {
+          franchise_id: { _eq: franchise.id }
+        }
+      }));
+      serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
+    }
 
     // Логирование для отладки
     console.log('📊 Данные загружены:', {
+      isMainPage,
       metaData: !!metaData,
       firstScreenData: !!firstScreenData,
       missionBlockData: !!missionBlockData,
       workBlockData: !!workBlockData,
       serviceFormatsBlockData: !!serviceFormatsBlockData,
-      serviceFormatsBlockDataDetails: {
-        id: serviceFormatsBlockData?.id,
-        title: serviceFormatsBlockData?.title,
-        formatsCount: serviceFormatsBlockData?.formats?.length,
-      }
+      citiesCount: cities.length,
     });
 
-    // Проверка на undefined данные
-    if (!metaData || !firstScreenData || !missionBlockData || !workBlockData || !serviceFormatsBlockData) {
-      console.error('❌ Некоторые данные отсутствуют!');
+    // Проверка обязательных данных
+    if (!metaData || !firstScreenData || !missionBlockData || !workBlockData) {
+      console.error('❌ Критические данные отсутствуют!');
       throw new Error('Missing required data from Directus');
     }
 
+    // serviceFormatsBlockData необязателен - если нет, передаём null
     return { 
       props: { 
         metaData, 
         firstScreenData, 
         missionBlockData, 
         workBlockData, 
-        serviceFormatsBlockData,
-        franchise
+        serviceFormatsBlockData: serviceFormatsBlockData || null,
+        franchise,
+        cities,
+        isMainPage,
       } 
     }
   } catch (error) {

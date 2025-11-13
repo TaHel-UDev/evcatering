@@ -13,7 +13,6 @@ function ServiceFormatCard({
 }: { 
     serviceFormat: ServiceFormat 
 }) {
-    const canEdit = true; // Visual Editor всегда включен, доступ контролирует Directus
     // Проверка на корректность данных
     if (!serviceFormat || !serviceFormat.item) {
         console.error('❌ ServiceFormatCard: некорректные данные', serviceFormat);
@@ -23,13 +22,11 @@ function ServiceFormatCard({
     return (
         <div 
             className="col-span-1 flex flex-col gap-[1.5rem]"
-            {...(canEdit && {
-                'data-directus': setAttr({
-                    collection: 'service_format_card',
-                    item: serviceFormat.item.id,
-                    fields: ['name', 'description', 'image', 'cta_button_text', 'advice_button_text', 'advice_content'],
-                    mode: 'drawer'
-                })
+            data-directus={setAttr({
+                collection: 'service_format_card',
+                item: serviceFormat.item.id,
+                fields: ['name', 'description', 'image', 'cta_button_text', 'advice_button_text', 'advice_content'],
+                mode: 'drawer'
             })}
         >
             <Image

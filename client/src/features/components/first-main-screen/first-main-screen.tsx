@@ -11,8 +11,6 @@ function FirstMainScreen({
 }: { 
     firstScreenData: FirstScreenData 
 }) {
-    const canEdit = true; // Visual Editor всегда включен, доступ контролирует Directus
-    console.log('firstScreenData:', firstScreenData);
     return (
         <div
             className=""
@@ -22,13 +20,11 @@ function FirstMainScreen({
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
             }}
-            {...(canEdit && {
-                'data-directus': setAttr({
-                    collection: 'first_screen',
-                    item: firstScreenData.id,
-                    fields: 'background_image',
-                    mode: 'popover'
-                })
+            data-directus={setAttr({
+                collection: 'first_screen',
+                item: firstScreenData.id,
+                fields: 'background_image',
+                mode: 'popover'
             })}
         >
             <section
@@ -42,13 +38,11 @@ function FirstMainScreen({
                         {/* Visual Editor: заголовок и подзаголовок */}
                         <div 
                             className="flex flex-col gap-[0.75rem]"
-                            {...(canEdit && {
-                                'data-directus': setAttr({
-                                    collection: 'first_screen',
-                                    item: firstScreenData.id,
-                                    fields: ['title', 'subtitle'],
-                                    mode: 'popover'
-                                })
+                            data-directus={setAttr({
+                                collection: 'first_screen',
+                                item: firstScreenData.id,
+                                fields: ['title', 'subtitle'],
+                                mode: 'popover'
                             })}
                         >
                             <Text as="h1" variant="h1" className="text-white">
@@ -62,13 +56,11 @@ function FirstMainScreen({
                         {/* Visual Editor: список преимуществ */}
                         <div 
                             className="flex flex-col gap-[0.75rem]"
-                            {...(canEdit && {
-                                'data-directus': setAttr({
-                                    collection: 'first_screen',
-                                    item: firstScreenData.id,
-                                    fields: 'advantages',
-                                    mode: 'drawer'
-                                })
+                            data-directus={setAttr({
+                                collection: 'first_screen',
+                                item: firstScreenData.id,
+                                fields: 'advantages',
+                                mode: 'drawer'
                             })}
                         >
                             {firstScreenData.advantages?.map((advantage) => (
@@ -82,13 +74,11 @@ function FirstMainScreen({
                     {/* Visual Editor: текст кнопки */}
                     <div 
                         className="flex flex-col md:flex-row gap-[0.5rem]"
-                        {...(canEdit && {
-                            'data-directus': setAttr({
-                                collection: 'first_screen',
-                                item: firstScreenData.id,
-                                fields: 'button_text',
-                                mode: 'popover'
-                            })
+                        data-directus={setAttr({
+                            collection: 'first_screen',
+                            item: firstScreenData.id,
+                            fields: 'button_text',
+                            mode: 'popover'
                         })}
                     >
                         <Modal

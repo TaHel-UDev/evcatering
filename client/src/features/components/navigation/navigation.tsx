@@ -8,9 +8,11 @@ import { useState } from "react";
 import Modal from "@/features/shared/ui/modal";
 import { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "../forms/question-form/question-form";
+import { useCitySelector } from "@/features/shared/context/city-selector-context";
 
 function Navigation() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { openModal, currentCity, isMainPage } = useCitySelector();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
@@ -42,12 +44,15 @@ function Navigation() {
                                     height={32}
                                 />
                             </Link>
-                            <div className="hidden sm:flex flex-row items-center gap-[0.25rem]">
+                            <button 
+                                onClick={openModal}
+                                className="hidden sm:flex flex-row items-center gap-[0.25rem] cursor-pointer hover:opacity-80 transition-opacity"
+                            >
                                 <Text as="p" variant="body-large" className="text-white">
-                                    Москва
+                                    {currentCity?.name || 'Выберите город'}
                                 </Text>
                                 <ChevronDown className="text-white" size={16} />
-                            </div>
+                            </button>
                         </div>
 
                         {/* Центральная часть - Меню навигации (скрыто на lg и ниже) */}
@@ -110,12 +115,15 @@ function Navigation() {
                     </div>
 
                     {/* Город */}
-                    <div className="flex flex-row items-center gap-[0.25rem] mb-[2rem] sm:hidden">
+                    <button 
+                        onClick={openModal}
+                        className="flex flex-row items-center gap-[0.25rem] mb-[2rem] sm:hidden cursor-pointer hover:opacity-80 transition-opacity"
+                    >
                         <Text as="p" variant="body-large" className="text-white">
-                            Москва
+                            {currentCity?.name || 'Выберите город'}
                         </Text>
                         <ChevronDown className="text-white" size={16} />
-                    </div>
+                    </button>
 
                     {/* Навигационные ссылки */}
                     <nav className="flex flex-col gap-[1.25rem] mb-[2rem]">
