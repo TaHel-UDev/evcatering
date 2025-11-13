@@ -6,12 +6,11 @@ import { ServiceFormatsBlockData } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
 function ServiceFormatsBlock({ 
-    serviceFormatsBlockData, 
-    canEdit = false 
+    serviceFormatsBlockData 
 }: { 
-    serviceFormatsBlockData: ServiceFormatsBlockData,
-    canEdit?: boolean 
+    serviceFormatsBlockData: ServiceFormatsBlockData 
 }) {
+    const canEdit = true; // Visual Editor всегда включен, доступ контролирует Directus
     // Проверка на корректность данных
     if (!serviceFormatsBlockData || !serviceFormatsBlockData.formats) {
         console.error('❌ ServiceFormatsBlock: некорректные данные', serviceFormatsBlockData);
@@ -52,7 +51,6 @@ function ServiceFormatsBlock({
                     <ServiceFormatCard
                         key={format.id}
                         serviceFormat={format}
-                        canEdit={canEdit}
                     />
                 ))}
             </div>

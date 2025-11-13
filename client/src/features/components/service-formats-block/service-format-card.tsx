@@ -9,12 +9,11 @@ import { ServiceFormat } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
 function ServiceFormatCard({ 
-    serviceFormat, 
-    canEdit = false 
+    serviceFormat 
 }: { 
-    serviceFormat: ServiceFormat,
-    canEdit?: boolean 
+    serviceFormat: ServiceFormat 
 }) {
+    const canEdit = true; // Visual Editor всегда включен, доступ контролирует Directus
     // Проверка на корректность данных
     if (!serviceFormat || !serviceFormat.item) {
         console.error('❌ ServiceFormatCard: некорректные данные', serviceFormat);

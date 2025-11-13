@@ -7,12 +7,11 @@ import { FirstScreenData } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
 function FirstMainScreen({ 
-    firstScreenData,
-    canEdit = false 
+    firstScreenData 
 }: { 
-    firstScreenData: FirstScreenData,
-    canEdit?: boolean 
+    firstScreenData: FirstScreenData 
 }) {
+    const canEdit = true; // Visual Editor всегда включен, доступ контролирует Directus
     console.log('firstScreenData:', firstScreenData);
     return (
         <div
