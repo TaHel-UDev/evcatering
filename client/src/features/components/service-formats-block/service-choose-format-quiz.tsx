@@ -24,11 +24,20 @@ function ServiceChooseFormatQuiz({
                 </Text>
             </div>
 
-            <Link href={chooseFormatBlockData.marquiz_link}>
-                <Button variant="white" size="md">
-                    {chooseFormatBlockData.form_button_text}
-                </Button>
-            </Link>
+            <div
+                data-directus={setAttr({
+                    collection: 'choose_format_block',
+                    item: chooseFormatBlockData.id,
+                    fields: 'form_button_text, marquiz_link',
+                    mode: 'drawer'
+                })}
+            >
+                <Link href={chooseFormatBlockData.marquiz_link}>
+                    <Button variant="white" size="md">
+                        {chooseFormatBlockData.form_button_text}
+                    </Button>
+                </Link>
+            </div>
         </div>
     )
 }
