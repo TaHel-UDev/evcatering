@@ -43,10 +43,10 @@ export default function Home
   return (
     <>
       <Head>
-        <title>{metaData.title}</title>
+        <title>{metaData.title} - {franchise?.name}</title>
         <meta name="description" content={metaData.description} />
         <meta name="keywords" content={metaData.keywords} />
-        <meta property="og:title" content={metaData.title} />
+        <meta property="og:title" content={`${metaData.title} - ${franchise?.name}`} />
         <meta property="og:description" content={metaData.description} />
       </Head>
 
