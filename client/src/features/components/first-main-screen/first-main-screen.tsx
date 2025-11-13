@@ -3,13 +3,15 @@ import { Text } from "@/features/shared/ui/text";
 import Button from "@/features/shared/ui/button";
 import Modal, { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "@/features/components/forms/question-form/question-form";
+import { FirstScreenData } from "@/features/shared/types";
 
-function FirstMainScreen() {
+function FirstMainScreen({ firstScreenData }: { firstScreenData: FirstScreenData }) {
+    console.log('firstScreenData:', firstScreenData);
     return (
         <div
             className=""
             style={{
-                backgroundImage: "url('/static/main-bg.png')",
+                backgroundImage: `url('${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${firstScreenData.background_image.id}.png')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -25,31 +27,23 @@ function FirstMainScreen() {
                     <div className="flex flex-col gap-[1.5rem]">
                         <div className="flex flex-col gap-[0.75rem]">
                             <Text as="h1" variant="h1" className="text-white">
-                                Эстетика Вкуса
+                                {firstScreenData.title}
                             </Text>
                             <Text as="p" variant="h4" className="font-light text-white">
-                                Великолепный вкус и неизменная эстетика
+                                {firstScreenData.subtitle}
                             </Text>
                         </div>
 
                         <div className="flex flex-col gap-[0.75rem]">
-                            <Text as="p" variant="body-large" className="font-light text-dark p-[1.25rem_2rem] bg-white/60 rounded-[0.75rem] w-fit">
-                                • 100+ готовых сетов и индивидуальные решения
-                            </Text>
-
-                            <Text as="p" variant="body-large" className="font-light text-dark p-[1.25rem_2rem] bg-white/60 rounded-[0.75rem] w-fit">
-                                • Подготовим предложение за 1 час
-                            </Text>
-
-                            <Text as="p" variant="body-large" className="font-light text-dark p-[1.25rem_2rem] bg-white/60 rounded-[0.75rem] w-fit">
-                                • Делаем то, что обещаем
-                            </Text>
+                            {firstScreenData.advantages?.map((advantage) => (
+                                <Text key={advantage.id} as="p" variant="body-large" className="font-light text-dark p-[1.25rem_2rem] bg-white/60 rounded-[0.75rem] w-fit" {...advantage.item} children={`• ${advantage.item.text}`} />
+                            ))}
                         </div>
                     </div>
 
                     <div className="flex flex-col md:flex-row gap-[0.5rem]">
                         <Modal
-                            trigger={<Button variant="primary" size="lg">Оформить заявку</Button>}
+                            trigger={<Button variant="primary" size="lg">{firstScreenData.button_text}</Button>}
                             title="Оформить заявку"
                             size="md"
                         >
@@ -57,9 +51,6 @@ function FirstMainScreen() {
                                 <QuestionForm />
                             </ModalBody>
                         </Modal>
-                        <Button variant="white" size="lg">
-                            Получить расчёт
-                        </Button>
                     </div>
                 </div>
 

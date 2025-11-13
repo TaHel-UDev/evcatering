@@ -8,15 +8,49 @@ import ReviewBlock from "@/features/components/review-block/review-block";
 import QuestionFormBlock from "@/features/components/forms/question-form/question-form-block";
 import FirstMainScreen from "@/features/components/first-main-screen/first-main-screen";
 import FooterBlock from "@/features/components/footer-block/footer-block";
+import { createDirectus, readItems, rest } from "@directus/sdk";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData } from "@/features/shared/types";
+import Head from "next/head";
 
-export default function Home() {
+export default function Home
+  (
+    {
+      metaData,
+      firstScreenData,
+      missionBlockData,
+      workBlockData,
+      serviceFormatsBlockData,
+    }:
+      {
+        metaData: MainPageMetaData,
+        firstScreenData: FirstScreenData,
+        missionBlockData: MissionBlockData,
+        workBlockData: WorkBlockData,
+        serviceFormatsBlockData: ServiceFormatsBlockData,
+      }
+  ) {
   return (
     <>
-      <FirstMainScreen />
+      <Head>
+        <title>{metaData.title}</title>
+        <meta name="description" content={metaData.description} />
+        <meta name="keywords" content={metaData.keywords} />
+        <meta property="og:title" content={metaData.title} />
+        <meta property="og:description" content={metaData.description} />
+      </Head>
 
-      <MissionBlock />
+      <FirstMainScreen
+        firstScreenData={firstScreenData}
+      />
 
-      <ServiceFormatsBlock />
+      <MissionBlock
+        missionBlockData={missionBlockData}
+        workBlockData={workBlockData}
+      />
+
+      <ServiceFormatsBlock
+        serviceFormatsBlockData={serviceFormatsBlockData}
+      />
 
       <DecideMenuBlock />
 
@@ -30,7 +64,31 @@ export default function Home() {
 
       <QuestionFormBlock />
 
-      <FooterBlock/>
+      <FooterBlock />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
+
+  const metaData = await directus.request(readItems('main_page'));
+
+  const firstScreenData = await directus.request(readItems('first_screen', {
+    fields: ['*.*.*'],
+  }));
+
+  const missionBlockData = await directus.request(readItems('mission_block', {
+    fields: ['*.*.*'],
+  }));
+
+  const workBlockData = await directus.request(readItems('work_block', {
+    fields: ['*.*.*'],
+  }));
+
+  const serviceFormatsBlockData = await directus.request(readItems('service_formats_block', {
+    fields: ['*.*.*'],
+  }));
+
+  return { props: { metaData, firstScreenData, missionBlockData, workBlockData, serviceFormatsBlockData } }
 }

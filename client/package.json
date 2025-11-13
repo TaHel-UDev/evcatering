@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@directus/sdk": "^20.1.1",
+    "@directus/visual-editing": "^1.1.0",
     "@hookform/resolvers": "^5.2.2",
     "clsx": "^2.1.1",
     "lucide-react": "^0.552.0",

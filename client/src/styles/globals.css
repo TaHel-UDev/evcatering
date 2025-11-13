@@ -24,3 +24,246 @@ body {
   color: var(--foreground);
   font-family: Geologica;
 }
+
+/* Стили для контента из WYSIWYG редактора */
+.advice_content {
+  line-height: 1.6;
+  color: var(--color-dark);
+}
+
+.advice_content p {
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.advice_content p:last-child {
+  margin-bottom: 0;
+  font-weight: 300;
+}
+
+.advice_content br {
+  display: block;
+  content: "";
+  margin-top: 0.5rem;
+}
+
+.advice_content h1,
+.advice_content h2,
+.advice_content h3,
+.advice_content h4,
+.advice_content h5,
+.advice_content h6 {
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-dark);
+  line-height: 1.3;
+}
+
+.advice_content h1 {
+  font-size: 2rem;
+}
+
+.advice_content h2 {
+  font-size: 1.75rem;
+}
+
+.advice_content h3 {
+  font-size: 1.5rem;
+}
+
+.advice_content h4 {
+  font-size: 1.25rem;
+}
+
+.advice_content h5 {
+  font-size: 1.125rem;
+}
+
+.advice_content h6 {
+  font-size: 1rem;
+}
+
+.advice_content ul,
+.advice_content ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.advice_content ul {
+  list-style-type: disc;
+}
+
+.advice_content ol {
+  list-style-type: decimal;
+}
+
+.advice_content li {
+  margin-bottom: 0.5rem;
+}
+
+.advice_content li:last-child {
+  margin-bottom: 0;
+}
+
+.advice_content ul ul,
+.advice_content ol ol,
+.advice_content ul ol,
+.advice_content ol ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.advice_content strong,
+.advice_content b {
+  font-weight: 600;
+}
+
+.advice_content em,
+.advice_content i {
+  font-style: italic;
+}
+
+.advice_content u {
+  text-decoration: underline;
+}
+
+.advice_content s,
+.advice_content strike,
+.advice_content del {
+  text-decoration: line-through;
+}
+
+.advice_content a {
+  color: var(--color-brown);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.advice_content a:hover {
+  color: var(--color-green);
+}
+
+.advice_content blockquote {
+  border-left: 4px solid var(--color-brown);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--color-dark);
+  opacity: 0.9;
+}
+
+.advice_content code {
+  background-color: var(--color-soft-gray);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.advice_content pre {
+  background-color: var(--color-soft-gray);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.advice_content pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+.advice_content hr {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 1.5rem 0;
+}
+
+.advice_content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.advice_content table th,
+.advice_content table td {
+  border: 1px solid #e5e5e5;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.advice_content table th {
+  background-color: var(--color-soft-gray);
+  font-weight: 600;
+}
+
+.advice_content table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.advice_content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.advice_content figure {
+  margin: 1rem 0;
+}
+
+.advice_content figcaption {
+  font-size: 0.875rem;
+  color: #666;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Специальные символы и entities */
+.advice_content {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ======================================
+   DIRECTUS VISUAL EDITOR STYLES
+   ====================================== */
+
+/* Стили для редактируемых элементов */
+.directus-editable {
+  outline: 2px dashed rgba(99, 102, 241, 0.5);
+  outline-offset: 4px;
+  transition: outline 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.directus-editable:hover {
+  outline: 2px solid rgba(99, 102, 241, 0.8);
+  outline-offset: 4px;
+}
+
+/* Overlay для редактируемых элементов */
+[data-directus] {
+  position: relative;
+}
+
+[data-directus]:hover::before {
+  content: '✏️ Редактировать';
+  position: absolute;
+  top: -24px;
+  left: 0;
+  background: rgba(99, 102, 241, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 1000;
+  pointer-events: none;
+  white-space: nowrap;
+}
