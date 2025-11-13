@@ -13,7 +13,7 @@ function ServiceFormatCard({ serviceFormat }: { serviceFormat: ServiceFormat }) 
         <div 
             className="col-span-1 flex flex-col gap-[1.5rem]"
             data-directus={setAttr({
-                collection: 'service_formats',
+                collection: 'service_format_card',
                 item: serviceFormat.item.id,
                 fields: ['name', 'description', 'image', 'cta_button_text', 'advice_button_text', 'advice_content'],
                 mode: 'drawer'
