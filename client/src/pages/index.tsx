@@ -70,28 +70,35 @@ export default function Home
 }
 
 export async function getServerSideProps() {
-  const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
+  try {
+    const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
 
-  const metaData = await directus.request(readItems('main_page'));
+    const metaDataResult = await directus.request(readItems('main_page'));
+    const metaData = Array.isArray(metaDataResult) ? metaDataResult[0] : metaDataResult;
 
-  const firstScreenData = await directus.request(readItems('first_screen', {
-    fields: ['*.*.*'],
-  }));
+    const firstScreenDataResult = await directus.request(readItems('first_screen', {
+      fields: ['*.*.*'],
+    }));
+    const firstScreenData = Array.isArray(firstScreenDataResult) ? firstScreenDataResult[0] : firstScreenDataResult;
 
-  const missionBlockData = await directus.request(readItems('mission_block', {
-    fields: ['*.*.*'],
-  }));
+    const missionBlockDataResult = await directus.request(readItems('mission_block', {
+      fields: ['*.*.*'],
+    }));
+    const missionBlockData = Array.isArray(missionBlockDataResult) ? missionBlockDataResult[0] : missionBlockDataResult;
 
-  const workBlockData = await directus.request(readItems('work_block', {
-    fields: ['*.*.*'],
-  }));
+    const workBlockDataResult = await directus.request(readItems('work_block', {
+      fields: ['*.*.*'],
+    }));
+    const workBlockData = Array.isArray(workBlockDataResult) ? workBlockDataResult[0] : workBlockDataResult;
 
-  const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
-    fields: ['*.*.*'],
-  }));
+    const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
+      fields: ['*.*.*'],
+    }));
+    const serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
 
-  // Берем первый элемент из массива
-  const serviceFormatsBlockData = serviceFormatsBlockDataResult[0];
-
-  return { props: { metaData, firstScreenData, missionBlockData, workBlockData, serviceFormatsBlockData } }
+    return { props: { metaData, firstScreenData, missionBlockData, workBlockData, serviceFormatsBlockData } }
+  } catch (error) {
+    console.error('Error fetching data from Directus:', error);
+    throw error;
+  }
 }
