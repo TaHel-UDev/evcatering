@@ -6,3 +6,5 @@ export * from './service-formats-block.types';
 export * from './choose-formats-block.types';
 
 export * from './city.types';
+export * from './cases.types';
+

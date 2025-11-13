@@ -10,7 +10,7 @@ import FirstMainScreen from "@/features/components/first-main-screen/first-main-
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData } from "@/features/shared/types";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData } from "@/features/shared/types";
 import Head from "next/head";
 
 export default function Home
@@ -22,6 +22,7 @@ export default function Home
       workBlockData,
       serviceFormatsBlockData,
       chooseFormatBlockData,
+      casesData,
       franchise,
       cities,
       isMainPage,
@@ -33,6 +34,7 @@ export default function Home
         workBlockData: WorkBlockData,
         serviceFormatsBlockData: ServiceFormatsBlockData,
         chooseFormatBlockData: ChooseFormatBlockData,
+        casesData: CaseData[],
         franchise: any,
         cities: CityOption[],
         isMainPage: boolean,
@@ -69,7 +71,9 @@ export default function Home
 
       <WhyUsBlock />
 
-      <CasesBlock />
+      {casesData.length > 0 && (
+        <CasesBlock casesData={casesData} />
+      )}
 
       <PlacesBlock />
 
@@ -154,6 +158,14 @@ export async function getServerSideProps(context: any) {
       throw new Error('Missing required data from Directus');
     }
 
+    const casesDataResult = await directus.request(readItems('case', {
+      fields: ['*.*.*'],
+      filter: {
+        franchise_id: { _eq: franchise?.id || null }
+      }
+    }));
+    const casesData = Array.isArray(casesDataResult) ? casesDataResult : casesDataResult;
+
     return {
       props: {
         metaData,
@@ -162,6 +174,7 @@ export async function getServerSideProps(context: any) {
         workBlockData,
         serviceFormatsBlockData,
         chooseFormatBlockData,
+        casesData,
         franchise,
         cities,
         isMainPage,
