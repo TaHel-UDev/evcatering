@@ -138,19 +138,11 @@ export async function getServerSideProps(context: any) {
     }));
     const workBlockData = Array.isArray(workBlockDataResult) ? workBlockDataResult[0] : workBlockDataResult;
 
-    // Для главной страницы не загружаем данные франчайзи
-    let serviceFormatsBlockData = null;
-    if (!isMainPage && franchise) {
-      const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
-        fields: ['*.*.*'],
-        filter: {
-          franchise_id: { _eq: franchise.id }
-        }
-      }));
-      serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
-    }
+    const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
+      fields: ['*.*.*'],
+    }));
+    const serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
 
-    // Проверка обязательных данных
     if (!metaData) {
       console.error('❌ Критические данные отсутствуют!');
       throw new Error('Missing required data from Directus');
