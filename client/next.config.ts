@@ -4,7 +4,20 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   images: {
-    domains: ["placehold.co", "directus-b8ss0sswk4wwgw4okswg8gk0.31.130.155.182.sslip.io"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+      {
+        protocol: 'http',
+        hostname: '**', // Разрешаем все HTTP источники (для разработки и Directus)
+      },
+      {
+        protocol: 'https',
+        hostname: '**', // Разрешаем все HTTPS источники
+      },
+    ],
   },
   // Настройки для работы с Directus Visual Editor
   async headers() {
