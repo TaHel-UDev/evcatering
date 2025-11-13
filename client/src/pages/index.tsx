@@ -47,6 +47,7 @@ export default function Home
 
       <FirstMainScreen
         firstScreenData={firstScreenData}
+        canEdit={canEditGlobal}
       />
 
       <MissionBlock

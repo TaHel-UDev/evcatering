@@ -4,8 +4,15 @@ import Button from "@/features/shared/ui/button";
 import Modal, { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "@/features/components/forms/question-form/question-form";
 import { FirstScreenData } from "@/features/shared/types";
+import { setAttr } from "../../../../lib/visual-editor";
 
-function FirstMainScreen({ firstScreenData }: { firstScreenData: FirstScreenData }) {
+function FirstMainScreen({ 
+    firstScreenData,
+    canEdit = false 
+}: { 
+    firstScreenData: FirstScreenData,
+    canEdit?: boolean 
+}) {
     console.log('firstScreenData:', firstScreenData);
     return (
         <div
@@ -16,6 +23,14 @@ function FirstMainScreen({ firstScreenData }: { firstScreenData: FirstScreenData
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
             }}
+            {...(canEdit && {
+                'data-directus': setAttr({
+                    collection: 'first_screen',
+                    item: firstScreenData.id,
+                    fields: 'background_image',
+                    mode: 'popover'
+                })
+            })}
         >
             <section
                 className={clsx(
@@ -25,7 +40,18 @@ function FirstMainScreen({ firstScreenData }: { firstScreenData: FirstScreenData
             >
                 <div className="flex flex-col gap-[1.5rem] justify-between min-h-[500px]">
                     <div className="flex flex-col gap-[1.5rem]">
-                        <div className="flex flex-col gap-[0.75rem]">
+                        {/* Visual Editor: заголовок и подзаголовок */}
+                        <div 
+                            className="flex flex-col gap-[0.75rem]"
+                            {...(canEdit && {
+                                'data-directus': setAttr({
+                                    collection: 'first_screen',
+                                    item: firstScreenData.id,
+                                    fields: ['title', 'subtitle'],
+                                    mode: 'popover'
+                                })
+                            })}
+                        >
                             <Text as="h1" variant="h1" className="text-white">
                                 {firstScreenData.title}
                             </Text>
@@ -34,7 +60,18 @@ function FirstMainScreen({ firstScreenData }: { firstScreenData: FirstScreenData
                             </Text>
                         </div>
 
-                        <div className="flex flex-col gap-[0.75rem]">
+                        {/* Visual Editor: список преимуществ */}
+                        <div 
+                            className="flex flex-col gap-[0.75rem]"
+                            {...(canEdit && {
+                                'data-directus': setAttr({
+                                    collection: 'first_screen',
+                                    item: firstScreenData.id,
+                                    fields: 'advantages',
+                                    mode: 'drawer'
+                                })
+                            })}
+                        >
                             {firstScreenData.advantages?.map((advantage) => (
                                 <Text key={advantage.id} as="p" variant="body-large" className="font-light text-dark p-[1.25rem_2rem] bg-white/60 rounded-[0.75rem] w-fit">
                                     {`• ${advantage.item.text}`}
@@ -43,7 +80,18 @@ function FirstMainScreen({ firstScreenData }: { firstScreenData: FirstScreenData
                         </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row gap-[0.5rem]">
+                    {/* Visual Editor: текст кнопки */}
+                    <div 
+                        className="flex flex-col md:flex-row gap-[0.5rem]"
+                        {...(canEdit && {
+                            'data-directus': setAttr({
+                                collection: 'first_screen',
+                                item: firstScreenData.id,
+                                fields: 'button_text',
+                                mode: 'popover'
+                            })
+                        })}
+                    >
                         <Modal
                             trigger={<Button variant="primary" size="lg">{firstScreenData.button_text}</Button>}
                             title="Оформить заявку"
