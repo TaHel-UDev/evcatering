@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors 'self' https://*.directus.app https://directus-b8ss0sswk4wwgw4okswg8gk0.31.130.155.182.sslip.io", // Укажите домен вашего Directus
+            value: "frame-ancestors 'self' http://* https://*", // Разрешаем HTTP и HTTPS
           },
         ],
       },
