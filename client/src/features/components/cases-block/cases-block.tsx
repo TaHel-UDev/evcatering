@@ -15,7 +15,13 @@ function CasesBlock({ casesData }: { casesData: CaseData[] }) {
                 {casesData.map((caseData) => (
                     <ItemCard
                         key={caseData.id}
-                        caseData={caseData}
+                        image={caseData.preview.id}
+                        title={caseData.name}
+                        description={caseData.description}
+                        link={`/cases/${caseData.id}/`}
+                        firstBadge={caseData.guests.toString()}
+                        secondBadge={caseData.format}
+                        thirdBadge={caseData.date}
                     />
                 ))}
             </div>
