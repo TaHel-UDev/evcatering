@@ -22,23 +22,25 @@ export default function CasesPage(
 ) {
     return (
         <>
-        <Head>
-            <title>{metaData.title} - Кейсы - {franchise?.name}</title>
-            <meta name="description" content={metaData.description} />
-            <meta name="keywords" content={metaData.keywords} />
-            <meta property="og:title" content={`${metaData.title} - Кейсы - ${franchise?.name}`} />
-            <meta property="og:description" content={metaData.description} />
-        </Head>
+            <Head>
+                <title>{metaData.title} - Кейсы - {franchise?.name}</title>
+                <meta name="description" content={metaData.description} />
+                <meta name="keywords" content={metaData.keywords} />
+                <meta property="og:title" content={`${metaData.title} - Кейсы - ${franchise?.name}`} />
+                <meta property="og:description" content={metaData.description} />
+            </Head>
 
-        {/* <CitySelectorModal /> */}
+            {/* <CitySelectorModal /> */}
 
-        {casesData.length > 0 && (
-            <CasesBlock casesData={casesData} />
-        )}
+            {casesData.length > 0 && (
+                <div className="pt-[calc(42px+48px+56px)] lg:pt-[calc(42px+64px+56px)] xl:pt-[calc(42px+56px+64px)]">
+                    <CasesBlock casesData={casesData} />
+                </div>
+            )}
 
-        <QuestionFormBlock />
+            <QuestionFormBlock />
 
-        <FooterBlock />
+            <FooterBlock />
         </>
     )
 }
