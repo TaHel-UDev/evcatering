@@ -25,13 +25,13 @@ function ItemCard({ image, title, description, buttonText, buttonTextSecondary, 
                     width={405}
                     height={251}
                     quality={100}
-                    className="w-full object-cover rounded-[0.75rem]"
+                    className="w-full object-cover rounded-[0.75rem] min-h-[251px]"
                 />
 
                 <div className="flex flex-row gap-[0.5rem]">
                     {firstBadge && <ItemCardBadge title={`${firstBadge} гостей`} />}
                     {secondBadge && <ItemCardBadge title={secondBadge} />}
-                    {thirdBadge && <ItemCardBadge title={`${thirdBadge} ${new Date(thirdBadge).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}`} />}
+                    {thirdBadge && <ItemCardBadge title={`${new Date(thirdBadge).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}`} />}
                 </div>
             </div>
 
