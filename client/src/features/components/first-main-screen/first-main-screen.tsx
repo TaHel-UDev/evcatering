@@ -36,7 +36,9 @@ function FirstMainScreen({ firstScreenData }: { firstScreenData: FirstScreenData
 
                         <div className="flex flex-col gap-[0.75rem]">
                             {firstScreenData.advantages?.map((advantage) => (
-                                <Text key={advantage.id} as="p" variant="body-large" className="font-light text-dark p-[1.25rem_2rem] bg-white/60 rounded-[0.75rem] w-fit" {...advantage.item} children={`• ${advantage.item.text}`} />
+                                <Text key={advantage.id} as="p" variant="body-large" className="font-light text-dark p-[1.25rem_2rem] bg-white/60 rounded-[0.75rem] w-fit">
+                                    {`• ${advantage.item.text}`}
+                                </Text>
                             ))}
                         </div>
                     </div>

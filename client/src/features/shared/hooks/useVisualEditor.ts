@@ -23,10 +23,10 @@ export function useVisualEditor() {
     // Инициализация Visual Editor
     const initVisualEditor = async () => {
       try {
-        const { remove } = await apply({
+        const result = await apply({
           directusUrl: DIRECTUS_URL,
           // Добавляем кастомный класс для стилизации overlay элементов
-          customClass: ['directus-editable'],
+          customClass: 'directus-editable',
           // Callback после сохранения
           onSaved: ({ collection, item, payload }) => {
             console.log('Visual Editor: данные сохранены', { collection, item, payload });
@@ -35,8 +35,10 @@ export function useVisualEditor() {
           },
         });
 
-        cleanup = remove;
-        console.log('Visual Editor инициализирован');
+        if (result) {
+          cleanup = result.remove;
+          console.log('Visual Editor инициализирован');
+        }
       } catch (error) {
         console.error('Ошибка инициализации Visual Editor:', error);
       }
