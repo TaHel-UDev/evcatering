@@ -95,9 +95,10 @@ export async function getServerSideProps(context: any) {
             fields: ['*.*.*'],
             filter: {
                 franchise_id: { _eq: franchise?.id || null }
-            }
+            },
+            sort: ['-date']  // Новые кейсы первыми
         }));
-        const casesData = Array.isArray(casesDataResult) ? casesDataResult : casesDataResult;
+        const casesData = Array.isArray(casesDataResult) ? casesDataResult : [];
 
         return {
             props: {

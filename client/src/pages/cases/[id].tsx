@@ -1,5 +1,5 @@
 import FooterBlock from "@/features/components/footer-block/footer-block";
-import { CityOption } from "@/features/shared/types";
+import { CityOption, MainPageMetaData } from "@/features/shared/types";
 import { CaseData } from "@/features/shared/types/cases.types";
 import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import { createDirectus, readItems, rest } from "@directus/sdk";
@@ -11,15 +11,21 @@ export default function CasePage(
     {
         caseData,
         franchise,
+        metaData,
     }: {
         caseData: CaseData,
         franchise: any,
+        metaData: MainPageMetaData,
     }
 ) {
     return (
         <>
             <Head>
-                <title>{caseData.name} - Кейс - {franchise?.name}</title>
+                <title>{metaData.title} - Кейс {caseData.name} - {franchise?.name}</title>
+                <meta name="description" content={metaData.description} />
+                <meta name="keywords" content={metaData.keywords} />
+                <meta property="og:title" content={`${metaData.title} - Кейс ${caseData.name} - ${franchise?.name}`} />
+                <meta property="og:description" content={metaData.description} />
             </Head>
 
             <div className="pt-[calc(42px+48px+56px)] lg:pt-[calc(42px+64px+56px)] xl:pt-[calc(42px+56px+64px)]">
@@ -36,7 +42,7 @@ export default function CasePage(
 
                                 <div className="col-span-1">
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${caseData.preview.id}.png`}
+                                        src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${caseData.preview.id}`}
                                         alt={caseData.name}
                                         width={530}
                                         height={358}
@@ -71,7 +77,7 @@ export default function CasePage(
 
                                 <div className="col-span-1">
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${caseData.decision_image.id}.png`}
+                                        src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${caseData.decision_image.id}`}
                                         alt={caseData.name}
                                         width={530}
                                         height={358}
@@ -138,18 +144,29 @@ export async function getServerSideProps(context: any) {
             throw new Error('Missing required data from Directus');
         }
 
-        const casesDataResult = await directus.request(readItems('case', {
+        // Получаем ID кейса из URL
+        const caseId = context.params.id;
+
+        // Загружаем ОДИН конкретный кейс по ID
+        const caseDataResult = await directus.request(readItems('case', {
             fields: ['*.*.*'],
             filter: {
+                id: { _eq: caseId },
                 franchise_id: { _eq: franchise?.id || null }
-            }
+            },
+            limit: 1
         }));
-        const casesData = Array.isArray(casesDataResult) ? casesDataResult : casesDataResult;
+        const caseData = Array.isArray(caseDataResult) ? caseDataResult[0] : caseDataResult;
+
+        // Если кейс не найден - 404
+        if (!caseData) {
+            return { notFound: true };
+        }
 
         return {
             props: {
                 metaData,
-                casesData,
+                caseData,
                 franchise,
                 cities,
                 isMainPage,
