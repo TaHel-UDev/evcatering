@@ -20,6 +20,8 @@ export default function Home
       missionBlockData,
       workBlockData,
       serviceFormatsBlockData,
+      canEdit,
+      franchise,
     }:
       {
         metaData: MainPageMetaData,
@@ -27,6 +29,8 @@ export default function Home
         missionBlockData: MissionBlockData,
         workBlockData: WorkBlockData,
         serviceFormatsBlockData: ServiceFormatsBlockData,
+        canEdit: boolean,
+        franchise: any,
       }
   ) {
   return (
@@ -50,6 +54,7 @@ export default function Home
 
       <ServiceFormatsBlock
         serviceFormatsBlockData={serviceFormatsBlockData}
+        canEdit={canEdit}
       />
 
       <DecideMenuBlock />
@@ -69,13 +74,44 @@ export default function Home
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: any) {
   try {
     const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
+    
+    // Определяем франчайзи по поддомену
+    const host = context.req.headers.host || '';
+    const subdomain = host.split('.')[0]; // например: msk.yourdomain.com → msk
+    
+    console.log('🏢 Текущий франчайзи (subdomain):', subdomain);
 
+    // Получаем данные франчайзи из Directus
+    const franchiseResult = await directus.request(readItems('franchises', {
+      filter: {
+        subdomain: { _eq: subdomain }
+      },
+      limit: 1
+    }));
+    const franchise = Array.isArray(franchiseResult) ? franchiseResult[0] : franchiseResult;
+
+    if (!franchise) {
+      console.error('❌ Франчайзи не найден для поддомена:', subdomain);
+      return { notFound: true };
+    }
+
+    console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
+
+    // Определяем права доступа пользователя (из query параметра или токена)
+    // Visual Editor передаёт токен через query параметр
+    const accessToken = context.query.access_token;
+    const canEdit = !!accessToken; // Если есть токен - значит пользователь в Visual Editor
+    
+    console.log('🔐 Режим редактирования:', canEdit);
+
+    // Глобальные данные (одинаковые для всех франчайзи)
     const metaDataResult = await directus.request(readItems('main_page'));
     const metaData = Array.isArray(metaDataResult) ? metaDataResult[0] : metaDataResult;
 
+    // Данные франчайзи с фильтрацией по franchise_id
     const firstScreenDataResult = await directus.request(readItems('first_screen', {
       fields: ['*.*.*'],
     }));
@@ -93,6 +129,9 @@ export async function getServerSideProps() {
 
     const serviceFormatsBlockDataResult = await directus.request(readItems('service_formats_block', {
       fields: ['*.*.*'],
+      filter: {
+        franchise_id: { _eq: franchise.id }
+      }
     }));
     const serviceFormatsBlockData = Array.isArray(serviceFormatsBlockDataResult) ? serviceFormatsBlockDataResult[0] : serviceFormatsBlockDataResult;
 
@@ -116,7 +155,17 @@ export async function getServerSideProps() {
       throw new Error('Missing required data from Directus');
     }
 
-    return { props: { metaData, firstScreenData, missionBlockData, workBlockData, serviceFormatsBlockData } }
+    return { 
+      props: { 
+        metaData, 
+        firstScreenData, 
+        missionBlockData, 
+        workBlockData, 
+        serviceFormatsBlockData,
+        canEdit, // Передаём флаг возможности редактирования
+        franchise // Передаём данные франчайзи
+      } 
+    }
   } catch (error) {
     console.error('❌ Error fetching data from Directus:', error);
     throw error;

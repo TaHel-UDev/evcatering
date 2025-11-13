@@ -8,7 +8,13 @@ import QuestionForm from "../forms/question-form/question-form";
 import { ServiceFormat } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
-function ServiceFormatCard({ serviceFormat }: { serviceFormat: ServiceFormat }) {
+function ServiceFormatCard({ 
+    serviceFormat, 
+    canEdit = false 
+}: { 
+    serviceFormat: ServiceFormat,
+    canEdit?: boolean 
+}) {
     // Проверка на корректность данных
     if (!serviceFormat || !serviceFormat.item) {
         console.error('❌ ServiceFormatCard: некорректные данные', serviceFormat);
@@ -18,11 +24,13 @@ function ServiceFormatCard({ serviceFormat }: { serviceFormat: ServiceFormat }) 
     return (
         <div 
             className="col-span-1 flex flex-col gap-[1.5rem]"
-            data-directus={setAttr({
-                collection: 'service_format_card',
-                item: serviceFormat.item.id,
-                fields: ['name', 'description', 'image', 'cta_button_text', 'advice_button_text', 'advice_content'],
-                mode: 'drawer'
+            {...(canEdit && {
+                'data-directus': setAttr({
+                    collection: 'service_format_card',
+                    item: serviceFormat.item.id,
+                    fields: ['name', 'description', 'image', 'cta_button_text', 'advice_button_text', 'advice_content'],
+                    mode: 'drawer'
+                })
             })}
         >
             <Image

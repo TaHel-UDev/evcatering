@@ -5,7 +5,13 @@ import ServiceChooseFormatBlock from "./service-choose-format-block";
 import { ServiceFormatsBlockData } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
 
-function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockData: ServiceFormatsBlockData }) {
+function ServiceFormatsBlock({ 
+    serviceFormatsBlockData, 
+    canEdit = false 
+}: { 
+    serviceFormatsBlockData: ServiceFormatsBlockData,
+    canEdit?: boolean 
+}) {
     // Проверка на корректность данных
     if (!serviceFormatsBlockData || !serviceFormatsBlockData.formats) {
         console.error('❌ ServiceFormatsBlock: некорректные данные', serviceFormatsBlockData);
@@ -16,11 +22,13 @@ function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockD
         <BlockWrapper>
             {/* Visual Editor: заголовок блока форматов сервиса */}
             <div
-                data-directus={setAttr({
-                    collection: 'service_formats_block',
-                    item: serviceFormatsBlockData.id,
-                    fields: 'title',
-                    mode: 'popover'
+                {...(canEdit && {
+                    'data-directus': setAttr({
+                        collection: 'service_formats_block',
+                        item: serviceFormatsBlockData.id,
+                        fields: 'title',
+                        mode: 'popover'
+                    })
                 })}
             >
                 <BlockHeadline
@@ -30,11 +38,13 @@ function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockD
 
             {/* Visual Editor: редактирование всей коллекции форматов (добавление/удаление) */}
             <div
-                data-directus={setAttr({
-                    collection: 'service_formats_block',
-                    item: serviceFormatsBlockData.id,
-                    fields: 'formats',
-                    mode: 'drawer'
+                {...(canEdit && {
+                    'data-directus': setAttr({
+                        collection: 'service_formats_block',
+                        item: serviceFormatsBlockData.id,
+                        fields: 'formats',
+                        mode: 'drawer'
+                    })
                 })}
                 className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem] mb-[1.5rem] lg:mb-[1.8rem] 2xl:mb-[2rem]"
             >
@@ -42,6 +52,7 @@ function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockD
                     <ServiceFormatCard
                         key={format.id}
                         serviceFormat={format}
+                        canEdit={canEdit}
                     />
                 ))}
             </div>
