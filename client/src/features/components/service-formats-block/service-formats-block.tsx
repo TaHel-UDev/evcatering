@@ -28,7 +28,16 @@ function ServiceFormatsBlock({ serviceFormatsBlockData }: { serviceFormatsBlockD
                 />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem] mb-[1.5rem] lg:mb-[1.8rem] 2xl:mb-[2rem]">
+            {/* Visual Editor: редактирование всей коллекции форматов (добавление/удаление) */}
+            <div
+                data-directus={setAttr({
+                    collection: 'service_formats_block',
+                    item: serviceFormatsBlockData.id,
+                    fields: 'formats',
+                    mode: 'drawer'
+                })}
+                className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem] mb-[1.5rem] lg:mb-[1.8rem] 2xl:mb-[2rem]"
+            >
                 {serviceFormatsBlockData.formats.map((format) => (
                     <ServiceFormatCard
                         key={format.id}
