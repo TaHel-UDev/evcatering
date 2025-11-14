@@ -24,7 +24,14 @@ function WhyUsBlock( { whyUsBlockData }: { whyUsBlockData: WhyUsBlockData } ) {
                 />
             </div>
 
-            <div className="flex flex-col md:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+            <div
+                data-directus={setAttr({
+                    collection: 'why_us_block',
+                    item: whyUsBlockData.id,
+                    fields: 'why_us_cards',
+                    mode: 'drawer'
+                })}
+                className="flex flex-col md:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
                 <WhyUsAnimatedImage
                     image={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${whyUsBlockData.why_us_cards[activeIndex].item.image.id}`}
