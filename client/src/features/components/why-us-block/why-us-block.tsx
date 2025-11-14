@@ -34,7 +34,7 @@ function WhyUsBlock( { whyUsBlockData }: { whyUsBlockData: WhyUsBlockData } ) {
                 className="flex flex-col md:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
                 <WhyUsAnimatedImage
-                    image={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${whyUsBlockData.why_us_cards[activeIndex].item.image.id}`}
+                    image={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${whyUsBlockData.why_us_cards[activeIndex].item.image}`}
                     alt={whyUsBlockData.why_us_cards[activeIndex].item.title}
                     activeIndex={activeIndex}
                 />
