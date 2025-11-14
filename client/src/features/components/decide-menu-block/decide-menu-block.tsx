@@ -80,6 +80,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                         return (
                             <FoodCard
                                 key={card.id}
+                                image={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${card.item.image.id}`}
                                 id={`row2-card${index + 1}`}
                                 title={card.item.name}
                                 size={sizes[index]}
@@ -99,6 +100,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                         return (
                             <FoodCard
                                 key={card.id}
+                                image={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${card.item.image.id}`}
                                 id={`row3-card${index + 1}`}
                                 title={card.item.name}
                                 size={sizes[index]}

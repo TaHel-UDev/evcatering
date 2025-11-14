@@ -8,9 +8,10 @@ interface FoodCardProps {
     hasAnyHovered: boolean;
     onMouseEnter: (id: string) => void;
     onMouseLeave: () => void;
+    image: string;
 }
 
-function FoodCard({ title, size, id, isHovered, hasAnyHovered, onMouseEnter, onMouseLeave }: FoodCardProps) {
+function FoodCard({ title, size, id, isHovered, hasAnyHovered, onMouseEnter, onMouseLeave, image }: FoodCardProps) {
     // Определяем размер карточки в зависимости от состояния наведения (только для десктопа)
     const getDesktopFlexBasis = () => {
         if (hasAnyHovered) {
@@ -30,7 +31,7 @@ function FoodCard({ title, size, id, isHovered, hasAnyHovered, onMouseEnter, onM
                 flexShrink: 0,
                 flexGrow: 0,
                 transition: "flex-basis 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                backgroundImage: "url('https://placehold.co/566x262.png')",
+                backgroundImage: `url('${image}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
