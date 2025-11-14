@@ -135,7 +135,7 @@ export default function QuestionForm() {
                                 value={value || ""}
                                 onChange={(e) => onChange(e.target.value)}
                                 label="Предпочтения"
-                                placeholder="Опишите ваши предпочтения по мероприятию и пространству"
+                                placeholder="Опишите ваш запрос по мероприятию и пространству"
                                 errorText={error}
                                 autoResize
                                 minRows={3}
@@ -160,7 +160,7 @@ export default function QuestionForm() {
                             <Checkbox
                                 checked={value}
                                 onChange={onChange}
-                                label={<>Нажимая кнопку &quot;Отправить&quot; Вы автоматически соглашаетесь с <Link href="/policy" className="underline hover:text-green transition-colors duration-300">Политикой конфиденциальности</Link></>}
+                                label={<>Нажимая кнопку &quot;Отправить&quot; Вы соглашаетесь с <Link href="/policy" className="underline hover:text-green transition-colors duration-300">Политикой конфиденциальности</Link></>}
                                 size="sm"
                                 errorText={error}
                             />

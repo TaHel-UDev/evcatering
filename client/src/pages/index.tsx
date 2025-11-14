@@ -103,8 +103,6 @@ export default function Home
 
       <QuestionFormBlock mapData={mapData} />
 
-
-
       <FooterBlock cities={FilteredCities} />
     </>
   );
