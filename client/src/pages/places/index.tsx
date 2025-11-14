@@ -97,7 +97,6 @@ export async function getServerSideProps(context: any) {
             filter: {
                 franchise_id: { _eq: franchise?.id || null }
             },
-            sort: ['-created_at']  // Новые площадки первыми
         }));
         const placesData = Array.isArray(placesDataResult) ? placesDataResult : [];
 

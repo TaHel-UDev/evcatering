@@ -21,7 +21,7 @@ function ItemCard({ image, title, description, buttonText, buttonTextSecondary, 
             <div className="flex flex-col gap-[0.5rem]">
                 <Image
                     src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${image}.png`}
-                    alt="Кейс"
+                    alt={title}
                     width={405}
                     height={251}
                     quality={100}
