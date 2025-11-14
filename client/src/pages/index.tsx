@@ -10,7 +10,7 @@ import FirstMainScreen from "@/features/components/first-main-screen/first-main-
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData } from "@/features/shared/types";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData } from "@/features/shared/types";
 import Head from "next/head";
 
 export default function Home
@@ -24,6 +24,7 @@ export default function Home
       chooseFormatBlockData,
       casesData,
       placesData,
+      reviewsData,
       franchise,
       cities,
       isMainPage,
@@ -37,6 +38,7 @@ export default function Home
         chooseFormatBlockData: ChooseFormatBlockData,
         casesData: CaseData[],
         placesData: PlacesData[],
+        reviewsData: ReviewsData[],
         franchise: any,
         cities: CityOption[],
         isMainPage: boolean,
@@ -81,7 +83,9 @@ export default function Home
         <PlacesBlock placesData={placesData} />
       )}
 
-      <ReviewBlock />
+      {reviewsData.length > 0 && (
+        <ReviewBlock reviewsData={reviewsData} />
+      )}
 
       <QuestionFormBlock />
 
@@ -178,6 +182,14 @@ export async function getServerSideProps(context: any) {
     }));
     const placesData = Array.isArray(placesDataResult) ? placesDataResult : placesDataResult;
 
+    const reviewsDataResult = await directus.request(readItems('review_block', {
+      fields: ['*.*.*'],
+      filter: {
+        franchise_id: { _eq: franchise?.id || null }
+      }
+    }));
+    const reviewsData = Array.isArray(reviewsDataResult) ? reviewsDataResult : reviewsDataResult;
+
     return {
       props: {
         metaData,
@@ -188,6 +200,7 @@ export async function getServerSideProps(context: any) {
         chooseFormatBlockData,
         casesData,
         placesData,
+        reviewsData,
         franchise,
         cities,
         isMainPage,
