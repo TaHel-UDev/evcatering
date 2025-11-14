@@ -118,7 +118,7 @@ export async function getServerSideProps(context: any) {
         }));
         const hasPlaces = Array.isArray(placesDataResult) && placesDataResult.length > 0;
 
-        const reviewsDataResult = await directus.request(readItems('reviews', {
+        const reviewsDataResult = await directus.request(readItems('review_block', {
             fields: ['id'],
             filter: {
                 franchise_id: { _eq: franchise?.id || null }
