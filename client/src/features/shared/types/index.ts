@@ -4,6 +4,7 @@ export * from './mission-block.types';
 export * from './work-block.types';
 export * from './service-formats-block.types';
 export * from './choose-formats-block.types';
+export * from './decide-menu-block.types';
 
 export * from './city.types';
 export * from './cases.types';

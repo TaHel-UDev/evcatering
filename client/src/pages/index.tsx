@@ -10,7 +10,7 @@ import FirstMainScreen from "@/features/components/first-main-screen/first-main-
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData, MapElementData } from "@/features/shared/types";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData, MapElementData, DecideMenuBlockData } from "@/features/shared/types";
 import Head from "next/head";
 
 export default function Home
@@ -22,6 +22,7 @@ export default function Home
       workBlockData,
       serviceFormatsBlockData,
       chooseFormatBlockData,
+      decideMenuBlockData,
       casesData,
       placesData,
       reviewsData,
@@ -38,6 +39,7 @@ export default function Home
         workBlockData: WorkBlockData,
         serviceFormatsBlockData: ServiceFormatsBlockData,
         chooseFormatBlockData: ChooseFormatBlockData,
+        decideMenuBlockData: DecideMenuBlockData,
         casesData: CaseData[],
         placesData: PlacesData[],
         reviewsData: ReviewsData[],
@@ -77,7 +79,7 @@ export default function Home
         chooseFormatBlockData={chooseFormatBlockData}
       />
 
-      <DecideMenuBlock />
+      <DecideMenuBlock decideMenuBlockData={decideMenuBlockData} />
 
       <WhyUsBlock />
 
@@ -169,6 +171,11 @@ export async function getServerSideProps(context: any) {
     }));
     const chooseFormatBlockData = Array.isArray(chooseFormatBlockDataResult) ? chooseFormatBlockDataResult[0] : chooseFormatBlockDataResult;
 
+    const decideMenuBlockDataResult = await directus.request(readItems('decide_menu_block', {
+      fields: ['*.*.*'],
+    }));
+    const decideMenuBlockData = Array.isArray(decideMenuBlockDataResult) ? decideMenuBlockDataResult[0] : decideMenuBlockDataResult;
+
     if (!metaData) {
       console.error('❌ Критические данные отсутствуют!');
       throw new Error('Missing required data from Directus');
@@ -224,6 +231,7 @@ export async function getServerSideProps(context: any) {
         workBlockData,
         serviceFormatsBlockData,
         chooseFormatBlockData,
+        decideMenuBlockData,
         casesData,
         placesData,
         reviewsData,

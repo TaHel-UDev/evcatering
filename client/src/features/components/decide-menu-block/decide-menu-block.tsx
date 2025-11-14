@@ -4,8 +4,10 @@ import BlockHeadline from "@/features/shared/ui/headline/block-headline";
 import { Text } from "@/features/shared/ui/text";
 import DecideMenuForm from "./decide-menu-form";
 import FoodCard from "@/features/shared/ui/food-card/food-card";
+import { DecideMenuBlockData } from "@/features/shared/types";
+import { setAttr } from "../../../../lib/visual-editor";
 
-function DecideMenuBlock() {
+function DecideMenuBlock({ decideMenuBlockData }: { decideMenuBlockData: DecideMenuBlockData }) {
     const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
 
     const handleMouseEnter = (id: string) => {
@@ -18,11 +20,18 @@ function DecideMenuBlock() {
 
     return (
         <BlockWrapper id="decide-menu-block">
+            <div data-directus={setAttr({
+                collection: 'decide_menu_block',
+                item: decideMenuBlockData.id,
+                fields: 'title',
+                mode: 'popover'
+            })}>
             <BlockHeadline
-                title="Определимся с меню"
+                title={decideMenuBlockData.title}
             />
+            </div>
 
-            <DecideMenuForm />
+            <DecideMenuForm decideMenuBlockData={decideMenuBlockData} />
 
             <Text as="h3" variant="h3" className="font-medium text-brown mb-[1.5rem] lg:mb-[1.8rem] 2xl:mb-[2rem]">
                 Некоторые примеры наших блюд
