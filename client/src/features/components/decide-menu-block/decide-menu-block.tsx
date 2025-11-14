@@ -6,6 +6,9 @@ import DecideMenuForm from "./decide-menu-form";
 import FoodCard from "@/features/shared/ui/food-card/food-card";
 import { DecideMenuBlockData, FoodExampleBlockData } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/features/shared/ui/carousel/carousel";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import ServiceFormatCard from "../service-formats-block/service-format-card";
 
 function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decideMenuBlockData: DecideMenuBlockData, foodExampleBlockData: FoodExampleBlockData }) {
     const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
@@ -49,7 +52,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                 item: foodExampleBlockData.id,
                 fields: 'food_example_cards',
                 mode: 'drawer'
-            })} className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+            })} className="hidden md:flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
                 {/* Ряд 1: карточки 0-2 (col-span-3, col-span-3, col-span-6 - последняя больше) */}
                 <div className="flex flex-col lg:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
@@ -108,6 +111,37 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                     })}
                 </div>
 
+            </div>
+
+            <div className="flex md:hidden mb-[3rem] lg:mb-[1.8rem] 2xl:mb-[2rem]">
+                <Carousel opts={{
+                    align: "start",
+                    loop: true,
+                }}
+                    className="w-full">
+                    <CarouselContent>
+                        {foodExampleBlockData.food_example_cards.map((card) => (
+                            <CarouselItem key={card.id} className="basis-full">
+                                <FoodCard
+                                    key={card.id}
+                                    id={`food-example-card${card.id}`}
+                                    title={card.item.name}
+                                    size="col-span-3"
+                                    isHovered={hoveredCardId === `food-example-card${card.id}`}
+                                    hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("food-example")}
+                                    onMouseEnter={handleMouseEnter}
+                                    onMouseLeave={handleMouseLeave}
+                                />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious size="sm">
+                        <ArrowLeftIcon className="size-4" />
+                    </CarouselPrevious>
+                    <CarouselNext size="sm">
+                        <ArrowRightIcon className="size-4" />
+                    </CarouselNext>
+                </Carousel>
             </div>
         </BlockWrapper>
     )

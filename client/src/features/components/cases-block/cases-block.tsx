@@ -3,6 +3,8 @@ import BlockHeadlineWithLink from "@/features/shared/ui/headline/block-headline-
 import ItemCard from "@/features/shared/ui/item-card/item-card";
 import { CaseData } from "@/features/shared/types";
 import BlockHeadline from "@/features/shared/ui/headline/block-headline";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/features/shared/ui/carousel/carousel";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
 function CasesBlock({ casesData, limit, withLink = true }: { casesData: CaseData[], limit?: number, withLink?: boolean }) {
     return (
@@ -16,7 +18,7 @@ function CasesBlock({ casesData, limit, withLink = true }: { casesData: CaseData
                 <BlockHeadline title="Кейсы" />
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                 {(limit ? casesData.slice(0, limit) : casesData).map((caseData) => (
                     <ItemCard
                         key={caseData.id}
@@ -29,6 +31,37 @@ function CasesBlock({ casesData, limit, withLink = true }: { casesData: CaseData
                         thirdBadge={caseData.date}
                     />
                 ))}
+            </div>
+
+            <div className="flex md:hidden mb-[3rem] lg:mb-[1.8rem] 2xl:mb-[2rem]">
+                <Carousel opts={{
+                    align: "start",
+                    loop: true,
+                }}
+                    className="w-full">
+                    <CarouselContent>
+                        {casesData.map((caseData) => (
+                            <CarouselItem key={caseData.id} className="basis-full">
+                                <ItemCard
+                                    key={caseData.id}
+                                    image={caseData.preview.id}
+                                    title={caseData.name}
+                                    description={caseData.description}
+                                    link={`/cases/${caseData.id}/`}
+                                    firstBadge={caseData.guests.toString() + " гостей"}
+                                    secondBadge={caseData.format}
+                                    thirdBadge={caseData.date}
+                                />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious size="sm" className="translate-y-[-200%]">
+                        <ArrowLeftIcon className="size-4" />
+                    </CarouselPrevious>
+                    <CarouselNext size="sm" className="translate-y-[-200%]">
+                        <ArrowRightIcon className="size-4" />
+                    </CarouselNext>
+                </Carousel>
             </div>
         </BlockWrapper>
     )

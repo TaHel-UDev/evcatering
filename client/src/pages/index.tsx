@@ -12,6 +12,8 @@ import CitySelectorModal from "@/features/components/city-selector/city-selector
 import { createDirectus, readItems, rest } from "@directus/sdk";
 import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData, MapElementData, DecideMenuBlockData, WhyUsBlockData, FoodExampleBlockData } from "@/features/shared/types";
 import Head from "next/head";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/features/shared/ui/carousel/carousel";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
 export default function Home
   (
@@ -67,7 +69,7 @@ export default function Home
       </Head>
 
       {/* Модальное окно выбора города */}
-      <CitySelectorModal />
+      {/* <CitySelectorModal /> */}
 
       <FirstMainScreen
         firstScreenData={firstScreenData}
@@ -101,7 +103,9 @@ export default function Home
 
       <QuestionFormBlock mapData={mapData} />
 
-      <FooterBlock cities={FilteredCities}/>
+
+
+      <FooterBlock cities={FilteredCities} />
     </>
   );
 }
