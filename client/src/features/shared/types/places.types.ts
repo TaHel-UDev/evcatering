@@ -4,7 +4,7 @@ export interface PlacesData {
   description: string;
   area: number;
   capacity: number;
-  address: string;
+  adress: string;
   full_description: string;
   preview: { id: string };
   banner: { id: string };

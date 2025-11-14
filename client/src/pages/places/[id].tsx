@@ -53,13 +53,13 @@ export default function PlacePage(
 
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
-                                    <div className="col-span-1">
-                                        <Text as="p" variant="body-large" className="font-light text-dark">
+                                    <div className="col-span-1 bg-brown text-white rounded-[0.625rem] p-[1rem]">
+                                        <Text as="p" variant="body-large" className="font-light text-white">
                                             {placeData.area.toString() + " м²"}
                                         </Text>
                                     </div>
-                                    <div className="col-span-1">
-                                        <Text as="p" variant="body-large" className="font-light text-dark">
+                                    <div className="col-span-1 bg-brown text-white rounded-[0.625rem] p-[1rem]">
+                                        <Text as="p" variant="body-large" className="font-light text-white">
                                             {placeData.capacity.toString() + " гостей"}
                                         </Text>
                                     </div>
@@ -68,7 +68,7 @@ export default function PlacePage(
                             </div>
 
                             <Text as="h4" variant="h4">
-                                Адрес: {placeData.address}
+                                Адрес: {placeData.adress}
                             </Text>
 
                             <div
