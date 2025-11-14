@@ -122,6 +122,7 @@ export async function getServerSideProps(context: any) {
     // Если это страница франчайзи - получаем его данные
     if (!isMainPage) {
       const franchiseResult = await directus.request(readItems('franchises', {
+        fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
         filter: {
           subdomain: { _eq: subdomain }
         },

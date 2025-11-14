@@ -11,7 +11,7 @@ function WhyUsBlock() {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <BlockWrapper>
+        <BlockWrapper id="why-us-block">
             <BlockHeadline
                 title="Почему мы?"
             />

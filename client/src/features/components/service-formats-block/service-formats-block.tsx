@@ -13,7 +13,7 @@ function ServiceFormatsBlock({
     chooseFormatBlockData: ChooseFormatBlockData
 }) {
     return (
-        <BlockWrapper>
+        <BlockWrapper id="service-formats-block">
             {/* Visual Editor: заголовок блока форматов сервиса */}
             <div
                 data-directus={setAttr({

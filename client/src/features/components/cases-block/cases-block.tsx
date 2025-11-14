@@ -6,7 +6,7 @@ import BlockHeadline from "@/features/shared/ui/headline/block-headline";
 
 function CasesBlock({ casesData, limit, withLink = true }: { casesData: CaseData[], limit?: number, withLink?: boolean }) {
     return (
-        <BlockWrapper>
+        <BlockWrapper id="cases-block">
             {withLink ? (
                 <BlockHeadlineWithLink
                     title="Кейсы"

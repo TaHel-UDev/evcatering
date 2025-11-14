@@ -5,7 +5,7 @@ import { MapElementData } from "@/features/shared/types";
 
 function QuestionFormBlock({ mapData }: { mapData?: MapElementData | null }) {
     return (
-        <BlockWrapper>
+        <BlockWrapper id="question-form-block">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
                 <div className="col-span-1 p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] bg-soft-gray rounded-[0.75rem]">

@@ -6,7 +6,7 @@ import BlockHeadline from "@/features/shared/ui/headline/block-headline";
 
 function PlacesBlock({ placesData, withLink = true, limit = 3 }: { placesData: PlacesData[], withLink?: boolean, limit?: number }) {
     return (
-        <BlockWrapper>
+        <BlockWrapper id="places-block">
             {withLink ? (
                 <BlockHeadlineWithLink
                     title="Площадки"

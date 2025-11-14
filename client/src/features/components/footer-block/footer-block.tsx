@@ -8,7 +8,7 @@ import { CityOption } from "@/features/shared/types";
 
 function FooterBlock({ cities }: { cities: CityOption[] }) {
     return (
-        <footer className={clsx(
+        <footer id="contact-block" className={clsx(
             "relative bg-green overflow-hidden",
             "mt-[calc(42px+48px+56px)] lg:mt-[calc(42px+64px+56px)] xl:mt-[calc(42px+56px+64px)]",
         )}>

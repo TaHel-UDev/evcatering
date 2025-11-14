@@ -17,7 +17,7 @@ function DecideMenuBlock() {
     };
 
     return (
-        <BlockWrapper>
+        <BlockWrapper id="decide-menu-block">
             <BlockHeadline
                 title="Определимся с меню"
             />

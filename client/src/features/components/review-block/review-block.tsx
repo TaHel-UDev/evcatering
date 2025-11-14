@@ -6,7 +6,7 @@ import { ReviewsData } from "@/features/shared/types";
 
 function ReviewBlock({ reviewsData }: { reviewsData: ReviewsData[] }) {
     return (
-        <BlockWrapper>
+        <BlockWrapper id="review-block">
             <BlockHeadline
                 title="Отзывы"
             />

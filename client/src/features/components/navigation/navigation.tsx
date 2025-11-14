@@ -18,12 +18,12 @@ function Navigation() {
     const closeMenu = () => setIsMenuOpen(false);
 
     const menuItems = [
-        { label: "Форматы", href: "/" },
-        { label: "Меню", href: "/" },
-        { label: "Почему мы?", href: "/" },
-        { label: "Кейсы", href: "/" },
-        { label: "Площадки", href: "/" },
-        { label: "Контакты", href: "/" },
+        { label: "Форматы", href: "#service-formats-block" },
+        { label: "Меню", href: "#decide-menu-block" },
+        { label: "Почему мы?", href: "#why-us-block" },
+        { label: "Кейсы", href: "#cases-block" },
+        { label: "Площадки", href: "#places-block" },
+        { label: "Контакты", href: "#contact-block" },
     ];
 
     return (
@@ -66,9 +66,11 @@ function Navigation() {
 
                         {/* Правая часть - Телефон и кнопка (скрыто на lg и ниже) */}
                         <div className="hidden xl:flex flex-row items-center gap-[0.75rem]">
-                            <Text href="/" variant="body-large" className="text-white no-underline">
-                                +7 (999) 999-99-99
-                            </Text>
+                            {currentCity?.phone && (
+                                <Text href={`tel:${currentCity.phone}`} variant="body-large" className="text-white no-underline">
+                                    {currentCity.phone}
+                                </Text>
+                            )}
                             <Modal
                                 trigger={<Button variant="white" size="md">Оформить заявку</Button>}
                                 title="Оформить заявку"
@@ -142,9 +144,11 @@ function Navigation() {
 
                     {/* Контактная информация и кнопка */}
                     <div className="mt-auto flex flex-col gap-[1rem]">
-                        <Text href="/" variant="body-large" className="text-white no-underline">
-                            +7 (999) 999-99-99
-                        </Text>
+                        {currentCity?.phone && (
+                            <Text href={`tel:${currentCity.phone}`} variant="body-large" className="text-white no-underline">
+                                {currentCity.phone}
+                            </Text>
+                        )}
                         <Modal
                             trigger={<Button variant="white" size="md" className="w-full">Оформить заявку</Button>}
                             title="Оформить заявку"
