@@ -6,10 +6,17 @@ const geologica = Geologica({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-function MainLayout({ children }: { children: React.ReactNode }) {
+interface MainLayoutProps {
+    children: React.ReactNode;
+    hasCases?: boolean;
+    hasPlaces?: boolean;
+    hasReviews?: boolean;
+}
+
+function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews = false }: MainLayoutProps) {
     return (
         <main className={`${geologica.className} relative`}>
-            <Navigation />
+            <Navigation hasCases={hasCases} hasPlaces={hasPlaces} hasReviews={hasReviews} />
             {children}
         </main>
     )

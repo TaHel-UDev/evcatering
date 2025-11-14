@@ -11,21 +11,29 @@ import QuestionForm from "../forms/question-form/question-form";
 import { useCitySelector } from "@/features/shared/context/city-selector-context";
 import { formatPhoneForLink } from "@/features/shared/utils/phone";
 
-function Navigation() {
+interface NavigationProps {
+    hasCases?: boolean;
+    hasPlaces?: boolean;
+    hasReviews?: boolean;
+}
+
+function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }: NavigationProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { openModal, currentCity, isMainPage } = useCitySelector();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
 
-    const menuItems = [
-        { label: "Форматы", href: "#service-formats-block" },
-        { label: "Меню", href: "#decide-menu-block" },
-        { label: "Почему мы?", href: "#why-us-block" },
-        { label: "Кейсы", href: "#cases-block" },
-        { label: "Площадки", href: "#places-block" },
-        { label: "Контакты", href: "#contact-block" },
+    const allMenuItems = [
+        { label: "Форматы", href: "#service-formats-block", show: true },
+        { label: "Меню", href: "#decide-menu-block", show: true },
+        { label: "Почему мы?", href: "#why-us-block", show: true },
+        { label: "Кейсы", href: "#cases-block", show: hasCases },
+        { label: "Площадки", href: "#places-block", show: hasPlaces },
+        { label: "Контакты", href: "#contact-block", show: true },
     ];
+
+    const menuItems = allMenuItems.filter(item => item.show);
 
     return (
         <>
@@ -70,7 +78,7 @@ function Navigation() {
                             {currentCity?.phone && (
                                 <Text href={`tel:${formatPhoneForLink(currentCity.phone)}`} variant="body-large" className="text-white no-underline">
                                     {currentCity.phone}
-                                </Text>
+                            </Text>
                             )}
                             <Modal
                                 trigger={<Button variant="white" size="md">Оформить заявку</Button>}
@@ -148,7 +156,7 @@ function Navigation() {
                         {currentCity?.phone && (
                             <Text href={`tel:${formatPhoneForLink(currentCity.phone)}`} variant="body-large" className="text-white no-underline">
                                 {currentCity.phone}
-                            </Text>
+                        </Text>
                         )}
                         <Modal
                             trigger={<Button variant="white" size="md" className="w-full">Оформить заявку</Button>}

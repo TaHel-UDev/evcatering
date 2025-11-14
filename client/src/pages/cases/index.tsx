@@ -108,6 +108,25 @@ export async function getServerSideProps(context: any) {
         }));
         const casesData = Array.isArray(casesDataResult) ? casesDataResult : [];
 
+        // Проверяем наличие площадок и отзывов для навигации
+        const placesDataResult = await directus.request(readItems('places', {
+            fields: ['id'],
+            filter: {
+                franchise_id: { _eq: franchise?.id || null }
+            },
+            limit: 1
+        }));
+        const hasPlaces = Array.isArray(placesDataResult) && placesDataResult.length > 0;
+
+        const reviewsDataResult = await directus.request(readItems('reviews', {
+            fields: ['id'],
+            filter: {
+                franchise_id: { _eq: franchise?.id || null }
+            },
+            limit: 1
+        }));
+        const hasReviews = Array.isArray(reviewsDataResult) && reviewsDataResult.length > 0;
+
         // Загружаем данные карты для франчайзи
         let mapData = null;
         if (franchise?.id) {
@@ -130,6 +149,9 @@ export async function getServerSideProps(context: any) {
                 cities,
                 FilteredCities,
                 isMainPage,
+                hasCases: casesData.length > 0,
+                hasPlaces,
+                hasReviews,
             }
         }
     } catch (error) {

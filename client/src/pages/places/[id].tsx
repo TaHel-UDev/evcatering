@@ -130,7 +130,7 @@ export async function getServerSideProps(context: any) {
                 return { notFound: true };
             }
 
-            console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
+            console.log('✅ Франчайзи найден:', franchise?.name, 'ID:', franchise?.id);
         }
 
         // Глобальные данные (одинаковые для всех франчайзи)
@@ -161,6 +161,34 @@ export async function getServerSideProps(context: any) {
             return { notFound: true };
         }
 
+        // Проверяем наличие кейсов, площадок и отзывов для навигации
+        const casesDataResult = await directus.request(readItems('case', {
+            fields: ['id'],
+            filter: {
+                franchise_id: { _eq: franchise?.id || null }
+            },
+            limit: 1
+        }));
+        const hasCases = Array.isArray(casesDataResult) && casesDataResult.length > 0;
+
+        const placesCountResult = await directus.request(readItems('places', {
+            fields: ['id'],
+            filter: {
+                franchise_id: { _eq: franchise?.id || null }
+            },
+            limit: 1
+        }));
+        const hasPlaces = Array.isArray(placesCountResult) && placesCountResult.length > 0;
+
+        const reviewsDataResult = await directus.request(readItems('reviews', {
+            fields: ['id'],
+            filter: {
+                franchise_id: { _eq: franchise?.id || null }
+            },
+            limit: 1
+        }));
+        const hasReviews = Array.isArray(reviewsDataResult) && reviewsDataResult.length > 0;
+
         // Загружаем данные карты для франчайзи
         let mapData = null;
         if (franchise?.id) {
@@ -183,6 +211,9 @@ export async function getServerSideProps(context: any) {
                 cities,
                 FilteredCities,
                 isMainPage,
+                hasCases,
+                hasPlaces,
+                hasReviews,
             }
         }
     } catch (error) {

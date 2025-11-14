@@ -51,10 +51,12 @@ export default function Home
   return (
     <>
       <Head>
-        <title>{metaData.title} - {franchise?.name}</title>
+        <title>
+          {metaData.title} {franchise?.name ? `- ${franchise?.name}` : ''}
+        </title>
         <meta name="description" content={metaData.description} />
         <meta name="keywords" content={metaData.keywords} />
-        <meta property="og:title" content={`${metaData.title} - ${franchise?.name}`} />
+        <meta property="og:title" content={`${metaData.title} ${franchise?.name ? `- ${franchise?.name}` : ''}`} />
         <meta property="og:description" content={metaData.description} />
       </Head>
 
@@ -209,6 +211,11 @@ export async function getServerSideProps(context: any) {
       mapData = Array.isArray(mapDataResult) ? mapDataResult[0] : mapDataResult;
     }
 
+    // Проверяем наличие данных для навигации
+    const hasCases = casesData && casesData.length > 0;
+    const hasPlaces = placesData && placesData.length > 0;
+    const hasReviews = reviewsData && reviewsData.length > 0;
+
     return {
       props: {
         metaData,
@@ -225,6 +232,9 @@ export async function getServerSideProps(context: any) {
         cities,
         FilteredCities,
         isMainPage,
+        hasCases,
+        hasPlaces,
+        hasReviews,
       }
     }
   } catch (error) {

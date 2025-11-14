@@ -11,12 +11,20 @@ export default function App({ Component, pageProps }: AppProps) {
     initializeVisualEditor();
   }, []);
 
-  // Извлекаем данные для CitySelectorProvider из pageProps
-  const { cities = [], franchise = null, isMainPage = false, ...restPageProps } = pageProps;
+  // Извлекаем данные для CitySelectorProvider и навигации из pageProps
+  const { 
+    cities = [], 
+    franchise = null, 
+    isMainPage = false, 
+    hasCases = false,
+    hasPlaces = false,
+    hasReviews = false,
+    ...restPageProps 
+  } = pageProps;
 
   return (
     <CitySelectorProvider cities={cities} currentCity={franchise} isMainPage={isMainPage}>
-      <MainLayout>
+      <MainLayout hasCases={hasCases} hasPlaces={hasPlaces} hasReviews={hasReviews}>
         <Component {...restPageProps} cities={cities} franchise={franchise} isMainPage={isMainPage} />
       </MainLayout>
     </CitySelectorProvider>
