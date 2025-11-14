@@ -28,10 +28,10 @@ function DecideMenuForm({ decideMenuBlockData }: { decideMenuBlockData: DecideMe
                     fields: 'cta_button_text',
                     mode: 'popover'
                 })}
-                    className="flex flex-col md:flex-row xl:flex-col gap-[0.5rem]"
+                    className="w-full flex flex-col md:flex-row xl:flex-col gap-[0.5rem]"
                 >
                     <Modal
-                        trigger={<Button variant="primary" size="md">{decideMenuBlockData.cta_button_text}</Button>}
+                        trigger={<Button variant="primary" size="md" fullWidth>{decideMenuBlockData.cta_button_text}</Button>}
                         title={decideMenuBlockData.cta_button_text}
                         size="md"
                     >
@@ -44,7 +44,9 @@ function DecideMenuForm({ decideMenuBlockData }: { decideMenuBlockData: DecideMe
                         item: decideMenuBlockData.id,
                         fields: 'advice_button_text, advice_content',
                         mode: 'popover'
-                    })}>
+                    })}
+                        className="w-full"
+                    >
                         <PracticeAdviceModal
                             trigger={<Button variant="white" size="md" fullWidth>{decideMenuBlockData.advice_button_text}</Button>}
                             content={
