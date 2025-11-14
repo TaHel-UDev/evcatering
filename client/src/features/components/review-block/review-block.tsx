@@ -14,7 +14,7 @@ function ReviewBlock({ reviewsData }: { reviewsData: ReviewsData[] }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
                 <div className="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                    {reviewsData[0].review_cards.slice(0, 3).map((review) => (
+                    {reviewsData[0].review_cards.slice(0, 4).map((review) => (
                         <ReviewCard
                             key={review.id}
                             name={review.item.name}

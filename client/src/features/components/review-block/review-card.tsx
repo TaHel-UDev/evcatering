@@ -15,8 +15,13 @@ function ReviewCard({ name, rating, description }: ReviewCardProps) {
                     {name}
                 </Text>
                 <div className="flex flex-row gap-[0.25rem]">
-                    {Array.from({ length: rating }).map((_, index) => (
-                        <Star key={index} fill="#FFB700" className="text-[#FFB700]" size={24} />
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <Star 
+                            key={index} 
+                            fill={index < rating ? "#FFB700" : "none"} 
+                            className={index < rating ? "text-[#FFB700]" : "text-gray-300"} 
+                            size={24} 
+                        />
                     ))}
                 </div>
             </div>
