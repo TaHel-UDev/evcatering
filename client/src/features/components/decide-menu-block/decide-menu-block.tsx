@@ -61,6 +61,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                         return (
                             <FoodCard
                                 key={card.id}
+                                image={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${card.item.image.id}`}
                                 id={`row1-card${index + 1}`}
                                 title={card.item.name}
                                 size={sizes[index]}
@@ -126,6 +127,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                             <CarouselItem key={card.id} className="basis-full">
                                 <FoodCard
                                     key={card.id}
+                                    image={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${card.item.image.id}`}
                                     id={`food-example-card${card.id}`}
                                     title={card.item.name}
                                     size="col-span-3"
