@@ -135,7 +135,6 @@ export async function getServerSideProps(context: any) {
     const metaDataResult = await directus.request(readItems('main_page'));
     const metaData = Array.isArray(metaDataResult) ? metaDataResult[0] : metaDataResult;
 
-    // Данные франчайзи с фильтрацией по franchise_id
     const firstScreenDataResult = await directus.request(readItems('first_screen', {
       fields: ['*.*.*'],
     }));

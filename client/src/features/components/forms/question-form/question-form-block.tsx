@@ -1,8 +1,10 @@
 import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import QuestionForm from "./question-form";
 import { Text } from "@/features/shared/ui/text";
+import { createDirectus, readItems, rest } from "@directus/sdk";
+import { CityOption, MapElementData } from "@/features/shared/types";
 
-function QuestionFormBlock() {
+function QuestionFormBlock({ mapData }: { mapData?: MapElementData[] | null }) {
     return (
         <BlockWrapper>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
@@ -20,16 +22,18 @@ function QuestionFormBlock() {
                     <QuestionForm />
                 </div>
 
-                <div className="col-span-1">
+                {mapData && mapData.length > 0 && (
+                    <div className="col-span-1">
                     <iframe
-                        src="https://yandex.ru/map-widget/v1/?um=constructor%3Ad66c7d26e4c49e96760367a61829d1e98e78bef2e3ebdd101d8a398dda968ec0&amp;source=constructor"
+                        src={mapData[0].yandex_src}
                         width="613"
                         height="720"
                         frameBorder="0"
                         className="w-full h-[300px] lg:h-full rounded-[0.75rem]"
-                    >
-                    </iframe>
-                </div>
+                        >
+                        </iframe>
+                    </div>
+                )}
 
             </div>
         </BlockWrapper>
@@ -37,3 +41,59 @@ function QuestionFormBlock() {
 }
 
 export default QuestionFormBlock;
+
+export async function getServerSideProps(context: any) {
+    try {
+        const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
+
+        // Определяем франчайзи по поддомену
+        const host = context.req.headers.host || '';
+        const subdomain = host.split('.')[0]; // например: msk.yourdomain.com → msk
+
+        // Получаем список всех франчайзи (городов)
+        const citiesResult = await directus.request(readItems('franchises', {
+            fields: ['id', 'name', 'subdomain'],
+            sort: ['name']
+        }));
+        const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];
+
+        const isMainPage = subdomain === 'localhost' || !cities.some(city => city.subdomain === subdomain);
+
+        let franchise = null;
+
+        // Если это страница франчайзи - получаем его данные
+        if (!isMainPage) {
+            const franchiseResult = await directus.request(readItems('franchises', {
+                filter: {
+                    subdomain: { _eq: subdomain }
+                },
+                limit: 1
+            }));
+            franchise = Array.isArray(franchiseResult) ? franchiseResult[0] : franchiseResult;
+
+            if (!franchise) {
+                console.error('❌ Франчайзи не найден для поддомена:', subdomain);
+                return { notFound: true };
+            }
+
+            console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
+        }
+
+        const mapDataResult = await directus.request(readItems('review_block', {
+            fields: ['*.*.*'],
+            filter: {
+                franchise_id: { _eq: franchise?.id || null }
+            }
+        }));
+        const mapData = Array.isArray(mapDataResult) ? mapDataResult : mapDataResult;
+
+        return {
+            props: {
+                mapData,
+            }
+        };
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}

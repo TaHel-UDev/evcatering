@@ -9,4 +9,5 @@ export * from './city.types';
 export * from './cases.types';
 export * from './places.types';
 export * from './reviews-block.types';
+export * from './map-element.types';
 
