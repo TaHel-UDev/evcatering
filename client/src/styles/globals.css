@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/* Отступ для якорных ссылок, чтобы хэдер не перекрывал контент */
+[id] {
+  scroll-margin-top: calc(42px + 48px + 56px + 24px); /* Высота хэдера + отступ */
+}
+
+@media (min-width: 1024px) {
+  [id] {
+    scroll-margin-top: calc(42px + 64px + 56px + 24px);
+  }
+}
+
+@media (min-width: 1280px) {
+  [id] {
+    scroll-margin-top: calc(42px + 56px + 64px + 24px);
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

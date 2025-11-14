@@ -9,6 +9,7 @@ import Modal from "@/features/shared/ui/modal";
 import { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "../forms/question-form/question-form";
 import { useCitySelector } from "@/features/shared/context/city-selector-context";
+import { formatPhoneForLink } from "@/features/shared/utils/phone";
 
 function Navigation() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,7 +68,7 @@ function Navigation() {
                         {/* Правая часть - Телефон и кнопка (скрыто на lg и ниже) */}
                         <div className="hidden xl:flex flex-row items-center gap-[0.75rem]">
                             {currentCity?.phone && (
-                                <Text href={`tel:${currentCity.phone}`} variant="body-large" className="text-white no-underline">
+                                <Text href={`tel:${formatPhoneForLink(currentCity.phone)}`} variant="body-large" className="text-white no-underline">
                                     {currentCity.phone}
                                 </Text>
                             )}
@@ -145,7 +146,7 @@ function Navigation() {
                     {/* Контактная информация и кнопка */}
                     <div className="mt-auto flex flex-col gap-[1rem]">
                         {currentCity?.phone && (
-                            <Text href={`tel:${currentCity.phone}`} variant="body-large" className="text-white no-underline">
+                            <Text href={`tel:${formatPhoneForLink(currentCity.phone)}`} variant="body-large" className="text-white no-underline">
                                 {currentCity.phone}
                             </Text>
                         )}

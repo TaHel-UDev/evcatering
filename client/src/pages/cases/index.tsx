@@ -87,7 +87,7 @@ export async function getServerSideProps(context: any) {
                 return { notFound: true };
             }
 
-            console.log('✅ Франчайзи найден:', franchise.name, 'ID:', franchise.id);
+            console.log('✅ Франчайзи найден:', franchise?.name, 'ID:', franchise?.id);
         }
 
         // Глобальные данные (одинаковые для всех франчайзи)

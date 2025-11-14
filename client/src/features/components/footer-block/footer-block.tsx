@@ -5,8 +5,14 @@ import Button from "@/features/shared/ui/button";
 import Modal, { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "../forms/question-form/question-form";
 import { CityOption } from "@/features/shared/types";
+import { formatPhoneForLink } from "@/features/shared/utils/phone";
 
 function FooterBlock({ cities }: { cities: CityOption[] }) {
+
+    if (cities.length === 0) {
+        return null;
+    }
+
     return (
         <footer id="contact-block" className={clsx(
             "relative bg-green overflow-hidden",
@@ -51,7 +57,7 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
                                 <Text as="p" variant="h4" className="text-white md:text-end">
                                     {cities[0].name}
                                 </Text>
-                                <Text href={`tel:${cities[0].phone}`} variant="body-large" className="text-white md:text-end">
+                                <Text href={`tel:${formatPhoneForLink(cities[0].phone)}`} variant="body-large" className="text-white md:text-end">
                                     {cities[0].phone}
                                 </Text>
                                 <Text href={`mailto:${cities[0].mail}`} variant="body-large" className="text-white md:text-end">
