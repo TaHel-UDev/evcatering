@@ -51,36 +51,42 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                 mode: 'drawer'
             })} className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
-                {/* Ряд 1: карточки 0-2 (col-span-3 каждая) */}
+                {/* Ряд 1: карточки 0-2 (col-span-3, col-span-3, col-span-6 - последняя больше) */}
                 <div className="flex flex-col lg:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                    {foodExampleBlockData.food_example_cards.slice(0, 3).map((card, index) => (
-                        <FoodCard
-                            key={card.id}
-                            id={`row1-card${index + 1}`}
-                            title={card.item.name}
-                            size="col-span-3"
-                            isHovered={hoveredCardId === `row1-card${index + 1}`}
-                            hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("row1")}
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                        />
-                    ))}
+                    {foodExampleBlockData.food_example_cards.slice(0, 3).map((card, index) => {
+                        const sizes: ("col-span-3" | "col-span-6")[] = ["col-span-3", "col-span-3", "col-span-6"];
+                        return (
+                            <FoodCard
+                                key={card.id}
+                                id={`row1-card${index + 1}`}
+                                title={card.item.name}
+                                size={sizes[index]}
+                                isHovered={hoveredCardId === `row1-card${index + 1}`}
+                                hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("row1")}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                            />
+                        );
+                    })}
                 </div>
 
-                {/* Ряд 2: карточки 3-5 (col-span-4 каждая) */}
+                {/* Ряд 2: карточки 3-5 (col-span-6, col-span-3, col-span-3 - первая больше) */}
                 <div className="flex flex-col lg:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                    {foodExampleBlockData.food_example_cards.slice(3, 6).map((card, index) => (
-                        <FoodCard
-                            key={card.id}
-                            id={`row2-card${index + 1}`}
-                            title={card.item.name}
-                            size="col-span-4"
-                            isHovered={hoveredCardId === `row2-card${index + 1}`}
-                            hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("row2")}
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                        />
-                    ))}
+                    {foodExampleBlockData.food_example_cards.slice(3, 6).map((card, index) => {
+                        const sizes: ("col-span-3" | "col-span-6")[] = ["col-span-6", "col-span-3", "col-span-3"];
+                        return (
+                            <FoodCard
+                                key={card.id}
+                                id={`row2-card${index + 1}`}
+                                title={card.item.name}
+                                size={sizes[index]}
+                                isHovered={hoveredCardId === `row2-card${index + 1}`}
+                                hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("row2")}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                            />
+                        );
+                    })}
                 </div>
 
                 {/* Ряд 3: карточки 6-8 (col-span-3, col-span-3, col-span-6) */}
