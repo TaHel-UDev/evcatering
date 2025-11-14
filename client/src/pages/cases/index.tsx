@@ -13,6 +13,7 @@ export default function CasesPage(
         mapData,
         franchise,
         cities,
+        FilteredCities,
         isMainPage,
     }: {
         metaData: MainPageMetaData,
@@ -20,6 +21,7 @@ export default function CasesPage(
         mapData: MapElementData | null,
         franchise: any,
         cities: CityOption[],
+        FilteredCities: CityOption[],
         isMainPage: boolean,
     }
 ) {
@@ -43,7 +45,7 @@ export default function CasesPage(
 
             <QuestionFormBlock mapData={mapData} />
 
-            <FooterBlock />
+            <FooterBlock cities={FilteredCities}/>
         </>
     )
 }
@@ -58,10 +60,12 @@ export async function getServerSideProps(context: any) {
 
         // Получаем список всех франчайзи (городов)
         const citiesResult = await directus.request(readItems('franchises', {
-            fields: ['id', 'name', 'subdomain'],
+            fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
             sort: ['name']
         }));
         const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];
+
+        const FilteredCities = cities.filter(city => city.subdomain === subdomain);
 
         const isMainPage = subdomain === 'localhost' || !cities.some(city => city.subdomain === subdomain);
 
@@ -123,6 +127,7 @@ export async function getServerSideProps(context: any) {
                 mapData: mapData || null,
                 franchise,
                 cities,
+                FilteredCities,
                 isMainPage,
             }
         }
