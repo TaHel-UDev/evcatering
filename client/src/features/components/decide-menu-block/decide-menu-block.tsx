@@ -44,15 +44,15 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                 </Text>
             </div>
 
-            <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+            <div data-directus={setAttr({
+                collection: 'food_example_block',
+                item: foodExampleBlockData.id,
+                fields: 'food_example_cards',
+                mode: 'drawer'
+            })} className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
                 {/* Ряд 1: карточки 0-2 (col-span-3 каждая) */}
-               <div data-directus={setAttr({
-                    collection: 'food_example_block',
-                    item: foodExampleBlockData.id,
-                    fields: 'food_example_cards',
-                    mode: 'drawer'
-                })} className="flex flex-col lg:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+                <div className="flex flex-col lg:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                     {foodExampleBlockData.food_example_cards.slice(0, 3).map((card, index) => (
                         <FoodCard
                             key={card.id}
