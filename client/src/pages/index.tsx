@@ -91,7 +91,7 @@ export default function Home
 
       <QuestionFormBlock mapData={mapData} />
 
-      <FooterBlock />
+      <FooterBlock cities={cities}/>
     </>
   );
 }
@@ -106,7 +106,7 @@ export async function getServerSideProps(context: any) {
 
     // Получаем список всех франчайзи (городов)
     const citiesResult = await directus.request(readItems('franchises', {
-      fields: ['id', 'name', 'subdomain'],
+      fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
       sort: ['name']
     }));
     const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];

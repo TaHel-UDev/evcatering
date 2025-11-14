@@ -4,8 +4,9 @@ import { Text } from "@/features/shared/ui/text";
 import Button from "@/features/shared/ui/button";
 import Modal, { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "../forms/question-form/question-form";
+import { CityOption } from "@/features/shared/types";
 
-function FooterBlock() {
+function FooterBlock({ cities }: { cities: CityOption[] }) {
     return (
         <footer className={clsx(
             "relative bg-green overflow-hidden",
@@ -48,13 +49,13 @@ function FooterBlock() {
 
                             <div className="flex flex-col gap-[1rem]">
                                 <Text as="p" variant="h4" className="text-white md:text-end">
-                                    Москва
+                                    {cities[0].name}
                                 </Text>
-                                <Text href="/" variant="body-large" className="text-white md:text-end">
-                                    +7 (495) 790-51-81
+                                <Text href={`tel:${cities[0].phone}`} variant="body-large" className="text-white md:text-end">
+                                    {cities[0].phone}
                                 </Text>
-                                <Text href="/" variant="body-large" className="text-white md:text-end">
-                                    moscow@evcatering.ru
+                                <Text href={`mailto:${cities[0].mail}`} variant="body-large" className="text-white md:text-end">
+                                    {cities[0].mail}
                                 </Text>
                             </div>
 
@@ -63,7 +64,7 @@ function FooterBlock() {
                                     Время работы:
                                 </Text>
                                 <Text as="p" variant="h4" className="text-white md:text-end">
-                                    Пн-Вс. с 9:00 до 21:00
+                                    {cities[0].open_time}
                                 </Text>
                             </div>
 
@@ -94,7 +95,7 @@ function FooterBlock() {
 
                             <div className="flex flex-col gap-[0.75rem]">
                                 <Text as="p" variant="body" className="text-white font-light">
-                                    г. Москва, Холодильный переулок, 3
+                                    {cities[0].address}
                                 </Text>
                                 <Text as="p" variant="body" className="text-white font-light">
                                     © Эстетика Вкуса
