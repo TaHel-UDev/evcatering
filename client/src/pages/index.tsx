@@ -26,6 +26,7 @@ export default function Home
       placesData,
       reviewsData,
       mapData,
+      FilteredCities,
       franchise,
       cities,
       isMainPage,
@@ -41,6 +42,7 @@ export default function Home
         placesData: PlacesData[],
         reviewsData: ReviewsData[],
         mapData: MapElementData | null,
+        FilteredCities: CityOption[],
         franchise: any,
         cities: CityOption[],
         isMainPage: boolean,
@@ -91,7 +93,7 @@ export default function Home
 
       <QuestionFormBlock mapData={mapData} />
 
-      <FooterBlock cities={cities}/>
+      <FooterBlock cities={FilteredCities}/>
     </>
   );
 }
@@ -110,6 +112,8 @@ export async function getServerSideProps(context: any) {
       sort: ['name']
     }));
     const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];
+
+    const FilteredCities = cities.filter(city => city.subdomain === subdomain);
 
     const isMainPage = subdomain === 'localhost' || !cities.some(city => city.subdomain === subdomain);
 
@@ -218,6 +222,7 @@ export async function getServerSideProps(context: any) {
         mapData: mapData || null,
         franchise,
         cities,
+        FilteredCities,
         isMainPage,
       }
     }
