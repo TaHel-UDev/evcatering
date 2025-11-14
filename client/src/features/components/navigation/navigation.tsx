@@ -10,6 +10,7 @@ import { ModalBody } from "@/features/shared/ui/modal";
 import QuestionForm from "../forms/question-form/question-form";
 import { useCitySelector } from "@/features/shared/context/city-selector-context";
 import { formatPhoneForLink } from "@/features/shared/utils/phone";
+import { useRouter } from "next/router";
 
 interface NavigationProps {
     hasCases?: boolean;
@@ -20,17 +21,24 @@ interface NavigationProps {
 function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }: NavigationProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { openModal, currentCity, isMainPage } = useCitySelector();
+    const router = useRouter();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
 
+    // Проверяем, находимся ли мы на главной странице
+    const isOnMainPage = router.pathname === '/';
+    
+    // Если не на главной странице - добавляем "/" к якорным ссылкам
+    const getHref = (anchor: string) => isOnMainPage ? anchor : `/${anchor}`;
+
     const allMenuItems = [
-        { label: "Форматы", href: "#service-formats-block", show: true },
-        { label: "Меню", href: "#decide-menu-block", show: true },
-        { label: "Почему мы?", href: "#why-us-block", show: true },
-        { label: "Кейсы", href: "#cases-block", show: hasCases },
-        { label: "Площадки", href: "#places-block", show: hasPlaces },
-        { label: "Контакты", href: "#contact-block", show: true },
+        { label: "Форматы", href: getHref("#service-formats-block"), show: true },
+        { label: "Меню", href: getHref("#decide-menu-block"), show: true },
+        { label: "Почему мы?", href: getHref("#why-us-block"), show: true },
+        { label: "Кейсы", href: getHref("#cases-block"), show: hasCases },
+        { label: "Площадки", href: getHref("#places-block"), show: hasPlaces },
+        { label: "Контакты", href: getHref("#contact-block"), show: true },
     ];
 
     const menuItems = allMenuItems.filter(item => item.show);
