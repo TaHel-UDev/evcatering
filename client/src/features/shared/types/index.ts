@@ -5,6 +5,8 @@ export * from './work-block.types';
 export * from './service-formats-block.types';
 export * from './choose-formats-block.types';
 export * from './decide-menu-block.types';
+export * from './why-us-block.types';
+export * from './food-example-block.types';
 
 export * from './city.types';
 export * from './cases.types';

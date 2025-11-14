@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <CitySelectorProvider cities={cities} currentCity={franchise} isMainPage={isMainPage}>
       <MainLayout hasCases={hasCases} hasPlaces={hasPlaces} hasReviews={hasReviews}>
         <Component {...restPageProps} cities={cities} franchise={franchise} isMainPage={isMainPage} />
-      </MainLayout>
+    </MainLayout>
     </CitySelectorProvider>
   )
 }
