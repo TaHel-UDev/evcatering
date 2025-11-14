@@ -1,47 +1,9 @@
 import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import QuestionForm from "./question-form";
 import { Text } from "@/features/shared/ui/text";
-import { useCitySelector } from "@/features/shared/context/city-selector-context";
-import { useEffect, useState } from "react";
-import { createDirectus, readItems, rest } from "@directus/sdk";
 import { MapElementData } from "@/features/shared/types";
 
-function QuestionFormBlock() {
-    const { currentCity } = useCitySelector();
-    const [mapData, setMapData] = useState<MapElementData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        async function loadMapData() {
-            if (!currentCity?.id) {
-                setIsLoading(false);
-                return;
-            }
-
-            try {
-                const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest());
-                
-                const mapDataResult = await directus.request(readItems('map_element', {
-                    fields: ['*.*.*'],
-                    filter: {
-                        franchise_id: { _eq: currentCity.id }
-                    },
-                    limit: 1
-                }));
-                
-                const data = (Array.isArray(mapDataResult) ? mapDataResult : [mapDataResult]) as MapElementData[];
-                setMapData(data);
-            } catch (error) {
-                console.error('❌ Ошибка загрузки данных карты:', error);
-                setMapData([]);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        loadMapData();
-    }, [currentCity?.id]);
-
+function QuestionFormBlock({ mapData }: { mapData?: MapElementData | null }) {
     return (
         <BlockWrapper>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
@@ -59,10 +21,10 @@ function QuestionFormBlock() {
                     <QuestionForm />
                 </div>
 
-                {!isLoading && mapData.length > 0 && mapData[0]?.yandex_src && (
+                {mapData?.yandex_src && (
                     <div className="col-span-1">
                         <iframe
-                            src={mapData[0].yandex_src}
+                            src={mapData.yandex_src}
                             width="613"
                             height="720"
                             frameBorder="0"

@@ -10,7 +10,7 @@ import FirstMainScreen from "@/features/components/first-main-screen/first-main-
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData } from "@/features/shared/types";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData, MapElementData } from "@/features/shared/types";
 import Head from "next/head";
 
 export default function Home
@@ -25,6 +25,7 @@ export default function Home
       casesData,
       placesData,
       reviewsData,
+      mapData,
       franchise,
       cities,
       isMainPage,
@@ -39,6 +40,7 @@ export default function Home
         casesData: CaseData[],
         placesData: PlacesData[],
         reviewsData: ReviewsData[],
+        mapData: MapElementData | null,
         franchise: any,
         cities: CityOption[],
         isMainPage: boolean,
@@ -87,7 +89,7 @@ export default function Home
         <ReviewBlock reviewsData={reviewsData} />
       )}
 
-      <QuestionFormBlock />
+      <QuestionFormBlock mapData={mapData} />
 
       <FooterBlock />
     </>
@@ -189,6 +191,19 @@ export async function getServerSideProps(context: any) {
     }));
     const reviewsData = Array.isArray(reviewsDataResult) ? reviewsDataResult : reviewsDataResult;
 
+    // Загружаем данные карты для франчайзи
+    let mapData = null;
+    if (franchise?.id) {
+      const mapDataResult = await directus.request(readItems('map_element', {
+        fields: ['*.*.*'],
+        filter: {
+          franchise_id: { _eq: franchise.id }
+        },
+        limit: 1
+      }));
+      mapData = Array.isArray(mapDataResult) ? mapDataResult[0] : mapDataResult;
+    }
+
     return {
       props: {
         metaData,
@@ -200,6 +215,7 @@ export async function getServerSideProps(context: any) {
         casesData,
         placesData,
         reviewsData,
+        mapData: mapData || null,
         franchise,
         cities,
         isMainPage,

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { CityOption, MainPageMetaData, PlacesData } from "@/features/shared/types";
+import { CityOption, MainPageMetaData, PlacesData, MapElementData } from "@/features/shared/types";
 import PlacesBlock from "@/features/components/places-block/places-block";
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import QuestionFormBlock from "@/features/components/forms/question-form/question-form-block";
@@ -10,12 +10,14 @@ export default function PlacesPage(
     {
         metaData,
         placesData,
+        mapData,
         franchise,
         cities,
         isMainPage,
     }: {
         metaData: MainPageMetaData,
         placesData: PlacesData[],
+        mapData: MapElementData | null,
         franchise: any,
         cities: CityOption[],
         isMainPage: boolean,
@@ -39,7 +41,7 @@ export default function PlacesPage(
                 </div>
             )}
 
-            <QuestionFormBlock />
+            <QuestionFormBlock mapData={mapData} />
 
             <FooterBlock />
         </>
@@ -100,10 +102,24 @@ export async function getServerSideProps(context: any) {
         }));
         const placesData = Array.isArray(placesDataResult) ? placesDataResult : [];
 
+        // Загружаем данные карты для франчайзи
+        let mapData = null;
+        if (franchise?.id) {
+            const mapDataResult = await directus.request(readItems('map_element', {
+                fields: ['*.*.*'],
+                filter: {
+                    franchise_id: { _eq: franchise.id }
+                },
+                limit: 1
+            }));
+            mapData = Array.isArray(mapDataResult) ? mapDataResult[0] : mapDataResult;
+        }
+
         return {
             props: {
                 metaData,
                 placesData,
+                mapData: mapData || null,
                 franchise,
                 cities,
                 isMainPage,

@@ -1,5 +1,5 @@
 import FooterBlock from "@/features/components/footer-block/footer-block";
-import { CityOption, MainPageMetaData } from "@/features/shared/types";
+import { CityOption, MainPageMetaData, MapElementData } from "@/features/shared/types";
 import { CaseData } from "@/features/shared/types/cases.types";
 import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import { createDirectus, readItems, rest } from "@directus/sdk";
@@ -12,10 +12,12 @@ import CitySelectorModal from "@/features/components/city-selector/city-selector
 export default function CasePage(
     {
         caseData,
+        mapData,
         franchise,
         metaData,
     }: {
         caseData: CaseData,
+        mapData: MapElementData | null,
         franchise: any,
         metaData: MainPageMetaData,
     }
@@ -97,7 +99,7 @@ export default function CasePage(
 
             </div>
 
-            <QuestionFormBlock />
+            <QuestionFormBlock mapData={mapData} />
 
             <FooterBlock />
         </>
@@ -169,10 +171,24 @@ export async function getServerSideProps(context: any) {
             return { notFound: true };
         }
 
+        // Загружаем данные карты для франчайзи
+        let mapData = null;
+        if (franchise?.id) {
+            const mapDataResult = await directus.request(readItems('map_element', {
+                fields: ['*.*.*'],
+                filter: {
+                    franchise_id: { _eq: franchise.id }
+                },
+                limit: 1
+            }));
+            mapData = Array.isArray(mapDataResult) ? mapDataResult[0] : mapDataResult;
+        }
+
         return {
             props: {
                 metaData,
                 caseData,
+                mapData: mapData || null,
                 franchise,
                 cities,
                 isMainPage,
