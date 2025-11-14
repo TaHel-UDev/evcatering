@@ -1,40 +1,34 @@
 import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import BlockHeadlineWithLink from "@/features/shared/ui/headline/block-headline-with-link";
 import ItemCard from "@/features/shared/ui/item-card/item-card";
+import { PlacesData } from "@/features/shared/types";
+import BlockHeadline from "@/features/shared/ui/headline/block-headline";
 
-function PlacesBlock() {
+function PlacesBlock({ placesData, withLink = true, limit = 3 }: { placesData: PlacesData[], withLink?: boolean, limit?: number }) {
     return (
         <BlockWrapper>
-            <BlockHeadlineWithLink
-                title="Площадки"
-                link="/places"
-            />
+            {withLink ? (
+                <BlockHeadlineWithLink
+                    title="Площадки"
+                    link="/places"
+                />
+            ) : (
+                <BlockHeadline title="Площадки" />
+            )}
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                <ItemCard
-                    image="https://placehold.co/405x251.png"
-                    title="Зал большой"
-                    description="Описание зала большой"
-                    link="/places/1/"
-                    firstBadge="120 м²"
-                    secondBadge="200 персон"
-                />
-                <ItemCard
-                    image="https://placehold.co/405x251.png"
-                    title="Зал средний"
-                    description="Описание зала средний"
-                    link="/places/2/"
-                    firstBadge="80 м²"
-                    secondBadge="100 персон"
-                />
-                <ItemCard
-                    image="https://placehold.co/405x251.png"
-                    title="Зал маленький"
-                    description="Описание зала маленький"
-                    link="/places/3/"
-                    firstBadge="50 м²"
-                    secondBadge="50 персон"
-                />
+                {(limit ? placesData.slice(0, limit) : placesData).map((place) => (
+                    <ItemCard
+                        key={place.id}
+                        image={place.preview.id}
+                        title={place.name}
+                        description={place.description}
+                        link={`/places/${place.id}/`}
+                        firstBadge={place.area.toString() + " м²"}
+                        secondBadge={place.capacity.toString() + " гостей"}
+                    />
+                ))}
             </div>
         </BlockWrapper>
     )

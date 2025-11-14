@@ -24,7 +24,7 @@ function CasesBlock({ casesData, limit, withLink = true }: { casesData: CaseData
                         title={caseData.name}
                         description={caseData.description}
                         link={`/cases/${caseData.id}/`}
-                        firstBadge={caseData.guests.toString()}
+                        firstBadge={caseData.guests.toString() + " гостей"}
                         secondBadge={caseData.format}
                         thirdBadge={caseData.date}
                     />

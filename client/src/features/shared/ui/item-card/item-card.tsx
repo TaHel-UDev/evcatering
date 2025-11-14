@@ -29,7 +29,7 @@ function ItemCard({ image, title, description, buttonText, buttonTextSecondary, 
                 />
 
                 <div className="flex flex-row gap-[0.5rem]">
-                    {firstBadge && <ItemCardBadge title={`${firstBadge} гостей`} />}
+                    {firstBadge && <ItemCardBadge title={firstBadge} />}
                     {secondBadge && <ItemCardBadge title={secondBadge} />}
                     {thirdBadge && <ItemCardBadge title={`${new Date(thirdBadge).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}`} />}
                 </div>
