@@ -55,7 +55,7 @@ function WhatGetBlock({
                                                 </ModalBody>
                                             </Modal>
                                         </div>
-                                        <div className="col-span-12 lg:col-span-5 order-1 lg:order-2">
+                                        <div className="col-span-12 lg:col-span-5 h-full order-1 lg:order-2">
                                             <Image
                                                 src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${item.item.image}`}
                                                 alt={item.item.image}
