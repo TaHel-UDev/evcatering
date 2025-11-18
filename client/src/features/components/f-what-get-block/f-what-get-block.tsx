@@ -61,7 +61,7 @@ function WhatGetBlock({
                                                 alt={item.item.image}
                                                 width={491}
                                                 height={433}
-                                                className="w-full object-cover rounded-[0.75rem]"
+                                                className="w-full h-full object-cover rounded-[0.75rem]"
                                             />
                                         </div>
                                     </div>
