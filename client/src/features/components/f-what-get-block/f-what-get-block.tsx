@@ -17,6 +17,7 @@ function WhatGetBlock({
     return (
         <BlockWrapper>
             <div
+                id="what-get-block"
                 data-directus={setAttr({
                     collection: 'what_get_block',
                     item: WhatGetBlockData.id,

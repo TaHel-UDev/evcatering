@@ -18,6 +18,7 @@ function FConditionsBlock({
     return (
         <BlockWrapper>
             <div
+                id="conditions"
                 data-directus={setAttr({
                     collection: 'conditions_block',
                     item: ConditionsBlockData.id,

@@ -17,6 +17,7 @@ function FValuesBlock({
     return (
         <BlockWrapper>
             <div
+                id="values"
                 data-directus={setAttr({
                     collection: 'f_values_block',
                     item: FValuesBlockData.id,

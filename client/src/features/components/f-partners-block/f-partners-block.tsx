@@ -16,6 +16,7 @@ function FPartnersBlock({
     return (
         <BlockWrapper>
             <div
+                id="partners"
                 data-directus={setAttr({
                     collection: 'f_partners_block',
                     item: FPartnersBlockData.id,

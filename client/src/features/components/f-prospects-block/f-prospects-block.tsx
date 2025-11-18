@@ -18,6 +18,7 @@ function FProspectsBlock({
     return (
         <BlockWrapper>
             <div
+                id="prospects"
                 data-directus={setAttr({
                     collection: 'f_prospects_block',
                     item: FProspectsBlockData.id,

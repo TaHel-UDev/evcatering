@@ -16,6 +16,7 @@ function FWhoSuitableBlock({
     return (
         <BlockWrapper>
             <div
+                id="who-is-suitable"
                 data-directus={setAttr({
                     collection: 'who_suitable_block',
                     item: WhoSuitableBlockData.id,

@@ -16,6 +16,7 @@ function FInvestmentBlock({
     return (
         <BlockWrapper>
             <div
+                id="investment"
                 data-directus={setAttr({
                     collection: 'f_investment_block',
                     item: FInvestmentBlockData.id,
