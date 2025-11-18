@@ -53,7 +53,7 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
         { label: "Партнеры", href: "#partners", show: true },
     ];
 
-    if (router.asPath === "/franchise") {
+    if (router.pathname === "/franchise") {
         return (
             <>
                 <div className="fixed top-0 left-[50%] translate-x-[-50%] w-full z-[4] max-w-[1440px] px-[24px] lg:px-[48px] 2xl:px-[80px]">
