@@ -5,12 +5,12 @@ export interface FMainScreen {
     background: { id: string; }
 }
 
-export interface FAboutBlock {
+export interface FAboutBlockProps {
     id: number;
     text: string;
 }
 
-export interface FOurFranchiseBlock {
+export interface FOurFranchiseBlockProps {
     id: number;
     title: string;
     subtitle: string;
@@ -26,7 +26,7 @@ export interface FOurFranchiseBlock {
     }]
 }
 
-export interface WhatGetBlock {
+export interface WhatGetBlockProps {
     id: number;
     title: string;
     what_get_block_cards: [{
@@ -41,7 +41,7 @@ export interface WhatGetBlock {
     }]
 }
 
-export interface ConditionsBlock {
+export interface ConditionsBlockProps {
     id: number;
     title: string;
     conditions_block_cards: [{
@@ -54,7 +54,7 @@ export interface ConditionsBlock {
     }]
 }
 
-export interface FInvestmentBlock {
+export interface FInvestmentBlockProps {
     id: number;
     title: string;
     subtitle: string;
@@ -71,7 +71,7 @@ export interface FInvestmentBlock {
     }]
 }
 
-export interface FProspectsBlock {
+export interface FProspectsBlockProps {
     id: number;
     title: string;
     content: string;
@@ -87,7 +87,7 @@ export interface FProspectsBlock {
     }]
 }
 
-export interface FBesidesBlock {
+export interface FBesidesBlockProps {
     id: number;
     title: string;
     cta_button_text: string;
@@ -102,7 +102,7 @@ export interface FBesidesBlock {
     }]
 }
 
-export interface FAbleToWorkBlock {
+export interface FAbleToWorkBlockProps {
     id: number;
     title: string;
     cta_button_text: string;
@@ -117,7 +117,7 @@ export interface FAbleToWorkBlock {
     }]
 }
 
-export interface WhoSuitableBlock {
+export interface WhoSuitableBlockProps {
     id: number;
     title: string;
     subtitle: string;
@@ -133,7 +133,7 @@ export interface WhoSuitableBlock {
     }]
 }
 
-export interface FBrandBlock {
+export interface FBrandBlockProps {
     id: number;
     title: string;
     subtitle: string;
@@ -142,7 +142,7 @@ export interface FBrandBlock {
     image_2: { id: string; }
 }
 
-export interface FValuesBlock {
+export interface FValuesBlockProps {
     id: number;
     title: string;
     subtitle: string;
@@ -157,13 +157,13 @@ export interface FValuesBlock {
     }]
 }
 
-export interface FAboutCateringBlock {
+export interface FAboutCateringBlockProps {
     id: number;
     title: string;
     subtitle: string;
 }
 
-export interface FPartnersBlock {
+export interface FPartnersBlockProps {
     id: number;
     title: string;
     f_partners_cards: [{

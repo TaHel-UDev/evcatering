@@ -24,7 +24,7 @@ function FFirstScreen({
                 collection: 'f_main_screen',
                 item: FMainScreenData.id,
                 fields: 'background',
-                mode: 'popover'
+                mode: 'drawer'
             })}
         >
             <section

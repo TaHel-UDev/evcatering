@@ -1,15 +1,18 @@
+import FAboutBlock from "@/features/components/f-about-block/f-about-block";
 import FFirstScreen from "@/features/components/f-first-screen/f-first-screen";
-import { FMainScreen } from "@/features/shared/types";
+import { FAboutBlockProps, FMainScreen } from "@/features/shared/types";
 import { createDirectus, readItems, rest } from "@directus/sdk";
 import Head from "next/head";
 
 export default function Franchise
     (
         {
-            FMainScreenData
+            FMainScreenData,
+            FAboutBlockData,
         }:
             {
-                FMainScreenData: FMainScreen
+                FMainScreenData: FMainScreen,
+                FAboutBlockData: FAboutBlockProps
             }
     ) {
     return (
@@ -27,6 +30,10 @@ export default function Franchise
             <FFirstScreen
                 FMainScreenData={FMainScreenData}
             />
+
+            <FAboutBlock
+                FAboutData={FAboutBlockData}
+            />
         </>
     )
 }
@@ -40,9 +47,15 @@ export async function getServerSideProps(context: any) {
         }));
         const FMainScreenData = Array.isArray(FMainScreenResult) ? FMainScreenResult[0] : FMainScreenResult
 
+        const FAboutBlockResult = await directus.request(readItems('f_about_block', {
+            fields: ['*.*.*'],
+        }));
+        const FAboutBlockData = Array.isArray(FAboutBlockResult) ? FAboutBlockResult[0] : FAboutBlockResult
+
         return {
             props: {
-                FMainScreenData
+                FMainScreenData,
+                FAboutBlockData,
             }
         }
     } catch (error) {
