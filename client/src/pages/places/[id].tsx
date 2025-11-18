@@ -1,5 +1,6 @@
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import { CityOption, MainPageMetaData, PlacesData, MapElementData } from "@/features/shared/types";
+import { GeneralFooterBlockProps } from "@/features/shared/types/general-footer-block.types";
 import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import { createDirectus, readItems, rest } from "@directus/sdk";
 import Text from "@/features/shared/ui/text/text";
@@ -15,12 +16,14 @@ export default function PlacePage(
         franchise,
         metaData,
         FilteredCities,
+        GeneralFooterBlockData,
     }: {
         placeData: PlacesData,
         mapData: MapElementData | null,
         franchise: any,
         metaData: MainPageMetaData,
         FilteredCities: CityOption[],
+        GeneralFooterBlockData: GeneralFooterBlockProps
     }
 ) {
     return (
@@ -88,7 +91,10 @@ export default function PlacePage(
 
             <QuestionFormBlock mapData={mapData} />
 
-            <FooterBlock cities={FilteredCities}/>
+            <FooterBlock 
+                cities={FilteredCities}
+                GeneralFooterBlockData={GeneralFooterBlockData}
+            />
         </>
     )
 }
@@ -136,6 +142,11 @@ export async function getServerSideProps(context: any) {
         // Глобальные данные (одинаковые для всех франчайзи)
         const metaDataResult = await directus.request(readItems('main_page'));
         const metaData = Array.isArray(metaDataResult) ? metaDataResult[0] : metaDataResult;
+
+        const GeneralFooterBlockResult = await directus.request(readItems('general_footer_block', {
+            fields: ['*.*.*'],
+        }));
+        const GeneralFooterBlockData = Array.isArray(GeneralFooterBlockResult) ? GeneralFooterBlockResult[0] : GeneralFooterBlockResult;
 
         if (!metaData) {
             console.error('❌ Критические данные отсутствуют!');
@@ -214,6 +225,7 @@ export async function getServerSideProps(context: any) {
                 hasCases,
                 hasPlaces,
                 hasReviews,
+                GeneralFooterBlockData,
             }
         }
     } catch (error) {

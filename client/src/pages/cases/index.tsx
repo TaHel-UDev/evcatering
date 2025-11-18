@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { createDirectus, readItems, rest } from "@directus/sdk";
 import { CaseData, CityOption, MainPageMetaData, MapElementData } from "@/features/shared/types";
+import { GeneralFooterBlockProps } from "@/features/shared/types/general-footer-block.types";
 import CasesBlock from "@/features/components/cases-block/cases-block";
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import QuestionFormBlock from "@/features/components/forms/question-form/question-form-block";
@@ -15,6 +16,7 @@ export default function CasesPage(
         cities,
         FilteredCities,
         isMainPage,
+        GeneralFooterBlockData,
     }: {
         metaData: MainPageMetaData,
         casesData: CaseData[],
@@ -23,6 +25,7 @@ export default function CasesPage(
         cities: CityOption[],
         FilteredCities: CityOption[],
         isMainPage: boolean,
+        GeneralFooterBlockData: GeneralFooterBlockProps
     }
 ) {
     return (
@@ -45,7 +48,10 @@ export default function CasesPage(
 
             <QuestionFormBlock mapData={mapData} />
 
-            <FooterBlock cities={FilteredCities}/>
+            <FooterBlock 
+                cities={FilteredCities}
+                GeneralFooterBlockData={GeneralFooterBlockData}
+            />
         </>
     )
 }
@@ -93,6 +99,11 @@ export async function getServerSideProps(context: any) {
         // Глобальные данные (одинаковые для всех франчайзи)
         const metaDataResult = await directus.request(readItems('main_page'));
         const metaData = Array.isArray(metaDataResult) ? metaDataResult[0] : metaDataResult;
+
+        const GeneralFooterBlockResult = await directus.request(readItems('general_footer_block', {
+            fields: ['*.*.*'],
+        }));
+        const GeneralFooterBlockData = Array.isArray(GeneralFooterBlockResult) ? GeneralFooterBlockResult[0] : GeneralFooterBlockResult;
 
         if (!metaData) {
             console.error('❌ Критические данные отсутствуют!');
@@ -152,6 +163,7 @@ export async function getServerSideProps(context: any) {
                 hasCases: casesData.length > 0,
                 hasPlaces,
                 hasReviews,
+                GeneralFooterBlockData,
             }
         }
     } catch (error) {
