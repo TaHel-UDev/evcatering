@@ -53,18 +53,20 @@ function MissionBlock({ missionBlockData, workBlockData }: { missionBlockData: M
                 />
             </div>
 
-            <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                <div
-                    data-directus={setAttr({
-                        collection: 'work_block',
-                        item: workBlockData.id,
-                        fields: 'work_points',
-                        mode: 'drawer'
-                    })}
-                    className="grid lg:grid-cols-1 xl:grid-cols-3 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]"
-                >
+            <div 
+                data-directus={setAttr({
+                    collection: 'work_block',
+                    item: workBlockData.id,
+                    fields: 'work_points',
+                    mode: 'drawer'
+                })}
+                className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]"
+            >
+                {/* Первые 3 пункта */}
+                <div className="grid lg:grid-cols-1 xl:grid-cols-3 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                     {workBlockData.work_points
                         .sort((a, b) => a.item.point - b.item.point)
+                        .slice(0, 3)
                         .map((point) => (
                             <NumericText
                                 key={point.id}
@@ -73,6 +75,22 @@ function MissionBlock({ missionBlockData, workBlockData }: { missionBlockData: M
                             />
                         ))}
                 </div>
+
+                {/* Пункты 4 и 5 */}
+                {workBlockData.work_points.length > 3 && (
+                    <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+                        {workBlockData.work_points
+                            .sort((a, b) => a.item.point - b.item.point)
+                            .slice(3, 5)
+                            .map((point) => (
+                                <NumericText
+                                    key={point.id}
+                                    number={point.item.point}
+                                    description={point.item.text}
+                                />
+                            ))}
+                    </div>
+                )}
             </div>
         </BlockWrapper>
     )
