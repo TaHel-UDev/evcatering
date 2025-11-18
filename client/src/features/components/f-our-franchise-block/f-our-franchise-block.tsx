@@ -42,7 +42,7 @@ function FOurFranchiseBlock({
                     </div>
                     <div className="col-span-12 lg:col-span-7 flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                         <div className="col-span-12 lg:col-span-7 flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                            <Text as="p" variant="h3" className="font-semibold text-brown">
+                            <Text as="p" variant="h4" className="font-semibold text-brown">
                                 {FOurFranchiseBlockData.subtitle}
                             </Text>
                             <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">

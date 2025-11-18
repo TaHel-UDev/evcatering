@@ -36,7 +36,7 @@ function FProspectsBlock({
                     <div className="col-span-12 flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                         <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                             <div
-                                className="2xl:text-[2.25rem] leading-[1] lg:text-[1.75rem] md:text-[1.375rem] sm:text-[1.5rem] max-sm:text-[1.375rem] persprect"
+                                className="2xl:text-[1.75rem] leading-[1] lg:text-[1.375rem] md:text-[1.125rem] sm:text-[1.25rem] max-sm:text-[1.125rem] persprect"
                                 dangerouslySetInnerHTML={{ __html: FProspectsBlockData?.content }}
                             />
                             <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">

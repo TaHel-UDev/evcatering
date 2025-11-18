@@ -37,7 +37,7 @@ function FConditionsBlock({
                             className="grid grid-cols-12 border border-brown rounded-[0.75rem] items-center"
                         >
                             <div className="flex flex-col justify-center h-full col-span-12 lg:col-span-5 bg-brown p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] rounded-[0.75rem_0.75rem_0_0] lg:rounded-[0.75rem_0_0_0.75rem]">
-                                <Text as="p" variant="h4" className="text-white">
+                                <Text as="p" variant="lead" className="text-white">
                                     {item.item.title}
                                 </Text>
                             </div>

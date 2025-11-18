@@ -33,7 +33,7 @@ function FInvestmentBlock({
                 >
                     <div className="col-span-12 lg:col-span-6 flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                         <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                            <Text as="p" variant="h3">
+                            <Text as="p" variant="h4">
                                 {FInvestmentBlockData.subtitle}
                             </Text>
                             <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">

@@ -60,10 +60,9 @@ export default function Franchise
                 <title>
                     Эстетика Вкуса - Франшиза
                 </title>
-                <meta name="description" content="Описание" />
-                <meta name="keywords" content="Ключевые слова" />
+                <meta name="description" content="Эстетика Вкуса - Франшиза" />
                 <meta property="og:title" content="Эстетика Вкуса - Франшиза" />
-                <meta property="og:description" content="Описание" />
+                <meta property="og:description" content="Эстетика Вкуса - Франшиза" />
             </Head>
 
             <FFirstScreen
