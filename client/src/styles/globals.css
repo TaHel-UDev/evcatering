@@ -246,3 +246,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.persprect a {
+  color: var(--color-brown);
+  text-decoration: underline;
+}
+
+.persprect a:hover {
+  color: var(--color-green);
+  text-decoration: underline;
+}

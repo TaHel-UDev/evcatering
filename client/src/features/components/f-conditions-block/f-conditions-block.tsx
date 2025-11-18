@@ -30,27 +30,26 @@ function FConditionsBlock({
                     title={ConditionsBlockData.title}
                 />
 
-                {ConditionsBlockData.conditions_block_cards.map((item) => (
-                    <div
-                        key={item.id}
-                        className="grid grid-cols-12 border border-brown rounded-[0.75rem] items-center"
-                    >
-                        <div className="flex flex-col justify-center h-full col-span-12 lg:col-span-5 bg-brown p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] rounded-[0.75rem_0.75rem_0_0] lg:rounded-[0.75rem_0_0_0.75rem]">
-                            <Text as="p" variant="h4" className="text-white">
-                                {item.item.title}
-                            </Text>
-                        </div>
+                <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+                    {ConditionsBlockData.conditions_block_cards.map((item) => (
+                        <div
+                            key={item.id}
+                            className="grid grid-cols-12 border border-brown rounded-[0.75rem] items-center"
+                        >
+                            <div className="flex flex-col justify-center h-full col-span-12 lg:col-span-5 bg-brown p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] rounded-[0.75rem_0.75rem_0_0] lg:rounded-[0.75rem_0_0_0.75rem]">
+                                <Text as="p" variant="h4" className="text-white">
+                                    {item.item.title}
+                                </Text>
+                            </div>
 
-                        <div className="flex flex-col justify-center h-full col-span-12 lg:col-span-7 p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem]">
-                            <div
-                                className="advice_content"
-                                dangerouslySetInnerHTML={{ __html: item.item.description }}
-                            />
+                            <div className="flex flex-col justify-center h-full col-span-12 lg:col-span-7 p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem]">
+                                <div
+                                    className="advice_content"
+                                    dangerouslySetInnerHTML={{ __html: item.item.description }}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}
-                <div>
-
+                    ))}
                 </div>
             </div>
         </BlockWrapper>

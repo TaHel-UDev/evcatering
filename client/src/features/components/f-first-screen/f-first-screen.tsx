@@ -43,7 +43,7 @@ function FFirstScreen({
                     <Text as="h1" variant="h1" className="text-white font-bold">
                         {FMainScreenData.title}
                     </Text>
-                    <Text as="p" variant="h3" className="text-white">
+                    <Text as="p" variant="h4" className="font-light text-white max-w-[680px]">
                         {FMainScreenData.description}
                     </Text>
                 </div>

@@ -40,7 +40,7 @@ function FInvestmentBlock({
                                 {FInvestmentBlockData.f_investment_block_points.sort((a, b) => a.item.position - b.item.position).map((item) => (
                                     <div key={item.id} className="flex flex-row items-center gap-3">
                                         <Image
-                                            src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${item.item.icon}`}
+                                            src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${item.item.icon}.svg`}
                                             alt={FInvestmentBlockData.title}
                                             width={50}
                                             height={50}

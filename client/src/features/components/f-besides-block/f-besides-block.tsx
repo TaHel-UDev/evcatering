@@ -42,7 +42,7 @@ function FBesidesBlock({
                         />
                     </div>
                     <div className="col-span-12 lg:col-span-6 flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
-                        <div>
+                        <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                             {FBesidesBlockData.f_besides_block_points.sort((a, b) => a.item.point - b.item.point).map((item) => (
                                 <NumericText
                                     key={item.item.id}

@@ -36,14 +36,14 @@ function FProspectsBlock({
                     <div className="col-span-12 flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                         <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                             <div
-                                className="2xl:text-[2.25rem] leading-[1] lg:text-[1.75rem] md:text-[1.375rem] sm:text-[1.5rem] max-sm:text-[1.375rem]"
+                                className="2xl:text-[2.25rem] leading-[1] lg:text-[1.75rem] md:text-[1.375rem] sm:text-[1.5rem] max-sm:text-[1.375rem] persprect"
                                 dangerouslySetInnerHTML={{ __html: FProspectsBlockData?.content }}
                             />
                             <div className="flex flex-col gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                                 {FProspectsBlockData.f_prospects_block_points.sort((a, b) => a.item.position - b.item.position).map((item) => (
                                     <div key={item.id} className="flex flex-row items-center gap-3">
                                         <Image
-                                            src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${item.item.icon}`}
+                                            src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${item.item.icon}.svg`}
                                             alt={FProspectsBlockData.title}
                                             width={50}
                                             height={50}

@@ -28,9 +28,9 @@ function FAbleToWorkBlock({
                 />
 
                 <div
-                    className="grid grid-cols-12 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]"
+                    className="flex flex-col lg:flex-row gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]"
                 >
-                    <div className="col-span-12 lg:col-span-6 flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
+                    <div className="w-full flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                         <div className="flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                             {FAbleToWorkBlockData.f_able_to_work_block_cards.map((item) => (
                                 <div
@@ -59,13 +59,13 @@ function FAbleToWorkBlock({
                         </Modal>
                     </div>
 
-                    <div className="col-span-12 lg:col-span-6">
+                    <div className="w-full lg:w-[50%] h-fit">
                         <Image
                             src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${FAbleToWorkBlockData.image.id}`}
                             alt={FAbleToWorkBlockData.title}
                             width={491}
                             height={433}
-                            className="w-full object-cover rounded-[0.75rem]"
+                            className="w-full h-fit object-cover rounded-[0.75rem]"
                         />
                     </div>
 
