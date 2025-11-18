@@ -17,7 +17,7 @@ function DecideMenuForm({ decideMenuBlockData }: { decideMenuBlockData: DecideMe
                     fields: 'subtitle',
                     mode: 'popover'
                 })}>
-                    <Text as="p" variant="body-large" className="font-light text-white">
+                    <Text as="p" variant="lead" className="font-light text-white">
                         {decideMenuBlockData.subtitle}
                     </Text>
                 </div>
@@ -72,7 +72,7 @@ function DecideMenuForm({ decideMenuBlockData }: { decideMenuBlockData: DecideMe
                     width={704}
                     height={333}
                     quality={100}
-                    className="w-full object-cover min-h-[333px] rounded-r-[0.75rem]"
+                    className="w-full object-cover rounded-r-[0.75rem]"
                 />
             </div>
         </div>
