@@ -28,7 +28,7 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
 
     // Проверяем, находимся ли мы на главной странице
     const isOnMainPage = router.pathname === '/';
-    
+
     // Если не на главной странице - добавляем "/" к якорным ссылкам
     const getHref = (anchor: string) => isOnMainPage ? anchor : `/${anchor}`;
 
@@ -42,6 +42,121 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
     ];
 
     const menuItems = allMenuItems.filter(item => item.show);
+
+    const franchiseMenuItems = [
+        { label: "Что получают?", href: getHref("#what-get-block"), show: true },
+        { label: "Условия", href: getHref("#conditions"), show: true },
+        { label: "Инвестиции", href: getHref("#investment"), show: true },
+        { label: "Перспективы", href: getHref("#prospects"), show: true },
+        { label: "Кому подойдет?", href: getHref("#who-is-suitable"), show: true },
+        { label: "Ценности", href: getHref("#values"), show: true },
+        { label: "Партнеры", href: getHref("#partners"), show: true },
+    ];
+
+    if (router.asPath === "/franchise") {
+        return (
+            <>
+                <div className="fixed top-0 left-[50%] translate-x-[-50%] w-full z-[4] max-w-[1440px] px-[24px] lg:px-[48px] 2xl:px-[80px]">
+                    <div className={clsx(
+                        "flex flex-row",
+                        "mt-[42px] bg-brown rounded-[0.75rem] p-[0.75rem]",
+                    )}>
+                        <div className="flex flex-row items-center gap-[1.5rem] justify-between w-full">
+                            <div className="flex flex-row items-center gap-[0.75rem]">
+                                <Link href="/">
+                                    <Image
+                                        src="/static/header-logo.svg"
+                                        alt="Эстетика Вкуса"
+                                        width={30}
+                                        height={32}
+                                    />
+                                </Link>
+                            </div>
+
+                            {/* Центральная часть - Меню навигации (скрыто на lg и ниже) */}
+                            <div className="hidden xl:flex flex-row items-center gap-[1.5rem]">
+                                {franchiseMenuItems.map((item, index) => (
+                                    <Text key={index} href={item.href} variant="body-large" className="text-white no-underline">
+                                        {item.label}
+                                    </Text>
+                                ))}
+                            </div>
+
+                            {/* Правая часть - Телефон и кнопка (скрыто на lg и ниже) */}
+                            <div className="hidden xl:flex flex-row items-center gap-[0.75rem]">
+                                <Text href={`tel:+79636922379`} variant="body-large" className="text-white no-underline">
+                                    +7 (963) 692-23-79
+                                </Text>
+                            </div>
+
+                            {/* Кнопка гамбургера (показана на lg и ниже) */}
+                            <button
+                                onClick={toggleMenu}
+                                className="xl:hidden text-white focus:outline-none"
+                                aria-label="Toggle menu"
+                            >
+                                <Menu size={24} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Мобильное меню */}
+                <div
+                    className={clsx(
+                        "fixed top-0 right-0 h-full w-[80%] max-w-[300px] bg-brown z-[5] transform transition-transform duration-300 ease-in-out xl:hidden",
+                        isMenuOpen ? "translate-x-0" : "translate-x-full"
+                    )}
+                >
+                    <div className="flex flex-col h-full p-[1.5rem]">
+                        {/* Заголовок с кнопкой закрытия */}
+                        <div className="flex flex-row items-center justify-between mb-[2rem]">
+                            <Text as="p" variant="body-large" className="text-white font-semibold">
+                                Меню
+                            </Text>
+                            <button
+                                onClick={closeMenu}
+                                className="text-white focus:outline-none"
+                                aria-label="Close menu"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        {/* Навигационные ссылки */}
+                        <nav className="flex flex-col gap-[1.25rem] mb-[2rem]">
+                            {franchiseMenuItems.map((item, index) => (
+                                <Text
+                                    key={index}
+                                    href={item.href}
+                                    variant="body-large"
+                                    className="text-white no-underline"
+                                    onClick={closeMenu}
+                                >
+                                    {item.label}
+                                </Text>
+                            ))}
+                        </nav>
+
+                        {/* Контактная информация и кнопка */}
+                        <div className="mt-auto flex flex-col gap-[1rem]">
+                            <Text href={`tel:+79636922379`} variant="body-large" className="text-white no-underline">
+                                +7 (963) 692-23-79
+                            </Text>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Overlay (затемнение фона) */}
+                {isMenuOpen && (
+                    <div
+                        className="fixed inset-0 bg-black/50 z-[3] xl:hidden"
+                        onClick={closeMenu}
+                    />
+                )}
+            </>
+        )
+    }
 
     return (
         <>
@@ -61,7 +176,7 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
                                     height={32}
                                 />
                             </Link>
-                            <button 
+                            <button
                                 onClick={openModal}
                                 className="hidden sm:flex flex-row items-center gap-[0.25rem] cursor-pointer hover:opacity-80 transition-opacity"
                             >
@@ -86,7 +201,7 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
                             {currentCity?.phone && (
                                 <Text href={`tel:${formatPhoneForLink(currentCity.phone)}`} variant="body-large" className="text-white no-underline">
                                     {currentCity.phone}
-                            </Text>
+                                </Text>
                             )}
                             <Modal
                                 trigger={<Button variant="white" size="md">Оформить заявку</Button>}
@@ -134,7 +249,7 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
                     </div>
 
                     {/* Город */}
-                    <button 
+                    <button
                         onClick={openModal}
                         className="flex flex-row items-center gap-[0.25rem] mb-[2rem] sm:hidden cursor-pointer hover:opacity-80 transition-opacity"
                     >
@@ -164,7 +279,7 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
                         {currentCity?.phone && (
                             <Text href={`tel:${formatPhoneForLink(currentCity.phone)}`} variant="body-large" className="text-white no-underline">
                                 {currentCity.phone}
-                        </Text>
+                            </Text>
                         )}
                         <Modal
                             trigger={<Button variant="white" size="md" className="w-full">Оформить заявку</Button>}

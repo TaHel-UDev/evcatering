@@ -92,9 +92,6 @@ function FirstMainScreen({
                         </Modal>
                     </div>
                 </div>
-
-
-
             </section>
         </div>
     )
