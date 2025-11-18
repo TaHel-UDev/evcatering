@@ -44,13 +44,13 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
     const menuItems = allMenuItems.filter(item => item.show);
 
     const franchiseMenuItems = [
-        { label: "Что получают?", href: getHref("#what-get-block"), show: true },
-        { label: "Условия", href: getHref("#conditions"), show: true },
-        { label: "Инвестиции", href: getHref("#investment"), show: true },
-        { label: "Перспективы", href: getHref("#prospects"), show: true },
-        { label: "Кому подойдет?", href: getHref("#who-is-suitable"), show: true },
-        { label: "Ценности", href: getHref("#values"), show: true },
-        { label: "Партнеры", href: getHref("#partners"), show: true },
+        { label: "Что получают?", href: "#what-get-block", show: true },
+        { label: "Условия", href: "#conditions", show: true },
+        { label: "Инвестиции", href: "#investment", show: true },
+        { label: "Перспективы", href: "#prospects", show: true },
+        { label: "Кому подойдет?", href: "#who-is-suitable", show: true },
+        { label: "Ценности", href: "#values", show: true },
+        { label: "Партнеры", href: "#partners", show: true },
     ];
 
     if (router.asPath === "/franchise") {
