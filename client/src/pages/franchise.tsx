@@ -1,6 +1,8 @@
 import FAboutBlock from "@/features/components/f-about-block/f-about-block";
 import FFirstScreen from "@/features/components/f-first-screen/f-first-screen";
-import { FAboutBlockProps, FMainScreen } from "@/features/shared/types";
+import FOurFranchiseBlock from "@/features/components/f-our-franchise-block/f-our-franchise-block";
+import WhatGetBlock from "@/features/components/f-what-get-block/f-what-get-block";
+import { FAboutBlockProps, FMainScreen, FOurFranchiseBlockProps, WhatGetBlockProps } from "@/features/shared/types";
 import { createDirectus, readItems, rest } from "@directus/sdk";
 import Head from "next/head";
 
@@ -9,10 +11,14 @@ export default function Franchise
         {
             FMainScreenData,
             FAboutBlockData,
+            FOurFranchiseBlockData,
+            WhatGetBlockData,
         }:
             {
                 FMainScreenData: FMainScreen,
                 FAboutBlockData: FAboutBlockProps
+                FOurFranchiseBlockData: FOurFranchiseBlockProps,
+                WhatGetBlockData: WhatGetBlockProps,
             }
     ) {
     return (
@@ -34,6 +40,14 @@ export default function Franchise
             <FAboutBlock
                 FAboutData={FAboutBlockData}
             />
+
+            <FOurFranchiseBlock
+                FOurFranchiseBlockData={FOurFranchiseBlockData}
+            />
+
+            <WhatGetBlock
+                WhatGetBlockData={WhatGetBlockData}
+            />
         </>
     )
 }
@@ -52,10 +66,23 @@ export async function getServerSideProps(context: any) {
         }));
         const FAboutBlockData = Array.isArray(FAboutBlockResult) ? FAboutBlockResult[0] : FAboutBlockResult
 
+        const FOurFranchiseBlockResult = await directus.request(readItems('f_our_franchise_block', {
+            fields: ['*.*.*'],
+        }));
+        const FOurFranchiseBlockData = Array.isArray(FOurFranchiseBlockResult) ? FOurFranchiseBlockResult[0] : FOurFranchiseBlockResult
+
+        const WhatGetBlockResult = await directus.request(readItems('what_get_block', {
+            fields: ['*.*.*'],
+        }));
+        const WhatGetBlockData = Array.isArray(WhatGetBlockResult) ? WhatGetBlockResult[0] : WhatGetBlockResult
+
+
         return {
             props: {
                 FMainScreenData,
                 FAboutBlockData,
+                FOurFranchiseBlockData,
+                WhatGetBlockData,
             }
         }
     } catch (error) {
