@@ -9,6 +9,7 @@ import { setAttr } from "../../../../lib/visual-editor";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/features/shared/ui/carousel/carousel";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import ServiceFormatCard from "../service-formats-block/service-format-card";
+import Button from "@/features/shared/ui/button";
 
 function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decideMenuBlockData: DecideMenuBlockData, foodExampleBlockData: FoodExampleBlockData }) {
     const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
@@ -19,6 +20,41 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
 
     const handleMouseLeave = () => {
         setHoveredCardId(null);
+    };
+
+    const openGallery = (startIndex: number = 0) => {
+        // Открываем Fancybox галерею программно
+        if (typeof window !== 'undefined') {
+            import("@fancyapps/ui").then((module) => {
+                const { Fancybox } = module;
+                Fancybox.show(
+                    foodExampleBlockData.food_example_cards.map((card) => ({
+                        src: `${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${card.item.image}?quality=100&width=2000`,
+                        caption: card.item.name,
+                    })),
+                    {
+                        // Опции галереи для больших изображений
+                        startIndex: startIndex,
+                        Image: {
+                            zoom: true,
+                            click: "toggleZoom",
+                            wheel: "zoom",
+                        },
+                        Toolbar: {
+                            display: {
+                                left: [],
+                                middle: [],
+                                right: ["zoom", "slideshow", "close"],
+                            },
+                        },
+                    } as any
+                );
+            });
+        }
+    };
+
+    const handleCardClick = (cardIndex: number) => {
+        openGallery(cardIndex);
     };
 
     return (
@@ -69,6 +105,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                                 hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("row1")}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={() => handleCardClick(index)}
                             />
                         );
                     })}
@@ -89,6 +126,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                                 hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("row2")}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={() => handleCardClick(3 + index)}
                             />
                         );
                     })}
@@ -109,6 +147,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                                 hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("row3")}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={() => handleCardClick(6 + index)}
                             />
                         );
                     })}
@@ -116,14 +155,14 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
 
             </div>
 
-            <div className="flex md:hidden mb-[3rem] lg:mb-[1.8rem] 2xl:mb-[2rem]">
+            <div className="flex md:hidden">
                 <Carousel opts={{
                     align: "start",
                     loop: true,
                 }}
                     className="w-full">
                     <CarouselContent>
-                        {foodExampleBlockData.food_example_cards.map((card) => (
+                        {foodExampleBlockData.food_example_cards.map((card, index) => (
                             <CarouselItem key={card.id} className="basis-full">
                                 <FoodCard
                                     key={card.id}
@@ -135,6 +174,7 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                                     hasAnyHovered={hoveredCardId !== null && hoveredCardId.startsWith("food-example")}
                                     onMouseEnter={handleMouseEnter}
                                     onMouseLeave={handleMouseLeave}
+                                    onClick={() => handleCardClick(index)}
                                 />
                             </CarouselItem>
                         ))}
@@ -146,6 +186,17 @@ function DecideMenuBlock({ decideMenuBlockData, foodExampleBlockData }: { decide
                         <ArrowRightIcon className="size-4" />
                     </CarouselNext>
                 </Carousel>
+            </div>
+
+            {/* Кнопка "Посмотреть больше" */}
+            <div className="flex justify-center mt-[1.5rem] lg:mt-[1.8rem] 2xl:mt-[2rem] mb-[3rem] lg:mb-[1.8rem] 2xl:mb-[2rem]">
+                <Button
+                    variant="primary"
+                    size="md"
+                    onClick={() => openGallery()}
+                >
+                    Посмотреть больше
+                </Button>
             </div>
         </BlockWrapper>
     )

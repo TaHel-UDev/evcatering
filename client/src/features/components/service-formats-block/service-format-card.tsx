@@ -30,7 +30,7 @@ function ServiceFormatCard({
             })}
         >
             <Image
-                src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${serviceFormat.item.image}.png`}
+                src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${serviceFormat.item.image}`}
                 alt={serviceFormat.item.name}
                 width={628}
                 height={230}

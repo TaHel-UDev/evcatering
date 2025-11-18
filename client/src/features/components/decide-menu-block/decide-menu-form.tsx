@@ -65,14 +65,14 @@ function DecideMenuForm({ decideMenuBlockData }: { decideMenuBlockData: DecideMe
                 item: decideMenuBlockData.id,
                 fields: 'image',
                 mode: 'popover'
-            })} className="w-full h-full hidden xl:flex items-center justify-center">
+            })} className=" h-fit hidden xl:flex items-center justify-center">
                 <Image
                     src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${decideMenuBlockData.image.id}`}
                     alt={decideMenuBlockData.title}
                     width={704}
                     height={333}
                     quality={100}
-                    className="w-full object-cover rounded-r-[0.75rem]"
+                    className="object-cover rounded-r-[0.75rem]"
                 />
             </div>
         </div>

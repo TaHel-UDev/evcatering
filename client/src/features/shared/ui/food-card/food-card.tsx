@@ -9,9 +9,10 @@ interface FoodCardProps {
     onMouseEnter: (id: string) => void;
     onMouseLeave: () => void;
     image: string;
+    onClick?: () => void;
 }
 
-function FoodCard({ title, size, id, isHovered, hasAnyHovered, onMouseEnter, onMouseLeave, image }: FoodCardProps) {
+function FoodCard({ title, size, id, isHovered, hasAnyHovered, onMouseEnter, onMouseLeave, image, onClick }: FoodCardProps) {
     // Определяем размер карточки в зависимости от состояния наведения (только для десктопа)
     const getDesktopFlexBasis = () => {
         if (hasAnyHovered) {
@@ -25,7 +26,7 @@ function FoodCard({ title, size, id, isHovered, hasAnyHovered, onMouseEnter, onM
 
     return (
         <div
-            className="group relative w-full lg:w-auto flex flex-col justify-end min-h-[200px] lg:min-h-[262px] rounded-[0.75rem] p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] overflow-hidden"
+            className="group relative w-full lg:w-auto flex flex-col justify-end min-h-[200px] lg:min-h-[262px] rounded-[0.75rem] p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] overflow-hidden cursor-pointer"
             style={{
                 flexBasis: getDesktopFlexBasis(),
                 flexShrink: 0,
@@ -38,6 +39,7 @@ function FoodCard({ title, size, id, isHovered, hasAnyHovered, onMouseEnter, onM
             }}
             onMouseEnter={() => onMouseEnter(id)}
             onMouseLeave={onMouseLeave}
+            onClick={onClick}
         >
             <Text as="p" variant="body-large" className="font-medium text-white lg:text-transparent z-[2] group-hover:text-white transition-all duration-300">
                 {title}
