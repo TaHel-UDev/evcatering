@@ -134,7 +134,7 @@ export default function QuestionForm() {
                                 name={name}
                                 value={value || ""}
                                 onChange={(e) => onChange(e.target.value)}
-                                label="Предпочтения"
+                                label="Запрос"
                                 placeholder="Опишите ваш запрос по мероприятию и пространству"
                                 errorText={error}
                                 autoResize

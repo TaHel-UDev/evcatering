@@ -9,7 +9,7 @@ function MissionBlock({ missionBlockData, workBlockData }: { missionBlockData: M
     return (
         <BlockWrapper>
             <div
-                id="mission-block"
+                id="why-us-block"
                 data-directus={setAttr({
                     collection: 'mission_block',
                     item: missionBlockData.id,

@@ -9,7 +9,9 @@ export interface WhyUsCard {
   item: {
     id: number;
     title: string;
-    subtitle: string;
-    image: { id: string };
+    images: [{
+      id: number;
+      directus_files_id: string;
+    }];
   }
 }

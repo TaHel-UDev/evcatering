@@ -33,9 +33,9 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
     const getHref = (anchor: string) => isOnMainPage ? anchor : `/${anchor}`;
 
     const allMenuItems = [
+        { label: "Как это работает", href: getHref("#why-us-block"), show: true },
         { label: "Форматы", href: getHref("#service-formats-block"), show: true },
         { label: "Меню", href: getHref("#decide-menu-block"), show: true },
-        { label: "Почему мы?", href: getHref("#why-us-block"), show: true },
         { label: "Кейсы", href: getHref("#cases-block"), show: hasCases },
         { label: "Площадки", href: getHref("#places-block"), show: hasPlaces },
         { label: "Контакты", href: getHref("#contact-block"), show: true },

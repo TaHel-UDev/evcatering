@@ -10,10 +10,12 @@ import FirstMainScreen from "@/features/components/first-main-screen/first-main-
 import FooterBlock from "@/features/components/footer-block/footer-block";
 import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
-import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData, MapElementData, DecideMenuBlockData, WhyUsBlockData, FoodExampleBlockData } from "@/features/shared/types";
+import { MainPageMetaData, FirstScreenData, MissionBlockData, WorkBlockData, ServiceFormatsBlockData, CityOption, ChooseFormatBlockData, CaseData, PlacesData, ReviewsData, MapElementData, DecideMenuBlockData, WhyUsBlockData, FoodExampleBlockData, AddColorsBlockProps } from "@/features/shared/types";
 import Head from "next/head";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/features/shared/ui/carousel/carousel";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import AddColorsBlock from "@/features/components/add-colors-block/add-colors-block";
+import { GeneralFooterBlockProps } from "@/features/shared/types/general-footer-block.types";
 
 export default function Home
   (
@@ -35,6 +37,8 @@ export default function Home
       franchise,
       cities,
       isMainPage,
+      AddColorsBlockData,
+      GeneralFooterBlockData,
     }:
       {
         metaData: MainPageMetaData,
@@ -54,6 +58,8 @@ export default function Home
         franchise: any,
         cities: CityOption[],
         isMainPage: boolean,
+        AddColorsBlockData: AddColorsBlockProps,
+        GeneralFooterBlockData: GeneralFooterBlockProps
       }
   ) {
   return (
@@ -87,6 +93,10 @@ export default function Home
 
       <DecideMenuBlock decideMenuBlockData={decideMenuBlockData} foodExampleBlockData={foodExampleBlockData} />
 
+      <AddColorsBlock
+        AddColorsBlockData={AddColorsBlockData}
+      />
+
       <WhyUsBlock whyUsBlockData={whyUsBlockData} />
 
       {casesData.length > 0 && (
@@ -103,7 +113,10 @@ export default function Home
 
       <QuestionFormBlock mapData={mapData} />
 
-      <FooterBlock cities={FilteredCities} />
+      <FooterBlock
+        cities={FilteredCities}
+        GeneralFooterBlockData={GeneralFooterBlockData}
+      />
     </>
   );
 }
@@ -188,9 +201,19 @@ export async function getServerSideProps(context: any) {
     const foodExampleBlockData = Array.isArray(foodExampleBlockDataResult) ? foodExampleBlockDataResult[0] : foodExampleBlockDataResult;
 
     const whyUsBlockDataResult = await directus.request(readItems('why_us_block', {
-      fields: ['*.*.*'],
+      fields: ['*.*.*.*'],
     }));
     const whyUsBlockData = Array.isArray(whyUsBlockDataResult) ? whyUsBlockDataResult[0] : whyUsBlockDataResult;
+
+    const AddColorsBlockResult = await directus.request(readItems('add_colors_block', {
+      fields: ['*.*.*'],
+    }));
+    const AddColorsBlockData = Array.isArray(AddColorsBlockResult) ? AddColorsBlockResult[0] : AddColorsBlockResult;
+
+    const GeneralFooterBlockResult = await directus.request(readItems('general_footer_block', {
+      fields: ['*.*.*'],
+    }));
+    const GeneralFooterBlockData = Array.isArray(GeneralFooterBlockResult) ? GeneralFooterBlockResult[0] : GeneralFooterBlockResult;
 
     if (!metaData) {
       console.error('❌ Критические данные отсутствуют!');
@@ -261,6 +284,8 @@ export async function getServerSideProps(context: any) {
         hasCases,
         hasPlaces,
         hasReviews,
+        AddColorsBlockData,
+        GeneralFooterBlockData,
       }
     }
   } catch (error) {

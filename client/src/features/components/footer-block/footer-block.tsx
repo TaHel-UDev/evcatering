@@ -7,8 +7,9 @@ import QuestionForm from "../forms/question-form/question-form";
 import { CityOption } from "@/features/shared/types";
 import { formatPhoneForLink } from "@/features/shared/utils/phone";
 import Link from "next/link";
+import { GeneralFooterBlockProps } from "@/features/shared/types/general-footer-block.types";
 
-function FooterBlock({ cities }: { cities: CityOption[] }) {
+function FooterBlock({ cities, GeneralFooterBlockData }: { cities: CityOption[], GeneralFooterBlockData: GeneralFooterBlockProps }) {
 
     if (cities.length === 0) {
         return null;
@@ -29,20 +30,18 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
 
                     <div className="flex flex-col md:flex-row gap-[1.5rem] justify-between md:items-center">
 
-                        <div className="flex flex-col gap-[1.5rem] md:gap-[2rem]">
-                            <Text as="p" variant="h3" className="text-white font-medium uppercase">
-                                Звоните, <br />
-                                мы все устроим!
-                            </Text>
+                        <div className="flex flex-col gap-[1.5rem] md:gap-[2rem] max-w-[540px]">
+                            <p
+                                dangerouslySetInnerHTML={{ __html: GeneralFooterBlockData.title }}
+                                className="text-white font-medium uppercase 2xl:text-[2.25rem] leading-[1] lg:text-[1.75rem] md:text-[1.375rem] sm:text-[1.5rem] max-sm:text-[1.375rem]"
+                            />
 
                             <Text as="p" variant="body-large" className="text-white font-light">
-                                Если у Вас нет возможности позвонить нам, <br />
-                                напишите прямо здесь, в форме обратной связи. <br />
-                                Мы перезвоним Вам в ближайшее время.
+                                {GeneralFooterBlockData.subtitle}
                             </Text>
 
                             <Modal
-                                trigger={<Button variant="white" size="md" className="w-fit">Оформить заявку</Button>}
+                                trigger={<Button variant="white" size="md" className="w-fit">{GeneralFooterBlockData.cta_button_text}</Button>}
                                 title="Оформить заявку"
                                 size="md"
                             >
