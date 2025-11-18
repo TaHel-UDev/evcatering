@@ -3,22 +3,26 @@ import Image from "next/image"
 import { Text } from "@/features/shared/ui/text";
 import Button from "@/features/shared/ui/button";
 import Modal, { ModalBody } from "@/features/shared/ui/modal";
-import QuestionForm from "../forms/question-form/question-form";
-import { CityOption } from "@/features/shared/types";
+import { FFooterBlockProps } from "@/features/shared/types";
 import { formatPhoneForLink } from "@/features/shared/utils/phone";
+import { setAttr } from "@directus/visual-editing";
+import FranchiseForm from "../forms/question-form/franchise-form";
 import Link from "next/link";
 
-function FooterBlock({ cities }: { cities: CityOption[] }) {
-
-    if (cities.length === 0) {
-        return null;
-    }
+function FFooterBlock({ FFooterBlockData }: { FFooterBlockData: FFooterBlockProps }) {
 
     return (
         <footer id="contact-block" className={clsx(
             "relative bg-green overflow-hidden",
             "mt-[calc(42px+48px+56px)] lg:mt-[calc(42px+64px+56px)] xl:mt-[calc(42px+56px+64px)]",
-        )}>
+        )}
+            data-directus={setAttr({
+                collection: 'f_footer_block',
+                item: FFooterBlockData.id,
+                fields: 'title, subtitle, cta_button_text, city, phone, mail, time, adress',
+                mode: 'drawer'
+            })}
+        >
             <section
                 className={clsx(
                     "xl:max-w-[1440px] mx-auto relative z-[2]",
@@ -29,16 +33,13 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
 
                     <div className="flex flex-col md:flex-row gap-[1.5rem] justify-between md:items-center">
 
-                        <div className="flex flex-col gap-[1.5rem] md:gap-[2rem]">
+                        <div className="flex flex-col gap-[1.5rem] md:gap-[2rem] max-w-[540px]">
                             <Text as="p" variant="h3" className="text-white font-medium uppercase">
-                                Звоните, <br />
-                                мы все устроим!
+                                {FFooterBlockData.title}
                             </Text>
 
                             <Text as="p" variant="body-large" className="text-white font-light">
-                                Если у Вас нет возможности позвонить нам, <br />
-                                напишите прямо здесь, в форме обратной связи. <br />
-                                Мы перезвоним Вам в ближайшее время.
+                                {FFooterBlockData.subtitle}
                             </Text>
 
                             <Modal
@@ -47,7 +48,7 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
                                 size="md"
                             >
                                 <ModalBody>
-                                    <QuestionForm />
+                                    <FranchiseForm />
                                 </ModalBody>
                             </Modal>
                         </div>
@@ -55,14 +56,16 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
                         <div className="flex flex-col gap-[2rem] md:gap-[2.6rem]">
 
                             <div className="flex flex-col gap-[1rem]">
-                                <Text as="p" variant="h4" className="text-white md:text-end">
-                                    {cities[0].name}
+                                {FFooterBlockData.city &&
+                                    <Text as="p" variant="h4" className="text-white md:text-end">
+                                        {FFooterBlockData.city}
+                                    </Text>
+                                }
+                                <Text href={`tel:${formatPhoneForLink(FFooterBlockData.phone)}`} variant="body-large" className="text-white md:text-end">
+                                    {FFooterBlockData.phone}
                                 </Text>
-                                <Text href={`tel:${formatPhoneForLink(cities[0].phone)}`} variant="body-large" className="text-white md:text-end">
-                                    {cities[0].phone}
-                                </Text>
-                                <Text href={`mailto:${cities[0].mail}`} variant="body-large" className="text-white md:text-end">
-                                    {cities[0].mail}
+                                <Text href={`mailto:${FFooterBlockData.mail}`} variant="body-large" className="text-white md:text-end">
+                                    {FFooterBlockData.mail}
                                 </Text>
                             </div>
 
@@ -71,7 +74,7 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
                                     Время работы:
                                 </Text>
                                 <Text as="p" variant="h4" className="text-white md:text-end">
-                                    {cities[0].open_time}
+                                    {FFooterBlockData.time}
                                 </Text>
                             </div>
 
@@ -104,7 +107,7 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
 
                             <div className="flex flex-col gap-[0.75rem]">
                                 <Text as="p" variant="body" className="text-white font-light">
-                                    {cities[0].address}
+                                    {FFooterBlockData.adress}
                                 </Text>
                                 <Text as="p" variant="body" className="text-white font-light">
                                     © Эстетика Вкуса
@@ -131,4 +134,4 @@ function FooterBlock({ cities }: { cities: CityOption[] }) {
     )
 }
 
-export default FooterBlock
+export default FFooterBlock

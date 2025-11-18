@@ -20,20 +20,14 @@ type FormData = z.infer<typeof formSchema>;
 
 // Компонент формы
 export default function FranchiseForm() {
-    const { currentCity } = useCitySelector();
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
 
     const handleSubmit = async (data: FormData) => {
         setSubmitError(null);
 
-        if (!currentCity?.id) {
-            setSubmitError('Не удалось определить ваш город. Пожалуйста, выберите город.');
-            return;
-        }
-
         try {
-            const response = await fetch('/api/requests', {
+            const response = await fetch('/api/f_requests', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,8 +35,7 @@ export default function FranchiseForm() {
                 body: JSON.stringify({
                     name: data.name,
                     phone: data.phone,
-                    preferences: data.comment || null,
-                    franchise_id: currentCity.id,
+                    comment: data.comment || null,
                 }),
             });
 

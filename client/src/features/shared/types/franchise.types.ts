@@ -112,7 +112,7 @@ export interface FAbleToWorkBlockProps {
         item: {
             id: number;
             title: string;
-            subtitle: string;
+            subtitle?: string;
         }
     }]
 }
@@ -175,4 +175,16 @@ export interface FPartnersBlockProps {
             subtitle: string;
         }
     }]
+}
+
+export interface FFooterBlockProps {
+    id: number;
+    title: string;
+    subtitle: string;
+    cta_button_text: string;
+    city?: string;
+    phone: string;
+    mail: string;
+    time: string;
+    adress?: string;
 }

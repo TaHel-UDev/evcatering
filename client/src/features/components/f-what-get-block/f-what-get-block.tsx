@@ -3,8 +3,6 @@ import BlockWrapper from "@/features/shared/ui/block-wrapper";
 import Button from "@/features/shared/ui/button";
 import BlockHeadline from "@/features/shared/ui/headline/block-headline";
 import Modal, { ModalBody } from "@/features/shared/ui/modal";
-import NumericText from "@/features/shared/ui/numeric-text/numeric-text";
-import { Text } from "@/features/shared/ui/text";
 import { setAttr } from "@directus/visual-editing";
 import Image from "next/image";
 import FranchiseForm from "../forms/question-form/franchise-form";
