@@ -44,7 +44,7 @@ function FConditionsBlock({
 
                             <div className="flex flex-col justify-center h-full col-span-12 lg:col-span-7 p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem]">
                                 <div
-                                    className="advice_content"
+                                    className="advice_content 2xl:text-[1.25rem] leading-[1.2] lg:text-[1.125rem] md:text-[1rem] sm:text-[1rem] max-sm:text-[1rem]"
                                     dangerouslySetInnerHTML={{ __html: item.item.description }}
                                 />
                             </div>

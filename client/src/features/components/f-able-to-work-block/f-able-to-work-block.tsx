@@ -35,13 +35,13 @@ function FAbleToWorkBlock({
                             {FAbleToWorkBlockData.f_able_to_work_block_cards.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="flex flex-col gap-1"
+                                    className="flex flex-col gap-2"
                                 >
                                     <Text as="p" variant="h4">
                                         {item.item.title}
                                     </Text>
                                     {item.item.subtitle &&
-                                        <Text as="p" variant="body-large">
+                                        <Text as="p" variant="lead" className="font-light">
                                             {item.item.subtitle}
                                         </Text>
                                     }

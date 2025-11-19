@@ -43,10 +43,10 @@ function FValuesBlock({
                                     "col-span-12 lg:col-span-4": item.item.size !== "3/12"
                                 }
                             )}>
-                                <Text as="p" variant="h5" className="text-white">
+                                <Text as="p" variant="lead" className="text-white">
                                     {item.item.title}
                                 </Text>
-                                <Text as="p" variant="body-large" className="text-white">
+                                <Text as="p" variant="body-large" className="text-white font-light">
                                     {item.item.subtitle}
                                 </Text>
                             </div>

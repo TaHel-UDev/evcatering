@@ -170,6 +170,7 @@ const QuizFormModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   answers: any[];
+  result: any;
   formFields: any[];
   formTitle: string;
   formDescription?: string;
@@ -178,6 +179,7 @@ const QuizFormModal: React.FC<{
   isOpen,
   onClose,
   answers,
+  result,
   formFields,
   formTitle,
   formDescription,
@@ -201,17 +203,28 @@ const QuizFormModal: React.FC<{
         await customOnSubmit(data, answers);
       } else {
         // Иначе используем стандартную отправку
-        // Формируем комментарий с ответами из квиза
-        const quizAnswersText = answers.length > 0 
-          ? "\n\nОтветы из квиза:\n" + answers.map((answer) => {
-              const value = Array.isArray(answer.value)
-                ? answer.labels?.join(", ") || answer.value.join(", ")
-                : typeof answer.value === "boolean"
-                ? answer.value ? "Да" : "Нет"
-                : answer.labels?.[0] || answer.value;
-              return `${answer.questionTitle}: ${value}`;
-            }).join("\n")
-          : "";
+        // Формируем комментарий с результатом и ответами из квиза
+        let quizDataText = "";
+        
+        // Добавляем результат в начало
+        if (result) {
+          quizDataText += `\n\n📊 Результат: ${result.title}`;
+          if (result.description) {
+            quizDataText += `\n${result.description}`;
+          }
+        }
+        
+        // Добавляем ответы
+        if (answers.length > 0) {
+          quizDataText += "\n\n📝 Ответы из квиза:\n" + answers.map((answer) => {
+            const value = Array.isArray(answer.value)
+              ? answer.labels?.join(", ") || answer.value.join(", ")
+              : typeof answer.value === "boolean"
+              ? answer.value ? "Да" : "Нет"
+              : answer.labels?.[0] || answer.value;
+            return `${answer.questionTitle}: ${value}`;
+          }).join("\n");
+        }
 
         const response = await fetch('/api/requests', {
           method: 'POST',
@@ -221,18 +234,18 @@ const QuizFormModal: React.FC<{
           body: JSON.stringify({
             name: data.name,
             phone: data.phone,
-            preferences: (data.comment || '') + quizAnswersText,
+            preferences: (data.comment || '') + quizDataText,
             franchise_id: currentCity.id,
           }),
         });
 
-        const result = await response.json();
+        const apiResult = await response.json();
 
         if (!response.ok) {
-          throw new Error(result.error || 'Ошибка отправки заявки');
+          throw new Error(apiResult.error || 'Ошибка отправки заявки');
         }
 
-        console.log('✅ Заявка из квиза успешно отправлена:', result.data);
+        console.log('✅ Заявка из квиза успешно отправлена:', apiResult.data);
       }
 
       setSubmitSuccess(true);
@@ -286,24 +299,40 @@ const QuizFormModal: React.FC<{
         {({ formState }) => (
           <>
             <ModalBody>
-              {/* Ответы пользователя из квиза */}
-              {/* {answers.length > 0 && (
+              {/* Результат и ответы пользователя из квиза */}
+              {(result || answers.length > 0) && (
                 <div className={quizFormStyles.answersSection + " mb-4"}>
-                  <h4 className={quizFormStyles.answersTitle}>Ваши ответы:</h4>
+                  <h4 className={quizFormStyles.answersTitle}>Результаты квиза:</h4>
                   <div className={quizFormStyles.answersList}>
-                    {answers.map((answer, index) => (
-                      <div key={index}>
-                        <strong>{answer.questionTitle}:</strong>{" "}
-                        {Array.isArray(answer.value)
-                          ? answer.labels?.join(", ") || answer.value.join(", ")
-                          : typeof answer.value === "boolean"
-                          ? answer.value ? "Да" : "Нет"
-                          : answer.labels?.[0] || answer.value}
+                    {/* Отображаем результат в начале */}
+                    {result && (
+                      <div className="mb-3 pb-3 border-b border-gray-200">
+                        <strong className="text-green">📊 Результат:</strong>{" "}
+                        <span className="font-semibold">{result.title}</span>
+                        {result.description && (
+                          <p className="text-sm text-gray-600 mt-1">{result.description}</p>
+                        )}
                       </div>
-                    ))}
+                    )}
+                    
+                    {/* Отображаем ответы */}
+                    {answers.length > 0 && (
+                      <>
+                        {answers.map((answer, index) => (
+                          <div key={index}>
+                            <strong>{answer.questionTitle}:</strong>{" "}
+                            {Array.isArray(answer.value)
+                              ? answer.labels?.join(", ") || answer.value.join(", ")
+                              : typeof answer.value === "boolean"
+                              ? answer.value ? "Да" : "Нет"
+                              : answer.labels?.[0] || answer.value}
+                          </div>
+                        ))}
+                      </>
+                    )}
                   </div>
                 </div>
-              )} */}
+              )}
 
               {/* Форма с использованием QuestionForm компонентов */}
               <div className="space-y-4">
@@ -405,10 +434,32 @@ const QuizFormModal: React.FC<{
 };
 
 /**
- * Основной компонент Quiz
+ * Компонент для захвата результата из контекста квиза
  */
-export const Quiz: React.FC<QuizProps> = ({
-  config,
+const QuizResultCapture: React.FC<{
+  onResultChange: (result: any) => void;
+}> = ({ onResultChange }) => {
+  const { state } = useQuiz();
+  
+  React.useEffect(() => {
+    if (state.currentResult) {
+      onResultChange(state.currentResult);
+    }
+  }, [state.currentResult, onResultChange]);
+
+  return null;
+};
+
+/**
+ * Внутренний компонент для доступа к контексту квиза
+ */
+const QuizWithContext: React.FC<
+  Omit<QuizProps, "config"> & {
+    onFormModalOpen: () => void;
+    quizAnswers: any[];
+    quizResult: any;
+  }
+> = ({
   onComplete,
   onQuestionChange,
   onSubmit,
@@ -417,17 +468,15 @@ export const Quiz: React.FC<QuizProps> = ({
   formDescription,
   className = "",
   onReset,
+  onFormModalOpen,
+  quizAnswers,
+  quizResult,
 }) => {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
-  const [quizAnswers, setQuizAnswers] = useState<any[]>([]);
-
-  const handleComplete = (answers: any[]) => {
-    setQuizAnswers(answers);
-    onComplete?.(answers);
-  };
 
   const handleFormModalOpen = () => {
     setIsFormModalOpen(true);
+    onFormModalOpen();
   };
 
   const handleFormModalClose = () => {
@@ -435,11 +484,7 @@ export const Quiz: React.FC<QuizProps> = ({
   };
 
   return (
-    <QuizProvider
-      config={config}
-      onComplete={handleComplete}
-      onQuestionChange={onQuestionChange}
-    >
+    <>
       <QuizContent
         onComplete={onComplete}
         onSubmit={onSubmit}
@@ -455,10 +500,61 @@ export const Quiz: React.FC<QuizProps> = ({
         isOpen={isFormModalOpen}
         onClose={handleFormModalClose}
         answers={quizAnswers}
+        result={quizResult}
         formFields={formFields}
         formTitle={formTitle}
         formDescription={formDescription}
         onSubmit={onSubmit}
+      />
+    </>
+  );
+};
+
+/**
+ * Основной компонент Quiz
+ */
+export const Quiz: React.FC<QuizProps> = ({
+  config,
+  onComplete,
+  onQuestionChange,
+  onSubmit,
+  formFields = defaultFormFields,
+  formTitle = "Оставьте заявку",
+  formDescription,
+  className = "",
+  onReset,
+}) => {
+  const [quizAnswers, setQuizAnswers] = useState<any[]>([]);
+  const [quizResult, setQuizResult] = useState<any>(null);
+
+  const handleComplete = (answers: any[]) => {
+    setQuizAnswers(answers);
+    onComplete?.(answers);
+  };
+
+  const handleFormModalOpen = () => {
+    // Ничего не делаем, состояние управляется внутри QuizWithContext
+  };
+
+  return (
+    <QuizProvider
+      config={config}
+      onComplete={handleComplete}
+      onQuestionChange={onQuestionChange}
+    >
+      <QuizResultCapture onResultChange={setQuizResult} />
+      <QuizWithContext
+        onComplete={onComplete}
+        onQuestionChange={onQuestionChange}
+        onSubmit={onSubmit}
+        formFields={formFields}
+        formTitle={formTitle}
+        formDescription={formDescription}
+        className={className}
+        onReset={onReset}
+        onFormModalOpen={handleFormModalOpen}
+        quizAnswers={quizAnswers}
+        quizResult={quizResult}
       />
     </QuizProvider>
   );

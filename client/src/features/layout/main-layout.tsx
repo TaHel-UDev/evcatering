@@ -27,11 +27,16 @@ function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews 
                 <Modal
                     trigger=
                     {
-                        <div className="fixed bottom-[20px] right-[20px] z-[1   ]">
-                            <Button variant="secondary" size="md" fullWidth className="rounded-full animate-bounce transition-all duration-300 ease-in-out "><Presentation /></Button>
+                        <div className="fixed bottom-[20px] right-[20px] z-[3]">
+                            <Button variant="secondary" size="md" fullWidth className="rounded-full animate-bounce transition-all duration-300 ease-in-out bg-dark hover:bg-dark/60">
+                                <div className="flex flex-row gap-2 items-center">
+                                    {/* <p className="mb-1 hidden lg:block">Задать вопрос</p> */}
+                                    <Presentation size={20} />
+                                </div>
+                            </Button>
                         </div>
                     }
-                    title="Получить презентацию и финмодель франшизы"
+                    title={<>Получить презентацию <br /> и финмодель франшизы</>}
                     size="md"
                 >
                     <ModalBody>

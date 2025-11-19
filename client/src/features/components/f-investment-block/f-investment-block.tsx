@@ -46,7 +46,7 @@ function FInvestmentBlock({
                                             height={50}
                                             className="w-[36px] h-[36px] lg:w-[50px] lg:h-[50px] object-cover rounded-[0.75rem]"
                                         />
-                                        <Text as="p" variant="body-large">
+                                        <Text as="p" variant="lead">
                                             {item.item.text}
                                         </Text>
                                     </div>

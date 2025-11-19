@@ -19,7 +19,7 @@ function FAboutBlock({
                 })}
                 className="bg-brown rounded-[0.75rem] p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem]"
             >
-                <Text as="p" variant="lead" className="text-white">
+                <Text as="p" variant="h4" className="text-white">
                     {FAboutData.text}
                 </Text>
             </div>

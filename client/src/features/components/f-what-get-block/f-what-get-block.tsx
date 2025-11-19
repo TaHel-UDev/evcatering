@@ -41,7 +41,7 @@ function WhatGetBlock({
                                     <div className="h-full grid grid-cols-12 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem] bg-soft-gray rounded-[0.75rem] p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem]">
                                         <div className="col-span-12 lg:col-span-7 flex flex-col justify-between gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem] order-2 lg:order-1">
                                             <div
-                                                className="advice_content"
+                                                className="advice_content 2xl:text-[1.25rem] leading-[1.2] lg:text-[1.125rem] md:text-[1rem] sm:text-[1rem] max-sm:text-[1rem]"
                                                 dangerouslySetInnerHTML={{ __html: item.item.content }}
                                             />
                                             <Modal

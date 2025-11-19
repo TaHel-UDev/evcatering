@@ -43,8 +43,8 @@ function FFooterBlock({ FFooterBlockData }: { FFooterBlockData: FFooterBlockProp
                             </Text>
 
                             <Modal
-                                trigger={<Button variant="white" size="md" className="w-fit">Оформить заявку</Button>}
-                                title="Оформить заявку"
+                                trigger={<Button variant="white" size="md" className="w-fit">{FFooterBlockData.cta_button_text}</Button>}
+                                title={FFooterBlockData.cta_button_text}
                                 size="md"
                             >
                                 <ModalBody>
@@ -88,11 +88,6 @@ function FFooterBlock({ FFooterBlockData }: { FFooterBlockData: FFooterBlockProp
                             <Text as="p" variant="body" className="text-white font-light">
                                 Информация, представленная на сайте, не является публичной офертой.
                             </Text>
-                            <Link href="/franchise">
-                                <Button variant="outline" size="md" className="text-white hover:text-green">
-                                    Стать франчайзи
-                                </Button>
-                            </Link>
                         </div>
 
                         <div className="flex flex-col lg:flex-row gap-[1.5rem] justify-between items-start">

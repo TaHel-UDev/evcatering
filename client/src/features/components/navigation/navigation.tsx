@@ -44,7 +44,7 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
     const menuItems = allMenuItems.filter(item => item.show);
 
     const franchiseMenuItems = [
-        { label: "Что получают?", href: "#what-get-block", show: true },
+        { label: "Пакет франшизы", href: "#what-get-block", show: true },
         { label: "Условия", href: "#conditions", show: true },
         { label: "Инвестиции", href: "#investment", show: true },
         { label: "Перспективы", href: "#prospects", show: true },
@@ -87,6 +87,22 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
                                 <Text href={`tel:+79636922379`} variant="body-large" className="text-white no-underline">
                                     +7 (963) 692-23-79
                                 </Text>
+                                <Link href="https://wa.me/79636922379" target="_blank">
+                                    <Image
+                                        src={"/static/whatsapp.svg"}
+                                        alt="whatsapp"
+                                        width={30}
+                                        height={30}
+                                    />
+                                </Link>
+                                <Link href="https://t.me/sivov_ivan" target="_blank">
+                                    <Image
+                                        src={"/static/telegram.svg"}
+                                        alt="telegram"
+                                        width={30}
+                                        height={30}
+                                    />
+                                </Link>
                             </div>
 
                             {/* Кнопка гамбургера (показана на lg и ниже) */}
@@ -143,6 +159,24 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
                             <Text href={`tel:+79636922379`} variant="body-large" className="text-white no-underline">
                                 +7 (963) 692-23-79
                             </Text>
+                            <div className="flex flex-row gap-2">
+                                <Link href="https://wa.me/79636922379" target="_blank">
+                                    <Image
+                                        src={"/static/whatsapp.svg"}
+                                        alt="whatsapp"
+                                        width={30}
+                                        height={30}
+                                    />
+                                </Link>
+                                <Link href="https://t.me/sivov_ivan" target="_blank">
+                                    <Image
+                                        src={"/static/telegram.svg"}
+                                        alt="telegram"
+                                        width={30}
+                                        height={30}
+                                    />
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

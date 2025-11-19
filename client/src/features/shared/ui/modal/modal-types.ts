@@ -61,7 +61,7 @@ export interface ModalProps {
   /**
    * Заголовок модального окна
    */
-  title?: string;
+  title?: string | React.ReactNode;
 
   /**
    * Описание модального окна (под заголовком)

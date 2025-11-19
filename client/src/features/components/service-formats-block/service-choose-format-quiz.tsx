@@ -50,7 +50,7 @@ function ServiceChooseFormatQuiz({
                     </Button>
                 </a>
                 <Modal
-                    trigger={<Button variant="primary" size="md" fullWidth>{chooseFormatBlockData.form_button_text}</Button>}
+                    trigger={<Button variant="white" size="md" fullWidth>{chooseFormatBlockData.form_button_text}</Button>}
                     title="Выбор формата мероприятия"
                     size="full"
                 >
