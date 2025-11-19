@@ -49,13 +49,8 @@ function ServiceChooseFormatQuiz({
                         {chooseFormatBlockData.image_button_text}
                     </Button>
                 </a>
-                <Link href={chooseFormatBlockData.marquiz_link} className="w-full">
-                    <Button variant="white" size="md" fullWidth>
-                        {chooseFormatBlockData.form_button_text}
-                    </Button>
-                </Link>
                 <Modal
-                    trigger={<Button variant="primary" size="lg">{chooseFormatBlockData.form_button_text}</Button>}
+                    trigger={<Button variant="primary" size="md" fullWidth>{chooseFormatBlockData.form_button_text}</Button>}
                     title="Выбор формата мероприятия"
                     size="full"
                 >
