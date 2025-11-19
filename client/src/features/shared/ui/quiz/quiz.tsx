@@ -209,9 +209,6 @@ const QuizFormModal: React.FC<{
         // Добавляем результат в начало
         if (result) {
           quizDataText += `\n\n📊 Результат: ${result.title}`;
-          if (result.description) {
-            quizDataText += `\n${result.description}`;
-          }
         }
         
         // Добавляем ответы
