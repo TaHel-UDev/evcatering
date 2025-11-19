@@ -85,7 +85,7 @@ export const quizControlStyles = {
   buttonContainer: "flex gap-3",
   backButton: "px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors",
   nextButton: "px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
-  submitButton: "px-8 py-4 bg-green text-white text-lg font-semibold rounded-lg hover:bg-green-700 active:bg-green-800 transition-all shadow-lg",
+  submitButton: "px-8 py-4 bg-green text-white text-lg font-semibold rounded-lg hover:bg-green/80 active:bg-green/80 transition-all shadow-lg",
   resetButton: "px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors text-sm",
 };
 
