@@ -9,9 +9,11 @@ import FranchiseForm from "../forms/question-form/franchise-form";
 import { Text } from "@/features/shared/ui/text";
 
 function FInvestmentBlock({
-    FInvestmentBlockData
+    FInvestmentBlockData,
+    email
 }: {
-    FInvestmentBlockData: FInvestmentBlockProps
+    FInvestmentBlockData: FInvestmentBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -59,7 +61,7 @@ function FInvestmentBlock({
                             size="md"
                         >
                             <ModalBody>
-                                <FranchiseForm />
+                                <FranchiseForm email={email} />
                             </ModalBody>
                         </Modal>
                     </div>

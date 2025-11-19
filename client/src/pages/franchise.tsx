@@ -75,10 +75,12 @@ export default function Franchise
 
             <FOurFranchiseBlock
                 FOurFranchiseBlockData={FOurFranchiseBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <WhatGetBlock
                 WhatGetBlockData={WhatGetBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <FConditionsBlock
@@ -87,26 +89,32 @@ export default function Franchise
 
             <FInvestmentBlock
                 FInvestmentBlockData={FInvestmentBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <FProspectsBlock
                 FProspectsBlockData={FProspectsBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <FBesidesBlock
                 FBesidesBlockData={FBesidesBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <FAbleToWorkBlock
                 FAbleToWorkBlockData={FAbleToWorkBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <FWhoSuitableBlock
                 WhoSuitableBlockData={WhoSuitableBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <FBrandBlock
                 FBrandBlockData={FBrandBlockData}
+                email={FFooterBlockData.mail}
             />
 
             <FValuesBlock
@@ -225,6 +233,7 @@ export async function getServerSideProps(context: any) {
                 FAboutCateringBlockData,
                 FPartnersBlockData,
                 FFooterBlockData,
+                franchiseEmail: FFooterBlockData.mail,
             }
         }
     } catch (error) {

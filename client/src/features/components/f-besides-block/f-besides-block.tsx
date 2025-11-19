@@ -11,9 +11,11 @@ import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import NumericText from "@/features/shared/ui/numeric-text/numeric-text";
 
 function FBesidesBlock({
-    FBesidesBlockData
+    FBesidesBlockData,
+    email
 }: {
-    FBesidesBlockData: FBesidesBlockProps
+    FBesidesBlockData: FBesidesBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -57,7 +59,7 @@ function FBesidesBlock({
                             size="md"
                         >
                             <ModalBody>
-                                <FranchiseForm />
+                                <FranchiseForm email={email} />
                             </ModalBody>
                         </Modal>
                     </div>

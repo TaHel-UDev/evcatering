@@ -35,12 +35,13 @@ export default function App({ Component, pageProps }: AppProps) {
     hasCases = false,
     hasPlaces = false,
     hasReviews = false,
+    franchiseEmail = undefined,
     ...restPageProps 
   } = pageProps;
 
   return (
     <CitySelectorProvider cities={cities} currentCity={franchise} isMainPage={isMainPage}>
-      <MainLayout hasCases={hasCases} hasPlaces={hasPlaces} hasReviews={hasReviews}>
+      <MainLayout hasCases={hasCases} hasPlaces={hasPlaces} hasReviews={hasReviews} franchiseEmail={franchiseEmail}>
         <Component {...restPageProps} cities={cities} franchise={franchise} isMainPage={isMainPage} />
     </MainLayout>
     </CitySelectorProvider>

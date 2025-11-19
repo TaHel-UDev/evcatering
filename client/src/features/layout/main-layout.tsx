@@ -16,9 +16,10 @@ interface MainLayoutProps {
     hasCases?: boolean;
     hasPlaces?: boolean;
     hasReviews?: boolean;
+    franchiseEmail?: string;
 }
 
-function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews = false }: MainLayoutProps) {
+function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews = false, franchiseEmail }: MainLayoutProps) {
     const router = useRouter();
 
     return (
@@ -40,7 +41,7 @@ function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews 
                     size="md"
                 >
                     <ModalBody>
-                        <FranchiseForm />
+                        {franchiseEmail && <FranchiseForm email={franchiseEmail} />}
                     </ModalBody>
                 </Modal>
             }

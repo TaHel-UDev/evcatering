@@ -9,9 +9,11 @@ import FranchiseForm from "../forms/question-form/franchise-form";
 import { Text } from "@/features/shared/ui/text";
 
 function FAbleToWorkBlock({
-    FAbleToWorkBlockData
+    FAbleToWorkBlockData,
+    email
 }: {
-    FAbleToWorkBlockData: FAbleToWorkBlockProps
+    FAbleToWorkBlockData: FAbleToWorkBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -54,7 +56,7 @@ function FAbleToWorkBlock({
                             size="md"
                         >
                             <ModalBody>
-                                <FranchiseForm />
+                                <FranchiseForm email={email} />
                             </ModalBody>
                         </Modal>
                     </div>

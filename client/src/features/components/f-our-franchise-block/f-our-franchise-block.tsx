@@ -10,9 +10,11 @@ import Image from "next/image";
 import FranchiseForm from "../forms/question-form/franchise-form";
 
 function FOurFranchiseBlock({
-    FOurFranchiseBlockData
+    FOurFranchiseBlockData,
+    email
 }: {
-    FOurFranchiseBlockData: FOurFranchiseBlockProps
+    FOurFranchiseBlockData: FOurFranchiseBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -61,7 +63,7 @@ function FOurFranchiseBlock({
                             size="md"
                         >
                             <ModalBody>
-                                <FranchiseForm />
+                                <FranchiseForm email={email} />
                             </ModalBody>
                         </Modal>
                     </div>

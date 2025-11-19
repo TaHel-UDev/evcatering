@@ -9,9 +9,11 @@ import FranchiseForm from "../forms/question-form/franchise-form";
 import NumericText from "@/features/shared/ui/numeric-text/numeric-text";
 
 function FWhoSuitableBlock({
-    WhoSuitableBlockData
+    WhoSuitableBlockData,
+    email
 }: {
-    WhoSuitableBlockData: WhoSuitableBlockProps
+    WhoSuitableBlockData: WhoSuitableBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -57,7 +59,7 @@ function FWhoSuitableBlock({
                             size="md"
                         >
                             <ModalBody>
-                                <FranchiseForm />
+                                <FranchiseForm email={email} />
                             </ModalBody>
                         </Modal>
                     </div>

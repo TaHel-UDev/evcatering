@@ -36,6 +36,7 @@ export default function FranchiseForm({ email }: { email: string }) {
                     name: data.name,
                     phone: data.phone,
                     comment: data.comment || null,
+                    email: email,
                 }),
             });
 

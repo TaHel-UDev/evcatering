@@ -10,9 +10,11 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 
 function WhatGetBlock({
-    WhatGetBlockData
+    WhatGetBlockData,
+    email
 }: {
-    WhatGetBlockData: WhatGetBlockProps
+    WhatGetBlockData: WhatGetBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -50,7 +52,7 @@ function WhatGetBlock({
                                                 size="md"
                                             >
                                                 <ModalBody>
-                                                    <FranchiseForm />
+                                                    <FranchiseForm email={email} />
                                                 </ModalBody>
                                             </Modal>
                                         </div>

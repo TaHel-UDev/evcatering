@@ -11,9 +11,11 @@ import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { Text } from "@/features/shared/ui/text";
 
 function FProspectsBlock({
-    FProspectsBlockData
+    FProspectsBlockData,
+    email
 }: {
-    FProspectsBlockData: FProspectsBlockProps
+    FProspectsBlockData: FProspectsBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -62,7 +64,7 @@ function FProspectsBlock({
                             size="md"
                         >
                             <ModalBody>
-                                <FranchiseForm />
+                                <FranchiseForm email={email} />
                             </ModalBody>
                         </Modal>
                     </div>

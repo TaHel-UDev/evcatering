@@ -9,9 +9,11 @@ import FranchiseForm from "../forms/question-form/franchise-form";
 import { Text } from "@/features/shared/ui/text";
 
 function FBrandBlock({
-    FBrandBlockData
+    FBrandBlockData,
+    email
 }: {
-    FBrandBlockData: FBrandBlockProps
+    FBrandBlockData: FBrandBlockProps,
+    email: string
 }) {
     return (
         <BlockWrapper>
@@ -58,7 +60,7 @@ function FBrandBlock({
                         size="md"
                     >
                         <ModalBody>
-                            <FranchiseForm />
+                            <FranchiseForm email={email} />
                         </ModalBody>
                     </Modal>
                 </div>
