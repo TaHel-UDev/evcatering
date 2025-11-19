@@ -35,6 +35,8 @@ export default async function handler(
         name,
         phone,
         comment: comment || null,
+      }, {
+        fields: ['*']
       })
     );
 

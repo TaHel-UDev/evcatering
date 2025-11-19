@@ -236,6 +236,8 @@ const QuizFormModal: React.FC<{
             phone: data.phone,
             preferences: (data.comment || '') + quizDataText,
             franchise_id: currentCity.id,
+            franchiseEmail: currentCity.mail,
+            franchiseName: currentCity.name,
           }),
         });
 

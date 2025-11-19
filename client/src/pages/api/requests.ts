@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createDirectus, createItem, readItem, rest } from '@directus/sdk';
+import { createDirectus, createItem, rest } from '@directus/sdk';
 import { sendRequestEmail } from '@/lib/email';
 
 export default async function handler(
@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   try {
-    const { name, phone, preferences, franchise_id } = req.body;
+    const { name, phone, preferences, franchise_id, franchiseEmail, franchiseName } = req.body;
 
     // Валидация
     if (!name || !phone || !franchise_id) {
@@ -23,24 +23,6 @@ export default async function handler(
     // Создаем клиент Directus
     const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest());
 
-    // Получаем данные франчайзи для получения email
-    let franchiseName = '';
-    let franchiseEmail = '';
-    
-    try {
-      const franchise = await directus.request(
-        readItem('franchises', franchise_id, {
-          fields: ['id', 'name', 'mail']
-        })
-      ) as { id: number; name: string; mail: string };
-      
-      franchiseName = franchise.name;
-      franchiseEmail = franchise.mail;
-    } catch (franchiseError: any) {
-      console.error('⚠️ Ошибка получения данных франчайзи:', franchiseError);
-      // Продолжаем без email, но логируем ошибку
-    }
-
     // Создаем заявку
     const newRequest = await directus.request(
       createItem('request', {
@@ -48,6 +30,8 @@ export default async function handler(
         phone,
         preferences: preferences || null,
         franchise_id: franchise_id,
+      }, {
+        fields: ['*']
       })
     );
 
@@ -58,14 +42,14 @@ export default async function handler(
           name,
           phone,
           preferences,
-        }, franchiseName);
+        }, franchiseName || '');
         console.log('✅ Email успешно отправлен на:', franchiseEmail);
       } catch (emailError: any) {
         console.error('⚠️ Ошибка отправки email:', emailError.message);
         // Продолжаем выполнение, так как заявка уже создана в БД
       }
     } else {
-      console.warn('⚠️ Email франчайзи не найден, письмо не отправлено');
+      console.warn('⚠️ Email франчайзи не передан, письмо не отправлено');
     }
 
     return res.status(201).json({ 

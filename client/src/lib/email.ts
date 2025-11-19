@@ -10,7 +10,7 @@ interface RequestEmailData {
 
 // Создаем транспортер для отправки email
 const createTransporter = () => {
-  return nodemailer.createTransport({
+  const config = {
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT) || 587,
     secure: process.env.SMTP_SECURE === 'true', // true для 465, false для других портов
@@ -18,7 +18,22 @@ const createTransporter = () => {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
     },
+  };
+
+  console.log('📧 SMTP Configuration:', {
+    host: config.host,
+    port: config.port,
+    secure: config.secure,
+    user: config.auth.user,
+    hasPassword: !!config.auth.pass
   });
+
+  if (!config.host || !config.auth.user || !config.auth.pass) {
+    console.error('❌ КРИТИЧЕСКАЯ ОШИБКА: SMTP настройки не заданы в .env!');
+    console.error('Проверьте что в .env файле есть: SMTP_HOST, SMTP_USER, SMTP_PASSWORD');
+  }
+
+  return nodemailer.createTransport(config);
 };
 
 // Функция для отправки email о заявке на кейтеринг
@@ -127,18 +142,32 @@ ${data.comment ? `Комментарий: ${data.comment}` : ''}
   `.trim();
 
   try {
-    const info = await transporter.sendMail({
+    const mailOptions = {
       from: `"${process.env.SMTP_FROM_NAME || 'Эстетика Вкуса'}" <${process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER}>`,
       to: toEmail,
       subject: `Новая заявка на кейтеринг от ${data.name}`,
       text: textContent,
       html: htmlContent,
+    };
+
+    console.log('📨 Отправка email:', {
+      from: mailOptions.from,
+      to: mailOptions.to,
+      subject: mailOptions.subject
     });
 
+    const info = await transporter.sendMail(mailOptions);
+
     console.log('✅ Email успешно отправлен:', info.messageId);
+    console.log('📬 Response:', info.response);
     return { success: true, messageId: info.messageId };
   } catch (error: any) {
     console.error('❌ Ошибка отправки email:', error);
+    console.error('Детали ошибки:', {
+      message: error.message,
+      code: error.code,
+      command: error.command
+    });
     throw new Error(`Не удалось отправить email: ${error.message}`);
   }
 }
@@ -232,18 +261,32 @@ ${data.comment ? `Комментарий: ${data.comment}` : ''}
   `.trim();
 
   try {
-    const info = await transporter.sendMail({
+    const mailOptions = {
       from: `"${process.env.SMTP_FROM_NAME || 'Эстетика Вкуса'}" <${process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER}>`,
       to: toEmail,
       subject: `Новая заявка на франчайзинг от ${data.name}`,
       text: textContent,
       html: htmlContent,
+    };
+
+    console.log('📨 Отправка email:', {
+      from: mailOptions.from,
+      to: mailOptions.to,
+      subject: mailOptions.subject
     });
 
+    const info = await transporter.sendMail(mailOptions);
+
     console.log('✅ Email успешно отправлен:', info.messageId);
+    console.log('📬 Response:', info.response);
     return { success: true, messageId: info.messageId };
   } catch (error: any) {
     console.error('❌ Ошибка отправки email:', error);
+    console.error('Детали ошибки:', {
+      message: error.message,
+      code: error.code,
+      command: error.command
+    });
     throw new Error(`Не удалось отправить email: ${error.message}`);
   }
 }

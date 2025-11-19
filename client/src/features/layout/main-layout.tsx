@@ -24,7 +24,7 @@ function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews 
 
     return (
         <main className={`${geologica.className} relative`}>
-            {router.pathname === "/franchise" &&
+            {router.pathname === "/franchise" && franchiseEmail &&
                 <Modal
                     trigger=
                     {
@@ -41,7 +41,7 @@ function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews 
                     size="md"
                 >
                     <ModalBody>
-                        {franchiseEmail && <FranchiseForm email={franchiseEmail} />}
+                        <FranchiseForm email={franchiseEmail} />
                     </ModalBody>
                 </Modal>
             }

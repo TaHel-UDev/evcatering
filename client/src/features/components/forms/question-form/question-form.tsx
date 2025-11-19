@@ -43,6 +43,8 @@ export default function QuestionForm() {
                     phone: data.phone,
                     preferences: data.comment || null,
                     franchise_id: currentCity.id,
+                    franchiseEmail: currentCity.mail,
+                    franchiseName: currentCity.name,
                 }),
             });
 
