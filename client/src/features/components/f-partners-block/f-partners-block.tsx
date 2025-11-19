@@ -31,13 +31,13 @@ function FPartnersBlock({
                 <div className="grid grid-cols-12 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
                     {FPartnersBlockData.f_partners_cards.map((item) => (
                         <div key={item.id} className="col-span-12 lg:col-span-4 flex flex-col gap-[1.5rem] lg:gap-[1.5rem] 2xl:gap-[1.5rem]">
-                            <div>
+                            <div className="min-h-[272px] flex items-center justify-center">
                                 <Image
                                     src={`${process.env.NEXT_PUBLIC_DIRECTUS}/assets/${item.item.image}`}
                                     alt={item.item.image}
                                     width={491}
                                     height={433}
-                                    className="w-full h-full rounded-[0.75rem]"
+                                    className="w-full  rounded-[0.75rem]"
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
