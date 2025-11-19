@@ -6,13 +6,16 @@ import { ChooseFormatBlockData, ServiceFormatsBlockData } from "@/features/share
 import { setAttr } from "../../../../lib/visual-editor";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/features/shared/ui/carousel/carousel";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
+import { DirectusQuiz } from "@/lib/directus-quiz-transformer";
 
 function ServiceFormatsBlock({
     serviceFormatsBlockData,
-    chooseFormatBlockData
+    chooseFormatBlockData,
+    QuizData
 }: {
     serviceFormatsBlockData: ServiceFormatsBlockData,
     chooseFormatBlockData: ChooseFormatBlockData
+    QuizData: DirectusQuiz
 }) {
     return (
         <BlockWrapper id="service-formats-block">
@@ -74,6 +77,7 @@ function ServiceFormatsBlock({
 
             <ServiceChooseFormatBlock
                 chooseFormatBlockData={chooseFormatBlockData}
+                QuizData={QuizData}
             />
         </BlockWrapper>
     )

@@ -16,6 +16,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import AddColorsBlock from "@/features/components/add-colors-block/add-colors-block";
 import { GeneralFooterBlockProps } from "@/features/shared/types/general-footer-block.types";
+import { DirectusQuiz } from "@/lib/directus-quiz-transformer";
 
 export default function Home
   (
@@ -39,6 +40,7 @@ export default function Home
       isMainPage,
       AddColorsBlockData,
       GeneralFooterBlockData,
+      QuizData,
     }:
       {
         metaData: MainPageMetaData,
@@ -59,7 +61,8 @@ export default function Home
         cities: CityOption[],
         isMainPage: boolean,
         AddColorsBlockData: AddColorsBlockProps,
-        GeneralFooterBlockData: GeneralFooterBlockProps
+        GeneralFooterBlockData: GeneralFooterBlockProps,
+        QuizData: DirectusQuiz,
       }
   ) {
   return (
@@ -75,7 +78,7 @@ export default function Home
       </Head>
 
       {/* Модальное окно выбора города */}
-      <CitySelectorModal />
+      {/* <CitySelectorModal /> */}
 
       <FirstMainScreen
         firstScreenData={firstScreenData}
@@ -89,6 +92,7 @@ export default function Home
       <ServiceFormatsBlock
         serviceFormatsBlockData={serviceFormatsBlockData}
         chooseFormatBlockData={chooseFormatBlockData}
+        QuizData={QuizData}
       />
 
       <DecideMenuBlock decideMenuBlockData={decideMenuBlockData} foodExampleBlockData={foodExampleBlockData} />
@@ -215,6 +219,11 @@ export async function getServerSideProps(context: any) {
     }));
     const GeneralFooterBlockData = Array.isArray(GeneralFooterBlockResult) ? GeneralFooterBlockResult[0] : GeneralFooterBlockResult;
 
+    const QuizResult = await directus.request(readItems('quizzes', {
+      fields: ['*.*.*'],
+    }));
+    const QuizData = Array.isArray(QuizResult) ? QuizResult[0] : QuizResult;
+
     if (!metaData) {
       console.error('❌ Критические данные отсутствуют!');
       throw new Error('Missing required data from Directus');
@@ -286,6 +295,7 @@ export async function getServerSideProps(context: any) {
         hasReviews,
         AddColorsBlockData,
         GeneralFooterBlockData,
+        QuizData,
       }
     }
   } catch (error) {

@@ -3,11 +3,16 @@ import Button from "@/features/shared/ui/button";
 import { Text } from "@/features/shared/ui/text";
 import { setAttr } from "../../../../lib/visual-editor";
 import Link from "next/link";
+import { DirectusQuiz } from "@/lib/directus-quiz-transformer";
+import Modal, { ModalBody } from "@/features/shared/ui/modal";
+import QuizMain from "../quiz-main";
 
 function ServiceChooseFormatQuiz({
-    chooseFormatBlockData
+    chooseFormatBlockData,
+    QuizData
 }: {
     chooseFormatBlockData: ChooseFormatBlockData
+    QuizData: DirectusQuiz,
 }) {
 
     return (
@@ -49,6 +54,17 @@ function ServiceChooseFormatQuiz({
                         {chooseFormatBlockData.form_button_text}
                     </Button>
                 </Link>
+                <Modal
+                    trigger={<Button variant="primary" size="lg">{chooseFormatBlockData.form_button_text}</Button>}
+                    title="Выбор формата мероприятия"
+                    size="full"
+                >
+                    <ModalBody>
+                        <QuizMain
+                            QuizData={QuizData}
+                        />
+                    </ModalBody>
+                </Modal>
             </div>
         </div>
     )

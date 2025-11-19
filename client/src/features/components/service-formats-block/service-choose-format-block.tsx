@@ -3,11 +3,14 @@ import ServiceChooseFormatQuiz from "./service-choose-format-quiz";
 import ServiceChooseFormatContent from "./service-choose-format-content";
 import { ChooseFormatBlockData } from "@/features/shared/types";
 import { setAttr } from "../../../../lib/visual-editor";
+import { DirectusQuiz } from "@/lib/directus-quiz-transformer";
 
 function ServiceChooseFormatBlock({
-    chooseFormatBlockData
+    chooseFormatBlockData,
+    QuizData
 }: {
-    chooseFormatBlockData: ChooseFormatBlockData
+    chooseFormatBlockData: ChooseFormatBlockData,
+    QuizData: DirectusQuiz
 }) {
     return (
         <>
@@ -32,6 +35,7 @@ function ServiceChooseFormatBlock({
 
                 <ServiceChooseFormatQuiz
                     chooseFormatBlockData={chooseFormatBlockData}
+                    QuizData={QuizData}
                 />
 
             </div>
