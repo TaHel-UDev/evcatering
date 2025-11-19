@@ -32,7 +32,6 @@ export default function QuizMain({
                 {/* Квиз */}
                 <Quiz
                     config={config}
-                    onSubmit={handleSubmit}
                     formTitle={QuizData.form_title}
                 />
             </div>
