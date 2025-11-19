@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createDirectus, createItem, rest } from '@directus/sdk';
+import { sendFranchiseRequestEmail } from '@/lib/email';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,12 +11,18 @@ export default async function handler(
   }
 
   try {
-    const { name, phone, comment } = req.body;
+    const { name, phone, comment, email } = req.body;
 
     // Валидация
     if (!name || !phone) {
       return res.status(400).json({ 
         error: 'Обязательные поля: name, phone' 
+      });
+    }
+
+    if (!email) {
+      return res.status(400).json({ 
+        error: 'Email для отправки не указан' 
       });
     }
 
@@ -30,6 +37,19 @@ export default async function handler(
         comment: comment || null,
       })
     );
+
+    // Отправляем email
+    try {
+      await sendFranchiseRequestEmail(email, {
+        name,
+        phone,
+        comment,
+      });
+      console.log('✅ Email успешно отправлен на:', email);
+    } catch (emailError: any) {
+      console.error('⚠️ Ошибка отправки email:', emailError.message);
+      // Продолжаем выполнение, так как заявка уже создана в БД
+    }
 
     return res.status(201).json({ 
       success: true, 

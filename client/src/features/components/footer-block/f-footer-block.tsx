@@ -48,7 +48,7 @@ function FFooterBlock({ FFooterBlockData }: { FFooterBlockData: FFooterBlockProp
                                 size="md"
                             >
                                 <ModalBody>
-                                    <FranchiseForm />
+                                    <FranchiseForm email={FFooterBlockData.mail} />
                                 </ModalBody>
                             </Modal>
                         </div>
