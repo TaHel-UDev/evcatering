@@ -78,7 +78,7 @@ export default function Home
       </Head>
 
       {/* Модальное окно выбора города */}
-      {/* <CitySelectorModal /> */}
+      <CitySelectorModal />
 
       <FirstMainScreen
         firstScreenData={firstScreenData}
