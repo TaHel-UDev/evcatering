@@ -4,11 +4,13 @@ import { Text } from "@/features/shared/ui/text";
 import { MapElementData } from "@/features/shared/types";
 
 function QuestionFormBlock({ mapData }: { mapData?: MapElementData | null }) {
+    const hasMap = mapData?.yandex_src;
+
     return (
         <BlockWrapper id="question-form-block">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-[1rem] lg:gap-[1.2rem] 2xl:gap-[1.5rem]">
 
-                <div className="col-span-1 p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] bg-soft-gray rounded-[0.75rem]">
+                <div className={`col-span-1 ${!hasMap ? 'lg:col-span-2' : ''} p-[1.2rem] lg:p-[1.5rem] 2xl:p-[2rem] bg-soft-gray rounded-[0.75rem]`}>
                     <div className="flex flex-col gap-[0.625rem] mb-[1.5rem] lg:mb-[1.8rem] 2xl:mb-[2rem]">
                         <Text as="p" variant="h3" className="text-dark font-medium">
                             Остались вопросы?
@@ -21,7 +23,7 @@ function QuestionFormBlock({ mapData }: { mapData?: MapElementData | null }) {
                     <QuestionForm />
                 </div>
 
-                {mapData?.yandex_src && (
+                {hasMap && (
                     <div className="col-span-1">
                         <iframe
                             src={mapData.yandex_src}
