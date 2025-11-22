@@ -67,6 +67,7 @@ export default function Franchise
 
             <FFirstScreen
                 FMainScreenData={FMainScreenData}
+                FFooterBlockData={FFooterBlockData}
             />
 
             <FAboutBlock

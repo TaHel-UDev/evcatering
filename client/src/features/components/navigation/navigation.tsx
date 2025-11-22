@@ -56,13 +56,13 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
     if (router.pathname === "/franchise") {
         return (
             <>
-                <div className="fixed top-0 left-[50%] translate-x-[-50%] w-full z-[4] max-w-[1440px] px-[24px] lg:px-[48px] 2xl:px-[80px]">
+                <div className="fixed top-0 left-[50%] translate-x-[-50%] w-full z-[4] max-w-[1440px] px-[24px] lg:px-[48px] 2xl:px-[80px] flex justify-end xl:justify-start">
                     <div className={clsx(
-                        "flex flex-row",
-                        "mt-[42px] bg-brown rounded-[0.75rem] p-[0.75rem]",
+                        "flex flex-row w-fit xl:w-full",
+                        "mt-[42px] bg-brown rounded-full xl:rounded-[0.75rem] p-[0.75rem]",
                     )}>
                         <div className="flex flex-row items-center gap-[1.5rem] justify-between w-full">
-                            <div className="flex flex-row items-center gap-[0.75rem]">
+                            <div className="hidden xl:flex flex-row items-center gap-[0.75rem]">
                                 <Link href="/">
                                     <Image
                                         src="/static/header-logo.svg"
@@ -194,14 +194,14 @@ function Navigation({ hasCases = false, hasPlaces = false, hasReviews = false }:
 
     return (
         <>
-            <div className="fixed top-0 left-[50%] translate-x-[-50%] w-full z-[4] max-w-[1440px] px-[24px] lg:px-[48px] 2xl:px-[80px]">
+            <div className="fixed top-0 left-[50%] translate-x-[-50%] w-full z-[4] max-w-[1440px] px-[24px] lg:px-[48px] 2xl:px-[80px] flex justify-end xl:justify-start">
                 <div className={clsx(
-                    "flex flex-row",
-                    "mt-[42px] bg-brown rounded-[0.75rem] p-[0.75rem]",
+                    "flex flex-row w-fit xl:w-full",
+                    "mt-[42px] bg-brown rounded-full xl:rounded-[0.75rem] p-[0.75rem]",
                 )}>
                     <div className="flex flex-row items-center gap-[1.5rem] justify-between w-full">
                         {/* Левая часть - Лого и город */}
-                        <div className="flex flex-row items-center gap-[0.75rem]">
+                        <div className="flex-row items-center gap-[0.75rem] hidden xl:flex">
                             <Link href="/">
                                 <Image
                                     src="/static/header-logo.svg"

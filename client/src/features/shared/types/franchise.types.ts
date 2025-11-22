@@ -2,6 +2,7 @@ export interface FMainScreen {
     id: number;
     title: string;
     description: string;
+    cta_button_text: string;
     background: { id: string; }
 }
 
