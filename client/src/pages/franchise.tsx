@@ -141,6 +141,14 @@ export async function getServerSideProps(context: any) {
     try {
         const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
 
+        // Получаем код метрики для франшизы
+        const metrikaResult = await directus.request(readItems('metrika_franschise', {
+            fields: ['code'],
+            limit: 1
+        }));
+        const metrikaData = Array.isArray(metrikaResult) ? metrikaResult[0] : metrikaResult;
+        const metrikaCode = metrikaData && typeof metrikaData === 'object' && 'code' in metrikaData ? metrikaData.code : null;
+
         const FMainScreenResult = await directus.request(readItems('f_main_screen', {
             fields: ['*.*.*'],
         }));
@@ -235,6 +243,7 @@ export async function getServerSideProps(context: any) {
                 FPartnersBlockData,
                 FFooterBlockData,
                 franchiseEmail: FFooterBlockData.mail,
+                metrikaCode: metrikaCode || null,
             }
         }
     } catch (error) {

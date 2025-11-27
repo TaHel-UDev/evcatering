@@ -78,7 +78,7 @@ export default function Home
       </Head>
 
       {/* Модальное окно выбора города */}
-      <CitySelectorModal />
+      {/* <CitySelectorModal /> */}
 
       <FirstMainScreen
         firstScreenData={firstScreenData}
@@ -149,7 +149,7 @@ export async function getServerSideProps(context: any) {
     // Если это страница франчайзи - получаем его данные
     if (!isMainPage) {
       const franchiseResult = await directus.request(readItems('franchises', {
-        fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
+        fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address', 'code'],
         filter: {
           subdomain: { _eq: subdomain }
         },
