@@ -8,6 +8,7 @@ import Head from "next/head";
 import Image from "next/image";
 import QuestionFormBlock from "@/features/components/forms/question-form/question-form-block";
 import CitySelectorModal from "@/features/components/city-selector/city-selector-modal";
+import { getDirectusClient, requestWithRetry } from "@/lib/directus";
 
 export default function PlacePage(
     {
@@ -91,7 +92,7 @@ export default function PlacePage(
 
             <QuestionFormBlock mapData={mapData} />
 
-            <FooterBlock 
+            <FooterBlock
                 cities={FilteredCities}
                 GeneralFooterBlockData={GeneralFooterBlockData}
             />
@@ -101,123 +102,113 @@ export default function PlacePage(
 
 export async function getServerSideProps(context: any) {
     try {
-        const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest())
+        const directus = getDirectusClient();
 
         // Определяем франчайзи по поддомену
         const host = context.req.headers.host || '';
         const subdomain = host.split('.')[0]; // например: msk.yourdomain.com → msk
 
-        // Получаем список всех франчайзи (городов)
-        const citiesResult = await directus.request(readItems('franchises', {
-            fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
-            sort: ['name']
-        }));
-        const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];
+        // Helper to unwrap single items
+        const unwrap = (res: any) => Array.isArray(res) ? res[0] : res;
+        const ensureArray = (res: any) => Array.isArray(res) ? res : (res ? [res] : []);
 
+        // BATCH 1: Fetch Global Cities and Franchise (Parallel)
+        const [citiesResult, franchiseResult] = await Promise.all([
+            requestWithRetry(directus, readItems<any, any, any>('franchises', {
+                fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
+                sort: ['name']
+            })),
+            subdomain !== 'localhost' ? requestWithRetry(directus, readItems<any, any, any>('franchises', {
+                fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
+                filter: { subdomain: { _eq: subdomain } },
+                limit: 1
+            })) : Promise.resolve(null)
+        ]);
+
+        const cities: CityOption[] = ensureArray(citiesResult) as CityOption[];
         const FilteredCities = cities.filter(city => city.subdomain === subdomain);
-
         const isMainPage = subdomain === 'localhost' || !cities.some(city => city.subdomain === subdomain);
 
         let franchise = null;
-
-        // Если это страница франчайзи - получаем его данные
         if (!isMainPage) {
-            const franchiseResult = await directus.request(readItems('franchises', {
-                fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
-                filter: {
-                    subdomain: { _eq: subdomain }
-                },
-                limit: 1
-            }));
-            franchise = Array.isArray(franchiseResult) ? franchiseResult[0] : franchiseResult;
-
+            franchise = unwrap(franchiseResult);
             if (!franchise) {
                 console.error('❌ Франчайзи не найден для поддомена:', subdomain);
                 return { notFound: true };
             }
-
             console.log('✅ Франчайзи найден:', franchise?.name, 'ID:', franchise?.id);
         }
 
-        // Глобальные данные (одинаковые для всех франчайзи)
-        const metaDataResult = await directus.request(readItems('main_page'));
-        const metaData = Array.isArray(metaDataResult) ? metaDataResult[0] : metaDataResult;
+        // BATCH 2: Fetch Page Content (Parallel)
+        const placeId = context.params.id;
+        const franchiseId = franchise?.id || null;
 
-        const GeneralFooterBlockResult = await directus.request(readItems('general_footer_block', {
-            fields: ['*.*.*'],
-        }));
-        const GeneralFooterBlockData = Array.isArray(GeneralFooterBlockResult) ? GeneralFooterBlockResult[0] : GeneralFooterBlockResult;
+        const [
+            metaDataResult,
+            GeneralFooterBlockResult,
+            placeDataResult,
+            casesDataResult,
+            placesCountResult,
+            reviewsDataResult,
+            mapDataResult
+        ] = await Promise.all([
+            requestWithRetry(directus, readItems<any, any, any>('main_page')),
+            requestWithRetry(directus, readItems<any, any, any>('general_footer_block', { fields: ['*.*.*'] })),
+            requestWithRetry(directus, readItems<any, any, any>('places', {
+                fields: ['*.*.*'],
+                filter: {
+                    id: { _eq: placeId },
+                    franchise_id: { _eq: franchiseId }
+                },
+                limit: 1
+            })),
+            // Navigation checks
+            requestWithRetry(directus, readItems<any, any, any>('case', {
+                fields: ['id'],
+                filter: { franchise_id: { _eq: franchiseId } },
+                limit: 1
+            })),
+            requestWithRetry(directus, readItems<any, any, any>('places', {
+                fields: ['id'],
+                filter: { franchise_id: { _eq: franchiseId } },
+                limit: 1
+            })),
+            requestWithRetry(directus, readItems<any, any, any>('review_block', {
+                fields: ['id'],
+                filter: { franchise_id: { _eq: franchiseId } },
+                limit: 1
+            })),
+            // Map data
+            franchise?.id ? requestWithRetry(directus, readItems<any, any, any>('map_element', {
+                fields: ['*.*.*'],
+                filter: { franchise_id: { _eq: franchise.id } },
+                limit: 1
+            })) : Promise.resolve(null)
+        ]);
+
+        const metaData = unwrap(metaDataResult);
+        const GeneralFooterBlockData = unwrap(GeneralFooterBlockResult);
+        const placeData = unwrap(placeDataResult);
 
         if (!metaData) {
             console.error('❌ Критические данные отсутствуют!');
             throw new Error('Missing required data from Directus');
         }
 
-        // Получаем ID кейса из URL
-        const placeId = context.params.id;
-
-        // Загружаем ОДИН конкретный кейс по ID
-        const placeDataResult = await directus.request(readItems('places', {
-            fields: ['*.*.*'],
-            filter: {
-                id: { _eq: placeId },
-                franchise_id: { _eq: franchise?.id || null }
-            },
-            limit: 1
-        }));
-        const placeData = Array.isArray(placeDataResult) ? placeDataResult[0] : placeDataResult;
-
-        // Если кейс не найден - 404
         if (!placeData) {
             return { notFound: true };
         }
 
-        // Проверяем наличие кейсов, площадок и отзывов для навигации
-        const casesDataResult = await directus.request(readItems('case', {
-            fields: ['id'],
-            filter: {
-                franchise_id: { _eq: franchise?.id || null }
-            },
-            limit: 1
-        }));
-        const hasCases = Array.isArray(casesDataResult) && casesDataResult.length > 0;
-
-        const placesCountResult = await directus.request(readItems('places', {
-            fields: ['id'],
-            filter: {
-                franchise_id: { _eq: franchise?.id || null }
-            },
-            limit: 1
-        }));
-        const hasPlaces = Array.isArray(placesCountResult) && placesCountResult.length > 0;
-
-        const reviewsDataResult = await directus.request(readItems('review_block', {
-            fields: ['id'],
-            filter: {
-                franchise_id: { _eq: franchise?.id || null }
-            },
-            limit: 1
-        }));
-        const hasReviews = Array.isArray(reviewsDataResult) && reviewsDataResult.length > 0;
-
-        // Загружаем данные карты для франчайзи
-        let mapData = null;
-        if (franchise?.id) {
-            const mapDataResult = await directus.request(readItems('map_element', {
-                fields: ['*.*.*'],
-                filter: {
-                    franchise_id: { _eq: franchise.id }
-                },
-                limit: 1
-            }));
-            mapData = Array.isArray(mapDataResult) ? mapDataResult[0] : mapDataResult;
-        }
+        const hasCases = ensureArray(casesDataResult).length > 0;
+        const hasPlaces = ensureArray(placesCountResult).length > 0;
+        const hasReviews = ensureArray(reviewsDataResult).length > 0;
+        const mapData = mapDataResult ? unwrap(mapDataResult) : null;
 
         return {
             props: {
                 metaData,
                 placeData,
-                mapData: mapData || null,
+                mapData,
                 franchise,
                 cities,
                 FilteredCities,
