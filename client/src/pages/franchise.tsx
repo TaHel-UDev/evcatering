@@ -61,8 +61,8 @@ export default function Franchise
                     Эстетика Вкуса - Франшиза
                 </title>
                 <meta name="description" content="Эстетика Вкуса - Франшиза" />
-                <meta property="og:title" content="Эстетика Вкуса - Франшиза" />
-                <meta property="og:description" content="Эстетика Вкуса - Франшиза" />
+                <meta property="og:title" content="Откройте свой выездной ресторан по франшизе «Эстетика Вкуса». Готовая бизнес-модель, обучение, меню с ТТК и маркетинговая поддержка. Паушальный взнос от 1,9 млн руб" />
+                <meta property="og:description" content="франшиза кейтеринга, купить франшизу общепита, готовый бизнес кейтеринг, франшиза выездного ресторана, открыть кейтеринг с нуля, бизнес в сфере ивент, Эстетика Вкуса" />
             </Head>
 
             <FFirstScreen
