@@ -137,9 +137,23 @@ export async function getServerSideProps(context: any) {
     // Helper to unwrap single items
     const unwrap = (res: any) => Array.isArray(res) ? res[0] : res;
 
-    // BATCH 1: Fetch Global Data, Cities, and Potential Franchise Data (in parallel)
+    // PHASE 1: Routing Data (Cities & Potential Franchise)
+    // Fetching this first reduces concurrency and allows early exit if needed (though we fetch everything for SSR usually)
+    const [citiesResult, franchisePotentialResult] = await Promise.all([
+      requestWithRetry(directus, readItems<any, any, any>('franchises', {
+        fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
+        sort: ['name']
+      })),
+      requestWithRetry(directus, readItems<any, any, any>('franchises', {
+        fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address', 'code'],
+        filter: { subdomain: { _eq: subdomain } },
+        limit: 1
+      }))
+    ]);
+
+    // PHASE 2: Global Page Content
+    // We split this from the routing data to reduce the "thundering herd" of simultaneous connections
     const [
-      citiesResult,
       metaDataResult,
       firstScreenDataResult,
       missionBlockDataResult,
@@ -152,12 +166,7 @@ export async function getServerSideProps(context: any) {
       AddColorsBlockResult,
       GeneralFooterBlockResult,
       QuizResult,
-      franchisePotentialResult // Optimistically fetch franchise
     ] = await Promise.all([
-      requestWithRetry(directus, readItems<any, any, any>('franchises', {
-        fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address'],
-        sort: ['name']
-      })),
       requestWithRetry(directus, readItems<any, any, any>('main_page')),
       requestWithRetry(directus, readItems<any, any, any>('first_screen', { fields: ['*.*.*'] })),
       requestWithRetry(directus, readItems<any, any, any>('mission_block', { fields: ['*.*.*'] })),
@@ -170,11 +179,6 @@ export async function getServerSideProps(context: any) {
       requestWithRetry(directus, readItems<any, any, any>('add_colors_block', { fields: ['*.*.*'] })),
       requestWithRetry(directus, readItems<any, any, any>('general_footer_block', { fields: ['*.*.*'] })),
       requestWithRetry(directus, readItems<any, any, any>('quizzes', { fields: ['*.*.*'] })),
-      requestWithRetry(directus, readItems<any, any, any>('franchises', {
-        fields: ['id', 'name', 'subdomain', 'phone', 'mail', 'open_time', 'address', 'code'],
-        filter: { subdomain: { _eq: subdomain } },
-        limit: 1
-      })),
     ]);
 
     const cities: CityOption[] = (Array.isArray(citiesResult) ? citiesResult : [citiesResult]) as CityOption[];
