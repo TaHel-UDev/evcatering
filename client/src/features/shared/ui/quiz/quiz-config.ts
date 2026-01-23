@@ -38,71 +38,71 @@ export const quizProgressStyles = {
  */
 export const quizQuestionStyles = {
   container: "space-y-6",
-  header: "space-y-2",
-  title: "text-xl md:text-2xl font-semibold text-gray-900",
-  description: "text-gray-600",
-  image: "w-full h-48 object-cover rounded-lg mb-4",
+  header: "space-y-4",
+  title: "text-2xl md:text-3xl font-bold text-dark leading-tight",
+  description: "text-lg text-gray-500",
+  image: "w-full h-56 object-cover rounded-xl mb-6 shadow-md",
   optionsContainer: "space-y-3",
-  textInput: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all",
-  textarea: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none min-h-[120px]",
-  error: "text-red-500 text-sm mt-1",
+  textInput: "w-full px-5 py-4 text-lg border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green/50 focus:border-green transition-all bg-white",
+  textarea: "w-full px-5 py-4 text-lg border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green/50 focus:border-green transition-all resize-none min-h-[140px] bg-white",
+  error: "text-red-500 text-sm mt-2 font-medium",
 };
 
 /**
  * Стили для вариантов ответов
  */
 export const quizOptionStyles = {
-  base: "flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg cursor-pointer transition-all hover:border-green hover:bg-green/20",
-  selected: "border-brown bg-green/20",
+  base: "group flex items-center gap-4 p-5 border border-gray-200 rounded-xl cursor-pointer transition-all hover:border-green/50 hover:bg-green/5 hover:shadow-md bg-white",
+  selected: "border-green bg-green/10 shadow-sm",
   disabled: "opacity-50 cursor-not-allowed",
-  checkbox: "w-5 h-5 accent-green cursor-pointer",
-  radio: "w-5 h-5 accent-green cursor-pointer",
-  icon: "flex-shrink-0",
-  label: "flex-1 text-gray-900 font-medium",
+  checkbox: "w-6 h-6 accent-green cursor-pointer text-green rounded focus:ring-green",
+  radio: "w-6 h-6 accent-green cursor-pointer text-green focus:ring-green",
+  icon: "flex-shrink-0 text-gray-400 group-hover:text-green transition-colors",
+  label: "flex-1 text-dark font-medium text-lg",
 };
 
 /**
  * Стили для результата
  */
 export const quizResultStyles = {
-  container: "space-y-6 text-center",
-  image: "w-full max-w-md mx-auto h-64 object-cover rounded-lg mb-6",
-  title: "text-2xl md:text-3xl font-bold text-gray-900 mb-4",
-  description: "text-gray-600 text-lg mb-6",
+  container: "space-y-8 text-center py-4",
+  image: "w-full max-w-md mx-auto h-64 object-cover rounded-2xl mb-8 shadow-lg",
+  title: "text-3xl md:text-4xl font-bold text-brown mb-4",
+  description: "text-gray-600 text-xl mb-8 leading-relaxed",
   content: "text-left",
-  answersContainer: "bg-gray-50 rounded-lg p-4 mb-6 hidden",
-  answersTitle: "font-semibold text-gray-900 mb-3",
-  answerItem: "mb-2 text-sm",
-  answerQuestion: "font-medium text-gray-700",
-  answerValue: "text-gray-600 ml-2",
+  answersContainer: "bg-white rounded-2xl p-6 mb-8 hidden shadow-sm",
+  answersTitle: "font-semibold text-dark mb-4",
+  answerItem: "mb-3 text-sm flex justify-between border-b border-gray-100 pb-2 last:border-0",
+  answerQuestion: "font-medium text-gray-500 text-left w-2/3 pr-4",
+  answerValue: "text-dark font-medium text-right w-1/3",
 };
 
 /**
  * Стили для кнопок управления
  */
 export const quizControlStyles = {
-  container: "flex justify-between items-center mt-8",
-  buttonContainer: "flex gap-3",
-  backButton: "px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors",
-  nextButton: "px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
-  submitButton: "px-8 py-4 bg-green text-white text-lg font-semibold rounded-lg hover:bg-green/80 active:bg-green/80 transition-all shadow-lg",
-  resetButton: "px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors text-sm",
+  container: "flex justify-between items-center mt-10",
+  buttonContainer: "flex gap-4",
+  backButton: "px-6 py-3 text-gray-500 hover:text-brown transition-colors font-medium flex items-center gap-2",
+  nextButton: "px-8 py-4 bg-brown text-white text-lg font-medium rounded-xl hover:bg-brown/90 active:bg-brown/95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:-translate-y-0.5",
+  submitButton: "px-10 py-5 bg-green text-white text-xl font-bold rounded-xl hover:bg-green/90 active:bg-green/95 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full md:w-auto",
+  resetButton: "px-4 py-2 text-gray-400 hover:text-brown transition-colors text-sm flex items-center gap-1 mx-auto mt-4",
 };
 
 /**
  * Стили для формы заявки
  */
 export const quizFormStyles = {
-  container: "space-y-4",
+  container: "space-y-6",
   field: "space-y-2",
-  label: "block text-sm font-medium text-gray-700",
-  input: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all",
-  textarea: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none min-h-[100px]",
-  error: "text-red-500 text-sm",
-  answersSection: "bg-gray-50 rounded-lg p-4 max-h-60 overflow-y-auto",
-  answersTitle: "font-semibold text-gray-900 mb-2 text-sm",
-  answersList: "space-y-1 text-sm",
-  submitButton: "w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+  label: "block text-sm font-semibold text-gray-700 ml-1",
+  input: "w-full px-5 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green/50 focus:border-green transition-all bg-white",
+  textarea: "w-full px-5 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green/50 focus:border-green transition-all resize-none min-h-[120px] bg-white",
+  error: "text-red-500 text-xs mt-1 ml-1",
+  answersSection: "bg-soft-gray/30 rounded-xl p-5 border border-gray-100",
+  answersTitle: "font-bold text-dark mb-3 text-base",
+  answersList: "space-y-2 text-sm text-gray-600",
+  submitButton: "w-full px-8 py-4 bg-brown text-white text-lg font-bold rounded-xl hover:bg-brown/90 active:bg-brown/95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg",
 };
 
 /**

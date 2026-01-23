@@ -9,6 +9,7 @@ import { motion } from "motion/react";
 import { RotateCcw } from "lucide-react";
 import { QuizResultProps } from "./quiz-types";
 import { quizResultStyles, quizAnimations, quizControlStyles } from "./quiz-config";
+import { QuizForm } from "./quiz-form";
 
 /**
  * Компонент QuizResult
@@ -18,6 +19,8 @@ export const QuizResult: React.FC<QuizResultProps> = ({
   answers,
   onFormOpen,
   onReset,
+  onSubmit,
+  formFields,
   animated = true,
   className = "",
 }) => {
@@ -28,11 +31,11 @@ export const QuizResult: React.FC<QuizResultProps> = ({
   const AnimationWrapper = animated ? motion.div : "div";
   const animationProps = animated
     ? {
-        initial: "initial",
-        animate: "animate",
-        exit: "exit",
-        variants: quizAnimations.resultEnter,
-      }
+      initial: "initial",
+      animate: "animate",
+      exit: "exit",
+      variants: quizAnimations.resultEnter,
+    }
     : {};
 
   return (
@@ -101,28 +104,53 @@ export const QuizResult: React.FC<QuizResultProps> = ({
                 {Array.isArray(answer.value)
                   ? answer.labels?.join(", ") || answer.value.join(", ")
                   : typeof answer.value === "boolean"
-                  ? answer.value
-                    ? "Да"
-                    : "Нет"
-                  : answer.labels?.[0] || answer.value}
+                    ? answer.value
+                      ? "Да"
+                      : "Нет"
+                    : answer.labels?.[0] || answer.value}
               </span>
             </div>
           ))}
         </motion.div>
       )}
 
-      {/* Кнопка формы */}
-      <motion.button
-        onClick={onFormOpen}
-        className={quizControlStyles.submitButton}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.7, duration: 0.4 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        {result.buttonText || "Получить консультацию"}
-      </motion.button>
+      {/* Форма или кнопка */}
+      {result.showInlineForm ? (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+          className="mt-6 text-left"
+        >
+          <QuizForm
+            answers={answers}
+            result={result}
+            onSubmit={onSubmit}
+            submitButtonText={result.buttonText || "Отправить заявку"}
+            // Используем переданные formFields, если они есть.
+            // Если нет, используем дефолтные hardcoded (как было раньше для обратной совместимости, если formFields не переданы)
+            // Но лучше если formFields передаются сверху. 
+            // В данном случае мы приоритет отдаем пропу formFields
+            formFields={formFields || [
+              { name: "city", label: "Город", type: "text", required: false }, // Fallback если не переданы
+              { name: "name", label: "Имя", type: "text", required: true },
+              { name: "phone", label: "Телефон", type: "tel", required: true },
+            ]}
+          />
+        </motion.div>
+      ) : (
+        <motion.button
+          onClick={onFormOpen}
+          className={quizControlStyles.submitButton}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.7, duration: 0.4 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {result.buttonText || "Получить консультацию"}
+        </motion.button>
+      )}
 
       {/* Кнопка сброса */}
       {onReset && (

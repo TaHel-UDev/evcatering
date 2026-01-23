@@ -15,14 +15,14 @@ export default async function handler(
 
     // Валидация
     if (!name || !phone) {
-      return res.status(400).json({ 
-        error: 'Обязательные поля: name, phone' 
+      return res.status(400).json({
+        error: 'Обязательные поля: name, phone'
       });
     }
 
     if (!email) {
-      return res.status(400).json({ 
-        error: 'Email для отправки не указан' 
+      return res.status(400).json({
+        error: 'Email для отправки не указан'
       });
     }
 
@@ -30,11 +30,18 @@ export default async function handler(
     const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest());
 
     // Создаем заявку на франчайзинг
+    // Создаем заявку на франчайзинг
+    // Обрезаем комментарий для БД, так как поле может иметь лимит 255 символов (String)
+    // Полная информация уйдет на почту
+    const dbComment = comment && comment.length > 19999
+      ? comment.substring(0, 252) + '...'
+      : (comment || null);
+
     const newRequest = await directus.request(
       createItem('f_requests', {
         name,
         phone,
-        comment: comment || null,
+        comment: dbComment,
       }, {
         fields: ['*']
       })
@@ -53,16 +60,16 @@ export default async function handler(
       // Продолжаем выполнение, так как заявка уже создана в БД
     }
 
-    return res.status(201).json({ 
-      success: true, 
-      data: newRequest 
+    return res.status(201).json({
+      success: true,
+      data: newRequest
     });
 
   } catch (error: any) {
     console.error('❌ Ошибка создания заявки на франчайзинг:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Не удалось создать заявку',
-      details: error.message 
+      details: error.message
     });
   }
 }

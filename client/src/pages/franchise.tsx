@@ -11,6 +11,7 @@ import FPartnersBlock from "@/features/components/f-partners-block/f-partners-bl
 import FProspectsBlock from "@/features/components/f-prospects-block/f-prospects-block";
 import FValuesBlock from "@/features/components/f-values-block/f-values-block";
 import WhatGetBlock from "@/features/components/f-what-get-block/f-what-get-block";
+import FQuizBlock from "@/features/components/f-quiz-block/f-quiz-block";
 import FWhoSuitableBlock from "@/features/components/f-who-suitable-block/f-who-suitable-block";
 import FFooterBlock from "@/features/components/footer-block/f-footer-block";
 import { ConditionsBlockProps, FAbleToWorkBlockProps, FAboutBlockProps, FAboutCateringBlockProps, FBesidesBlockProps, FBrandBlockProps, FFooterBlockProps, FInvestmentBlockProps, FMainScreen, FOurFranchiseBlockProps, FPartnersBlockProps, FProspectsBlockProps, FValuesBlockProps, WhatGetBlockProps, WhoSuitableBlockProps } from "@/features/shared/types";
@@ -35,6 +36,7 @@ export default function Franchise
             FAboutCateringBlockData,
             FPartnersBlockData,
             FFooterBlockData,
+            FQuizData,
         }:
             {
                 FMainScreenData: FMainScreen,
@@ -52,8 +54,11 @@ export default function Franchise
                 FAboutCateringBlockData: FAboutCateringBlockProps,
                 FPartnersBlockData: FPartnersBlockProps,
                 FFooterBlockData: FFooterBlockProps,
+                FQuizData: any,
             }
     ) {
+
+    console.log("quiz: ", FQuizData)
     return (
         <>
             <Head>
@@ -81,6 +86,11 @@ export default function Franchise
 
             <WhatGetBlock
                 WhatGetBlockData={WhatGetBlockData}
+                email={FFooterBlockData.mail}
+            />
+
+            <FQuizBlock
+                quizConfig={FQuizData}
                 email={FFooterBlockData.mail}
             />
 
@@ -224,6 +234,11 @@ export async function getServerSideProps(context: any) {
         }));
         const FFooterBlockData = Array.isArray(FFooterBlockResult) ? FFooterBlockResult[0] : FFooterBlockResult
 
+        const FQuizResult = await directus.request(readItems('quizzes', {
+            fields: ['*.*.*'],
+        }));
+        const FQuizData = Array.isArray(FQuizResult) ? FQuizResult[1] : FQuizResult
+
 
         return {
             props: {
@@ -244,6 +259,7 @@ export async function getServerSideProps(context: any) {
                 FFooterBlockData,
                 franchiseEmail: FFooterBlockData.mail,
                 metrikaCode: metrikaCode || null,
+                FQuizData,
             }
         }
     } catch (error) {

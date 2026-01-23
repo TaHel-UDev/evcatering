@@ -31,12 +31,15 @@ export const QuizProvider: React.FC<{
 
   // Начальный вопрос
   const initialQuestion = useMemo(() => {
+    console.log("QuizProvider initializing with config:", config);
     const startId = config.startQuestionId;
     if (startId) {
       return config.questions.find((q) => q.id === startId) || config.questions[0];
     }
     return config.questions[0];
   }, [config]);
+
+  console.log("QuizProvider initialQuestion:", initialQuestion);
 
   // Начальное состояние
   const [state, setState] = useState<QuizState>({
@@ -53,11 +56,10 @@ export const QuizProvider: React.FC<{
    */
   const findNextQuestion = useCallback(
     (currentQuestion: QuizQuestion, answer: QuizAnswer): QuizQuestion | null => {
-      // Для одиночного выбора и boolean ищем выбранный вариант
+      // 1. Проверяем явное ветвление для single/boolean
       if (currentQuestion.type === "single" || currentQuestion.type === "boolean") {
         const selectedOption = currentQuestion.options?.find(
           (opt) => {
-            // Сравниваем и value, и id для гибкости
             const optValue = opt.value !== undefined ? opt.value : opt.id;
             return optValue === answer.value || opt.id === answer.value;
           }
@@ -71,18 +73,16 @@ export const QuizProvider: React.FC<{
           );
         }
 
-        // Если указан resultId, значит это конец ветки - вопросов больше нет
+        // Если указан resultId, значит это конец ветки - возвращаем null (тут важно, что result будет найден в findResult)
         if (selectedOption?.resultId) {
           return null;
         }
       }
 
-      // Для множественного выбора и текста - берем следующий по порядку
-      if (currentQuestion.type === "multiple" || currentQuestion.type === "text") {
-        const currentIndex = config.questions.findIndex((q) => q.id === currentQuestion.id);
-        if (currentIndex >= 0 && currentIndex < config.questions.length - 1) {
-          return config.questions[currentIndex + 1];
-        }
+      // 2. Если явного ветвления нет, ищем следующий по порядку в массиве
+      const currentIndex = config.questions.findIndex((q) => q.id === currentQuestion.id);
+      if (currentIndex >= 0 && currentIndex < config.questions.length - 1) {
+        return config.questions[currentIndex + 1];
       }
 
       // Если ничего не найдено, возвращаем null (будет показан результат)
@@ -134,10 +134,10 @@ export const QuizProvider: React.FC<{
         const newAnswers =
           existingAnswerIndex >= 0
             ? [
-                ...prev.answers.slice(0, existingAnswerIndex),
-                answer,
-                ...prev.answers.slice(existingAnswerIndex + 1),
-              ]
+              ...prev.answers.slice(0, existingAnswerIndex),
+              answer,
+              ...prev.answers.slice(existingAnswerIndex + 1),
+            ]
             : [...prev.answers, answer];
 
         // Добавляем текущий вопрос в историю

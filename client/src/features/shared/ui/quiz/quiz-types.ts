@@ -145,6 +145,12 @@ export interface QuizResult {
    * @default "Получить консультацию"
    */
   buttonText?: string;
+
+  /**
+   * Показывать ли форму сразу вместо кнопки
+   * @default false
+   */
+  showInlineForm?: boolean;
 }
 
 /**
@@ -490,6 +496,16 @@ export interface QuizResultProps {
    * Callback при сбросе квиза
    */
   onReset?: () => void;
+
+  /**
+   * Callback при отправке формы
+   */
+  onSubmit?: (formData: Record<string, any>, answers: QuizAnswer[]) => void;
+
+  /**
+   * Поля формы
+   */
+  formFields?: QuizFormField[];
 
   /**
    * Показывать ли анимацию
