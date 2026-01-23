@@ -63,9 +63,9 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
     };
 
     return (
-        <section id="quiz-block" className="py-8 md:py-12 overflow-hidden">
+        <section id="quiz-block" className="py-8 md:py-12 overflow-hidden bg-green">
             <BlockWrapper>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative pb-[48px] lg:pb-[64px] xl:pb-[80px]">
                     {/* Left Column: Quiz */}
                     <div className="lg:col-span-7 [&_h2]:!text-xl [&_.md\:text-3xl]:!text-2xl [&_.text-lg]:!text-base [&_.p-5]:!p-3.5 [&_input]:!py-3 [&_input]:!text-base [&_textarea]:!py-3 [&_textarea]:!text-base [&_textarea]:!min-h-[100px] [&_.space-y-6]:!space-y-4">
                         <Quiz
@@ -89,14 +89,19 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
                         <div className="bg-soft-gray rounded-3xl p-6 border border-white/50 relative">
                             {/* Header with Avatar */}
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-full bg-soft-gray flex items-center justify-center text-brown border-2 border-white relative overflow-hidden flex-shrink-0">
+                                <div className="w-24 h-24 rounded-full bg-soft-gray flex items-center justify-center text-brown border-2 border-white relative overflow-hidden flex-shrink-0">
                                     {/* Placeholder Avatar */}
-                                    <svg className="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
+                                    <Image
+                                        src={"/static/f_manager.jpg"}
+                                        alt="Иван"
+                                        width={640}
+                                        height={640}
+                                        quality={100}
+                                        className="object-cover"
+                                    />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-lg text-dark leading-tight">Мария</h3>
+                                    <h3 className="font-bold text-lg text-dark leading-tight">Иван</h3>
                                     <p className="text-gray-500 text-xs font-medium">Специалист по франшизе</p>
                                 </div>
                             </div>
@@ -104,7 +109,7 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
                             {/* Chat Bubble */}
                             <div className="bg-white rounded-2xl rounded-tl-none p-5 relative mb-6 shadow-sm">
                                 <p className="text-dark leading-relaxed text-sm">
-                                    Здравствуйте! Меня зовут Мария. Я помогу вам пройти этот небольшой тест.
+                                    Здравствуйте! Меня зовут Иван. Я помогу вам пройти этот небольшой тест.
                                 </p>
                                 <p className="text-dark leading-relaxed text-sm mt-2">
                                     Мы подберем для вас оптимальный формат и рассчитаем инвестиции для вашего города.

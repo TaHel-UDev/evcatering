@@ -30,10 +30,9 @@ export default async function handler(
     const directus = createDirectus(process.env.NEXT_PUBLIC_DIRECTUS || '').with(rest());
 
     // Создаем заявку на франчайзинг
-    // Создаем заявку на франчайзинг
-    // Обрезаем комментарий для БД, так как поле может иметь лимит 255 символов (String)
+    // Обрезаем комментарий для БД, так как поле имеет лимит 255 символов (String)
     // Полная информация уйдет на почту
-    const dbComment = comment && comment.length > 19999
+    const dbComment = comment && comment.length > 255
       ? comment.substring(0, 252) + '...'
       : (comment || null);
 

@@ -26,6 +26,7 @@ function WhatGetBlock({
                     fields: 'title, what_get_block_cards',
                     mode: 'drawer'
                 })}
+                className="pb-[48px] lg:pb-[64px] xl:pb-[80px]"
             >
                 <BlockHeadline
                     title={WhatGetBlockData.title}
