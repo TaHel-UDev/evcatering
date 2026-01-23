@@ -63,14 +63,14 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
     };
 
     return (
-        <section id="quiz-block" className="py-16 md:py-24 overflow-hidden">
+        <section id="quiz-block" className="py-8 md:py-12 overflow-hidden">
             <BlockWrapper>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative">
                     {/* Left Column: Quiz */}
-                    <div className="lg:col-span-7">
+                    <div className="lg:col-span-7 [&_h2]:!text-xl [&_.md\:text-3xl]:!text-2xl [&_.text-lg]:!text-base [&_.p-5]:!p-3.5 [&_input]:!py-3 [&_input]:!text-base [&_textarea]:!py-3 [&_textarea]:!text-base [&_textarea]:!min-h-[100px] [&_.space-y-6]:!space-y-4">
                         <Quiz
                             config={config}
-                            className="mx-[0!important] max-w-[100%!important] bg-[#F5F5F5!important] shadow-[0!important] border-none p-0"
+                            className="mx-[0!important] max-w-[100%!important] bg-[#F5F5F5!important] shadow-[0!important] border-none p-0 w-full"
                             formTitle="Заполните контактные данные"
                             formDescription="Мы свяжемся с вами и отправим коммерческое предложение"
                             formFields={[
@@ -86,40 +86,40 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
 
                     {/* Right Column: Manager Card (Graphic Element) */}
                     <div className="lg:col-span-5 hidden lg:block h-full">
-                        <div className="bg-soft-gray rounded-[2rem] p-8 border border-white/50 relative">
+                        <div className="bg-soft-gray rounded-3xl p-6 border border-white/50 relative">
                             {/* Header with Avatar */}
-                            <div className="flex items-center gap-5 mb-8">
-                                <div className="w-16 h-16 rounded-full bg-soft-gray flex items-center justify-center text-brown border-2 border-white relative overflow-hidden">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 rounded-full bg-soft-gray flex items-center justify-center text-brown border-2 border-white relative overflow-hidden flex-shrink-0">
                                     {/* Placeholder Avatar */}
                                     <svg className="w-full h-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-xl text-dark">Мария</h3>
-                                    <p className="text-gray-500 text-sm font-medium">Специалист по франшизе</p>
+                                    <h3 className="font-bold text-lg text-dark leading-tight">Мария</h3>
+                                    <p className="text-gray-500 text-xs font-medium">Специалист по франшизе</p>
                                 </div>
                             </div>
 
                             {/* Chat Bubble */}
-                            <div className="bg-white rounded-2xl rounded-tl-none p-6 relative mb-8">
-                                <p className="text-dark leading-relaxed text-[15px]">
+                            <div className="bg-white rounded-2xl rounded-tl-none p-5 relative mb-6 shadow-sm">
+                                <p className="text-dark leading-relaxed text-sm">
                                     Здравствуйте! Меня зовут Мария. Я помогу вам пройти этот небольшой тест.
                                 </p>
-                                <p className="text-dark leading-relaxed text-[15px] mt-3">
+                                <p className="text-dark leading-relaxed text-sm mt-2">
                                     Мы подберем для вас оптимальный формат и рассчитаем инвестиции для вашего города.
                                 </p>
                             </div>
 
                             {/* Benefits / Bonuses */}
-                            <div className="pt-6 border-t border-gray-100">
-                                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 text-center">
+                            <div className="pt-5 border-t border-gray-100">
+                                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 text-center">
                                     После теста вы получите:
                                 </h4>
-                                <div className="grid grid-cols-1 gap-4">
-                                    <div className="bg-white rounded-xl p-4 text-center group transition-colors cursor-default">
-                                        <div className="w-10 h-10 bg-soft-gray rounded-full flex items-center justify-center mx-auto mb-3 text-green shadow-sm group-hover:scale-110 transition-transform">
-                                            <Calculator size={20} />
+                                <div className="grid grid-cols-1 gap-3">
+                                    <div className="bg-white rounded-xl p-3 text-center group transition-colors cursor-default border border-transparent hover:border-green/20">
+                                        <div className="w-8 h-8 bg-soft-gray rounded-full flex items-center justify-center mx-auto mb-2 text-green shadow-sm group-hover:scale-110 transition-transform">
+                                            <Calculator size={16} />
                                         </div>
                                         <div className="text-xs font-semibold text-dark">Финансовую модель</div>
                                     </div>
@@ -127,19 +127,7 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
                             </div>
                         </div>
                     </div>
-
-                    {/* <div className='opacity-50 absolute bottom-0 right-[20px] rounded-[2rem] w-[calc(514px/1.5)] h-[calc(505px/1.5)]'>
-                        <Image
-                            src="/static/quiz_filler.png"
-                            alt="Quiz Background"
-                            width={514}
-                            height={505}
-                            className="w-full h-full object-cover rounded-[2rem]"
-                        />
-                    </div> */}
                 </div>
-
-
             </BlockWrapper>
         </section>
     );
