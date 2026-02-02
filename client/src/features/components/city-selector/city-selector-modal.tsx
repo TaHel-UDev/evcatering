@@ -11,14 +11,14 @@ export default function CitySelectorModal() {
     // Редирект на поддомен выбранного города
     const protocol = window.location.protocol;
     const hostname = window.location.hostname;
-    
+
     // Определяем базовый домен (убираем поддомен если есть)
     const parts = hostname.split('.');
     const baseDomain = parts.length > 2 ? parts.slice(-2).join('.') : hostname;
-    
+
     // Формируем новый URL
     const newUrl = `${protocol}//${city.subdomain}.${baseDomain}`;
-    
+
     window.location.href = newUrl;
   };
 
@@ -38,12 +38,12 @@ export default function CitySelectorModal() {
     >
       <div className="flex flex-col gap-4 p-6">
         <Text as="p" variant="body-large" className="text-center mb-4">
-          {isMainPage 
-            ? "Для продолжения выберите ваш город" 
+          {isMainPage
+            ? "Для продолжения выберите ваш город"
             : "Сменить город"}
         </Text>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-3">
           {cities.map((city) => (
             <Button
               key={city.id}
