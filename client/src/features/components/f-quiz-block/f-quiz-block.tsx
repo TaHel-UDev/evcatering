@@ -50,6 +50,7 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
                 phone: formData.phone,
                 comment: comments,
                 email: email,
+                userEmail: formData.email,
             }),
         });
 
@@ -77,7 +78,7 @@ export default function FQuizBlock({ quizConfig, email }: FQuizBlockProps) {
                                 { name: 'city', label: 'Город', type: 'text', placeholder: 'Ваш город', required: true },
                                 { name: 'name', label: 'Имя', type: 'text', placeholder: 'Ваше имя', required: true },
                                 { name: 'phone', label: 'Телефон', type: 'tel', placeholder: '+7 (___) ___-__-__', required: true },
-                                { name: 'email', label: 'Email', type: 'email', placeholder: 'example@mail.com', required: false },
+                                { name: 'email', label: 'Email', type: 'email', placeholder: 'example@mail.com', required: true },
                                 { name: 'comment', label: 'Комментарий', type: 'textarea', placeholder: 'Дополнительная информация', required: false }
                             ]}
                             onSubmit={handleQuizSubmit}

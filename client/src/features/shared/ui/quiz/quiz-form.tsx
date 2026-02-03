@@ -15,6 +15,7 @@ const baseQuizFormSchema = z.object({
     name: formSchemaHelpers.string(2, "Минимум 2 символов"),
     phone: formSchemaHelpers.string().min(18, "Введите корректный номер телефона"),
     city: z.string().optional(),
+    email: z.string().email("Введите корректный email").optional().or(z.literal("")),
     comment: z.string().optional(),
     policy: z.boolean().refine((val) => val === true, {
         message: "Для отправки формы необходимо согласиться с политикой конфиденциальности"
@@ -52,6 +53,7 @@ export const QuizForm: React.FC<QuizFormProps> = ({
     // Если formFields не передан, показываем стандартный набор (имя, телефон, коммент)
     // Для совместимости с текущим кодом, если поля явно не настроены, показываем дефолтные
     const showCityField = formFields?.some(f => f.name === 'city') ?? false;
+    const showEmailField = formFields?.some(f => f.name === 'email') ?? false;
     // Остальные поля (name, phone) считаем обязательными для базы, но можно настроить
 
     const handleSubmit = async (data: QuizFormData) => {
@@ -147,6 +149,7 @@ export const QuizForm: React.FC<QuizFormProps> = ({
                 name: "",
                 phone: "",
                 city: "",
+                email: "",
                 comment: "",
                 policy: false,
             }}
@@ -221,6 +224,24 @@ export const QuizForm: React.FC<QuizFormProps> = ({
                                 />
                             )}
                         </FormField>
+
+                        {showEmailField && (
+                            <FormField name="email">
+                                {({ value, onChange, error, name }) => (
+                                    <Input
+                                        name={name}
+                                        type="email"
+                                        value={value || ""}
+                                        onChange={(e) => onChange(e.target.value)}
+                                        label="Email"
+                                        placeholder="example@mail.com"
+                                        errorText={error}
+                                        fullWidth
+                                        required={formFields?.find(f => f.name === 'email')?.required}
+                                    />
+                                )}
+                            </FormField>
+                        )}
 
                         <FormField name="comment">
                             {({ value, onChange, error, name }) => (

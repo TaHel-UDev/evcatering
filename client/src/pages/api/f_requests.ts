@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   try {
-    const { name, phone, comment, email } = req.body;
+    const { name, phone, comment, email, userEmail } = req.body;
 
     // Валидация
     if (!name || !phone) {
@@ -40,6 +40,7 @@ export default async function handler(
       createItem('f_requests', {
         name,
         phone,
+        email: userEmail,
         comment: dbComment,
       }, {
         fields: ['*']
@@ -48,12 +49,16 @@ export default async function handler(
 
     // Отправляем email
     try {
-      await sendFranchiseRequestEmail(email, {
+      // Отправляем на email менеджера (из запроса) и дополнительный email
+      const recipients = [email, 'ev.catering@mail.ru'].filter(Boolean).join(',');
+
+      await sendFranchiseRequestEmail(recipients, {
         name,
         phone,
+        email: userEmail,
         comment,
       });
-      console.log('✅ Email успешно отправлен на:', email);
+      console.log('✅ Email успешно отправлен на:', recipients);
     } catch (emailError: any) {
       console.error('⚠️ Ошибка отправки email:', emailError.message);
       // Продолжаем выполнение, так как заявка уже создана в БД

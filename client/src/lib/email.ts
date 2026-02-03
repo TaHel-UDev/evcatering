@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 interface RequestEmailData {
   name: string;
   phone: string;
+  email?: string;
   preferences?: string | null;
   comment?: string | null;
 }
@@ -239,6 +240,13 @@ export async function sendFranchiseRequestEmail(
               <div class="field-label">Телефон:</div>
               <div class="field-value">${data.phone}</div>
             </div>
+
+            ${data.email ? `
+            <div class="field">
+              <div class="field-label">Email клиента:</div>
+              <div class="field-value">${data.email}</div>
+            </div>
+            ` : ''}
             
             ${data.comment ? `
             <div class="field">
@@ -256,7 +264,9 @@ export async function sendFranchiseRequestEmail(
 Новая заявка на франчайзинг
 
 Имя: ${data.name}
+Имя: ${data.name}
 Телефон: ${data.phone}
+${data.email ? `Email: ${data.email}` : ''}
 ${data.comment ? `Комментарий: ${data.comment}` : ''}
   `.trim();
 
