@@ -70,7 +70,7 @@ export default function Home
     <>
       <Head>
         <title>
-          {metaData.title} {franchise?.name ? `- ${franchise?.name}` : ''}
+          {`${metaData.title} ${franchise?.name ? `- ${franchise?.name}` : ''}`}
         </title>
         <meta name="description" content={metaData.description} />
         <meta name="keywords" content={metaData.keywords} />
