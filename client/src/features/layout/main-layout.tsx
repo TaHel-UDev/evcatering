@@ -25,25 +25,41 @@ function MainLayout({ children, hasCases = false, hasPlaces = false, hasReviews 
     return (
         <main className={`${geologica.className} relative`}>
             {router.pathname === "/franchise" && franchiseEmail &&
-                <Modal
-                    trigger=
-                    {
-                        <div className="fixed bottom-[20px] right-[20px] z-[3]">
-                            <Button variant="secondary" size="md" fullWidth className="rounded-full animate-bounce transition-all duration-300 ease-in-out bg-dark hover:bg-dark/60">
-                                <div className="flex flex-row gap-2 items-center">
-                                    {/* <p className="mb-1 hidden lg:block">Задать вопрос</p> */}
-                                    <Presentation size={20} />
+                <div className="flex flex-col gap-8 fixed bottom-[20px] right-[20px] z-[3]">
+
+
+                    <div className="bg-soft-gray border border-green rounded-[0.75rem] p-4 flex flex-col gap-1">
+                        <p className="text-sm font-bold">
+                            Особенное предложение только в мае!
+                        </p>
+
+                        <p className="text-sm">
+                            Скидка -40% на паушальный взнос
+                        </p>
+                    </div>
+
+                    <div className="flex justify-end">
+                        <Modal
+                            trigger=
+                            {
+                                <div className="">
+                                    <Button variant="secondary" size="md" fullWidth className="rounded-full animate-bounce transition-all duration-300 ease-in-out bg-dark hover:bg-dark/60 w-fit">
+                                        <div className="flex flex-row gap-2 items-center w-fit">
+                                            {/* <p className="mb-1 hidden lg:block">Задать вопрос</p> */}
+                                            <Presentation size={20} />
+                                        </div>
+                                    </Button>
                                 </div>
-                            </Button>
-                        </div>
-                    }
-                    title={<>Получить презентацию <br /> и финмодель франшизы</>}
-                    size="md"
-                >
-                    <ModalBody>
-                        <FranchiseForm email={franchiseEmail} />
-                    </ModalBody>
-                </Modal>
+                            }
+                            title={<>Получить презентацию <br /> и финмодель франшизы</>}
+                            size="md"
+                        >
+                            <ModalBody>
+                                <FranchiseForm email={franchiseEmail} />
+                            </ModalBody>
+                        </Modal>
+                    </div>
+                </div>
             }
             <Navigation hasCases={hasCases} hasPlaces={hasPlaces} hasReviews={hasReviews} />
             {children}

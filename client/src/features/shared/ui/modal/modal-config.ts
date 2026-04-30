@@ -45,7 +45,7 @@ export const modalSizeStyles: Record<ModalSize, string> = {
  * Стили для кнопки закрытия
  */
 export const modalCloseButtonStyles = {
-  base: "absolute top-4 right-4 p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+  base: "absolute top-4 right-4 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
 };
 
 /**

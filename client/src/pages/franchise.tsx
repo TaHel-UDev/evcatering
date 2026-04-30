@@ -15,8 +15,10 @@ import FQuizBlock from "@/features/components/f-quiz-block/f-quiz-block";
 import FWhoSuitableBlock from "@/features/components/f-who-suitable-block/f-who-suitable-block";
 import FFooterBlock from "@/features/components/footer-block/f-footer-block";
 import { ConditionsBlockProps, FAbleToWorkBlockProps, FAboutBlockProps, FAboutCateringBlockProps, FBesidesBlockProps, FBrandBlockProps, FFooterBlockProps, FInvestmentBlockProps, FMainScreen, FOurFranchiseBlockProps, FPartnersBlockProps, FProspectsBlockProps, FValuesBlockProps, WhatGetBlockProps, WhoSuitableBlockProps } from "@/features/shared/types";
+import Modal, { ModalBody, ModalHeader } from "@/features/shared/ui/modal";
 import { createDirectus, readItems, rest } from "@directus/sdk";
 import Head from "next/head";
+import { useState } from "react";
 
 export default function Franchise
     (
@@ -57,6 +59,7 @@ export default function Franchise
                 FQuizData: any,
             }
     ) {
+    const [isMayOfferModalOpen, setIsMayOfferModalOpen] = useState(true);
 
     console.log("quiz: ", FQuizData)
     return (
@@ -69,6 +72,23 @@ export default function Franchise
                 <meta property="og:title" content="Откройте свой выездной ресторан по франшизе «Эстетика Вкуса». Готовая бизнес-модель, обучение, меню с ТТК и маркетинговая поддержка. Паушальный взнос от 1,9 млн руб" />
                 <meta property="og:description" content="франшиза кейтеринга, купить франшизу общепита, готовый бизнес кейтеринг, франшиза выездного ресторана, открыть кейтеринг с нуля, бизнес в сфере ивент, Эстетика Вкуса" />
             </Head>
+
+            <Modal
+                isOpen={isMayOfferModalOpen}
+                onOpenChange={setIsMayOfferModalOpen}
+                size="lg"
+            >
+                <ModalHeader>
+                    <p className="text-md text-dark font-bold">
+                    Особенное предложение только в мае!
+                    </p>
+                </ModalHeader>
+                <ModalBody>
+                    <p className="text-dark">
+                        Скидка -40% на паушальный взнос
+                    </p>
+                </ModalBody>
+            </Modal>
 
             <FFirstScreen
                 FMainScreenData={FMainScreenData}
